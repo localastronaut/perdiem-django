@@ -5,6 +5,8 @@
 ### iOS Frontend: Mallory Nelson
 ### Backend: Lucas Connors
 
+[![Build Status](https://travis-ci.org/RevolutionTech/perdiem-django.svg?branch=master)](https://travis-ci.org/RevolutionTech/perdiem-django)
+
 ## Setup
 
 ### Prerequisites
