@@ -18,4 +18,5 @@ Thumbs.db
 
 # Secure files #
 ################
-perdiem/perdiem/settings_secret.py
+perdiem/perdiem/settings/dev.py
+perdiem/perdiem/settings/prod.py
