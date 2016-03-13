@@ -11,7 +11,7 @@ from cbsettings import DjangoDefaults
 
 class BaseSettings(DjangoDefaults):
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     TOP_DIR = os.path.dirname(BASE_DIR)
 
     DEBUG = True
@@ -41,7 +41,7 @@ class BaseSettings(DjangoDefaults):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [os.path.join(TOP_DIR, 'templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -76,6 +76,8 @@ class BaseSettings(DjangoDefaults):
     # Static files (CSS, JavaScript, Images)
     MEDIA_ROOT = os.path.join(TOP_DIR, 'media')
     MEDIA_URL = '/media/'
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    STATIC_ROOT = os.path.join(TOP_DIR, 'staticfiles')
     STATICFILES_DIRS = (
         os.path.join(TOP_DIR, 'static'),
     )

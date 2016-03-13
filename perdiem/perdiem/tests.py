@@ -34,6 +34,13 @@ class PerDiemTestCase(TestCase):
         super(PerDiemTestCase, self).tearDown()
 
 
+class PerDiemHomeWebTestCase(PerDiemTestCase):
+
+    def testHomePageRenders(self):
+        response = self.client.get('/')
+        self.assertEquals(response.status_code, 200)
+
+
 class AdminHomeWebTestCase(PerDiemTestCase):
 
     def testAdminHomePageRenders(self):

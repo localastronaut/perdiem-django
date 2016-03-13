@@ -52,6 +52,7 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
 
 Of course you should [generate your own secret key](http://stackoverflow.com/a/16630719) and use a more secure password for your database. If you like, you can override more of Django settings here. If you do not create this file, you will get a `cbsettings.exceptions.NoMatchingSettings` exception when starting the server.
 
-With everything installed and all files in place, you may now create the database tables. You can do this with:
+With everything installed and all files in place, you may now create the database tables and collect static files. You can do this with:
 
     python manage.py migrate
+    python manage.py collectstatic
