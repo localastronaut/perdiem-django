@@ -25,6 +25,8 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'artist',
+        'campaign',
     )
     MIDDLEWARE_CLASSES = (
         'django.contrib.sessions.middleware.SessionMiddleware',
