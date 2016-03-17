@@ -21,7 +21,7 @@ class Artist(models.Model):
 
     name = models.CharField(max_length=60, db_index=True)
     genres = models.ManyToManyField(Genre)
-    slug = models.SlugField(max_length=40)
+    slug = models.SlugField(max_length=40, unique=True, help_text='A short label for an artist (used in URLs)')
     lat = models.DecimalField(max_digits=6, decimal_places=4, db_index=True, help_text='Latitude of artist location')
     lon = models.DecimalField(max_digits=7, decimal_places=4, db_index=True, help_text='Longitude of artist location')
     location = models.CharField(max_length=40, help_text='Description of artist location (usually city, state, country format)')
