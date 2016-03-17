@@ -116,6 +116,10 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/',
         ]
 
+    def testHomePageUnauthenticated(self):
+        self.client.logout()
+        self.assertResponseRenders('/')
+
 
 class AdminHomeWebTestCase(PerDiemTestCase):
 
