@@ -30,6 +30,26 @@ class PerDiemTestCase(TestCase):
     CAMPAIGN_FANS_PERCENTAGE = 20
     CAMPAIGN_REVENUE_REPORT_AMOUNT = 500
 
+    def assertResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
+        request_method = getattr(self.client, method.lower())
+        follow = status_code == 302
+        response = request_method(url, data=data, follow=follow, **kwargs)
+
+        if status_code == 302:
+            redirect_url, response_status_code = response.redirect_chain[0]
+        else:
+            response_status_code = response.status_code
+        self.assertEquals(
+            response_status_code,
+            status_code,
+            "URL {url} returned with status code {actual_status} when {expected_status} was expected.".format(
+                url=url,
+                actual_status=response_status_code,
+                expected_status=status_code
+            )
+        )
+        return response
+
     def get200s(self):
         return []
 
@@ -86,8 +106,7 @@ class PerDiemTestCase(TestCase):
 
     def testRender200s(self):
         for url in self.get200s():
-            response = self.client.get(url)
-            self.assertEquals(response.status_code, 200)
+            self.assertResponseRenders(url)
 
 
 class PerDiemHomeWebTestCase(PerDiemTestCase):
@@ -114,7 +133,6 @@ class AdminLoginWebTestCase(PerDiemTestCase):
 
     def testAdminLoginPageRenders(self):
         self.client.logout()
-        response = self.client.get('/admin/', follow=True)
-        url, status_code = response.redirect_chain[0]
-        self.assertEquals(status_code, 302)
-        self.assertEquals(self.strip_query_params(url), '/admin/login/')
+        response = self.assertResponseRenders('/admin/', status_code=302)
+        redirect_url, _ = response.redirect_chain[0]
+        self.assertEquals(self.strip_query_params(redirect_url), '/admin/login/')
