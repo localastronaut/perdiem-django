@@ -5,6 +5,7 @@
 """
 
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.test import TestCase
 from django.utils.text import slugify
 
@@ -17,11 +18,13 @@ class PerDiemTestCase(TestCase):
     USER_USERNAME = 'jsmith'
     USER_EMAIL = 'jsmith@example.com'
     USER_PASSWORD = 'abc123'
+    ORDINARY_USER_USERNAME = 'jdoe'
+    ORDINARY_USER_EMAIL = 'jdoe@example.com'
 
     GENRE_NAME = 'Progressive Rock'
     ARTIST_NAME = 'Rush'
-    ARTIST_LATITUDE = 43.7712
-    ARTIST_LONGITUDE = -79.4198
+    ARTIST_LATITUDE = 43.7689
+    ARTIST_LONGITUDE = -79.4138
     ARTIST_LOCATION = 'Willowdale, Toronto, Ontario, Canada'
     ARTIST_UPDATE = 'North American Tour This Year!'
 
@@ -50,10 +53,15 @@ class PerDiemTestCase(TestCase):
         )
         return response
 
+    def assertJsonResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
+        response = self.assertResponseRenders(url, status_code=status_code, method=method, data=data, **kwargs)
+        self.assertTrue(isinstance(response, JsonResponse))
+        return response.json()
+
     def get200s(self):
         return []
 
-    def setup_user(self):
+    def setup_users(self):
         self.user = User.objects.create_user(
             self.USER_USERNAME,
             email=self.USER_EMAIL,
@@ -64,6 +72,12 @@ class PerDiemTestCase(TestCase):
         self.user.save()
         self.client.login(
             username=self.USER_USERNAME,
+            password=self.USER_PASSWORD
+        )
+
+        self.ordinary_user = User.objects.create_user(
+            self.ORDINARY_USER_USERNAME,
+            email=self.ORDINARY_USER_EMAIL,
             password=self.USER_PASSWORD
         )
 
@@ -92,7 +106,7 @@ class PerDiemTestCase(TestCase):
 
     def setUp(self):
         super(PerDiemTestCase, self).setUp()
-        self.setup_user()
+        self.setup_users()
         self.create_first_instances()
 
     def tearDown(self):
