@@ -28,6 +28,6 @@ class CoordinatesFromAddressView(PermissionRequiredMixin, View):
         geolocator = Nominatim()
         location = geolocator.geocode(address)
         return JsonResponse({
-            'latitude': "{0:.4f}".format(location.latitude),
-            'longitude': "{0:.4f}".format(location.longitude),
+            'latitude': float("{0:.4f}".format(location.latitude)),
+            'longitude': float("{0:.4f}".format(location.longitude)),
         })
