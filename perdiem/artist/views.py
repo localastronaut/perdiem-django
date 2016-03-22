@@ -7,9 +7,11 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View
+from django.views.generic.list import ListView
 from geopy.geocoders import Nominatim
 
 from artist.forms import CoordinatesFromAddressForm
+from artist.models import Artist
 
 
 class CoordinatesFromAddressView(PermissionRequiredMixin, View):
@@ -31,3 +33,8 @@ class CoordinatesFromAddressView(PermissionRequiredMixin, View):
             'latitude': float("{0:.4f}".format(location.latitude)),
             'longitude': float("{0:.4f}".format(location.longitude)),
         })
+
+
+class ArtistListView(ListView):
+
+    model = Artist

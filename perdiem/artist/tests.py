@@ -24,6 +24,14 @@ class ArtistAdminWebTestCase(PerDiemTestCase):
         ]
 
 
+class ArtistWebTestCase(PerDiemTestCase):
+
+    def get200s(self):
+        return [
+            '/artists/',
+        ]
+
+
 class CoordinatesFromAddressTestCase(PerDiemTestCase):
 
     url = '/api/coordinates/?address={address}'
