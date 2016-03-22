@@ -6,7 +6,7 @@
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseBadRequest, JsonResponse
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
 from geopy.geocoders import Nominatim
 
@@ -38,3 +38,17 @@ class CoordinatesFromAddressView(PermissionRequiredMixin, View):
 class ArtistListView(ListView):
 
     model = Artist
+    context_object_name = 'artists'
+
+
+class ArtistDetailView(DetailView):
+
+    model = Artist
+    context_object_name = 'artist'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
+        campaigns = context['artist'].campaign_set.all().order_by('-start_datetime')
+        if campaigns:
+            context['campaign'] = campaigns[0]
+        return context

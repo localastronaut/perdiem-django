@@ -29,7 +29,11 @@ class ArtistWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/artists/',
+            '/artist/{slug}/'.format(slug=self.artist.slug),
         ]
+
+    def testArtistDoesNotExistReturns404(self):
+        self.assertResponseRenders('/artist/does-not-exist/', status_code=404)
 
 
 class CoordinatesFromAddressTestCase(PerDiemTestCase):

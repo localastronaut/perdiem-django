@@ -2,8 +2,8 @@
 
 {% block content %}
     <ul>
-        {% for artist in object_list %}
-            <li>{{ artist.name }}</li>
+        {% for artist in artists %}
+            <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

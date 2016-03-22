@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Count, Sum
 from django.utils import timezone
 
 from artist.models import Artist
@@ -30,6 +31,34 @@ class Campaign(models.Model):
             amount=self.amount,
             reason=self.reason
         )
+
+    def total_shares_purchased(self):
+        return self.investment_set.all().aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
+
+    def amount_raised(self):
+        return self.total_shares_purchased() * self.value_per_share
+
+    def percentage_funded(self):
+        try:
+            return "{0:.2f}".format(float(self.amount_raised()) / self.amount)
+        except ZeroDivisionError:
+            return 0
+
+    def num_investors(self):
+        return self.investment_set.all().aggregate(num_investors=Count('user'))['num_investors']
+
+    def days_remaining(self):
+        if self.end_datetime:
+            return max(0, (self.end_datetime - timezone.now()).days)
+
+    def num_shares(self):
+        return self.amount / self.value_per_share
+
+    def artist_percentage(self):
+        return 100 - self.fans_percentage
+
+    def revenue_to_2x(self):
+        return self.amount * (100/self.fans_percentage) * 2
 
 
 class Expense(models.Model):
