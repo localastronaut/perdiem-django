@@ -42,7 +42,7 @@ class Campaign(models.Model):
         try:
             return "{0:.2f}".format(float(self.amount_raised()) / self.amount)
         except ZeroDivisionError:
-            return 0
+            return 100
 
     def num_investors(self):
         return self.investment_set.all().aggregate(num_investors=Count('user'))['num_investors']

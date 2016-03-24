@@ -19,3 +19,8 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             '/admin/campaign/revenuereport/add/',
             '/admin/campaign/revenuereport/{revenue_report_id}/change/'.format(revenue_report_id=self.revenue_report.id),
         ]
+
+    def testCampaignRaisingZeroIsAlreadyFunded(self):
+        self.campaign.amount = 0
+        self.campaign.save()
+        self.assertEquals(self.campaign.percentage_funded(), 100)

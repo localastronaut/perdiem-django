@@ -4,9 +4,12 @@
 
 """
 
+import datetime
+
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.test import TestCase
+from django.utils import timezone
 from django.utils.text import slugify
 
 from artist.models import Genre, Artist, Update
@@ -97,7 +100,8 @@ class PerDiemTestCase(TestCase):
             artist=self.artist,
             amount=self.CAMPAIGN_AMOUNT,
             reason=self.CAMPAIGN_REASON,
-            fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE
+            fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE,
+            end_datetime=timezone.now() + datetime.timedelta(days=14)
         )
         self.revenue_report = RevenueReport.objects.create(
             campaign=self.campaign,
