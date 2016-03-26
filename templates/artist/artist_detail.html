@@ -15,7 +15,9 @@
         <ul>
             <li>{{ campaign.percentage_funded }}% funded</li>
             <li>${{ campaign.amount_raised|intcomma }} raised</li>
-            <li>{{ campaign.num_investors }} investor{{ campaign.num_investors|pluralize }}</li>
+            {% with num_investors=investors|length %}
+                <li>{{ num_investors }} investor{{ num_investors|pluralize }}</li>
+            {% endwith %}
             {% if campaign.days_remaining != None %}
                 <li>{{ campaign.days_remaining }} day{{ campaign.days_remaining|pluralize}} remaining</li>
             {% endif %}
@@ -64,6 +66,15 @@
         <ul>
             {% for social in artist.social_set.all %}
                 <li><a href="{{ social.url }}">{{ social.get_medium_display }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if investors %}
+        <h2>Current Investors</h2>
+        <ul>
+            {% for investor in investors %}
+                <li>{% firstof investor.get_full_name investor.get_username %}: ${{ investor.total_investment }}</li>
             {% endfor %}
         </ul>
     {% endif %}

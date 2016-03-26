@@ -44,9 +44,6 @@ class Campaign(models.Model):
         except ZeroDivisionError:
             return 100
 
-    def num_investors(self):
-        return self.investment_set.all().aggregate(num_investors=Count('user'))['num_investors']
-
     def days_remaining(self):
         if self.end_datetime:
             return max(0, (self.end_datetime - timezone.now()).days)

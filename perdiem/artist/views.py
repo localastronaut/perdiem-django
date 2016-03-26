@@ -5,6 +5,8 @@
 """
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import User
+from django.db.models import Sum
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
@@ -48,7 +50,11 @@ class ArtistDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
+
         campaigns = context['artist'].campaign_set.all().order_by('-start_datetime')
-        if campaigns:
-            context['campaign'] = campaigns[0]
+        if campaigns.exists():
+            campaign = campaigns[0]
+            context['campaign'] = campaign
+            context['investors'] = User.objects.filter(investment__campaign=campaign).annotate(total_investment=Sum('investment__num_shares') * campaign.value_per_share)
+
         return context
