@@ -15,6 +15,8 @@ class CampaignAdminWebTestCase(PerDiemTestCase):
             '/admin/campaign/campaign/',
             '/admin/campaign/campaign/add/',
             '/admin/campaign/campaign/{campaign_id}/change/'.format(campaign_id=self.campaign.id),
+            '/admin/campaign/investment/',
+            '/admin/campaign/investment/{investment_id}/change/'.format(investment_id=self.investment.id),
             '/admin/campaign/revenuereport/',
             '/admin/campaign/revenuereport/add/',
             '/admin/campaign/revenuereport/{revenue_report_id}/change/'.format(revenue_report_id=self.revenue_report.id),

@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from artist.models import Genre, Artist, Update
-from campaign.models import Campaign, RevenueReport
+from campaign.models import Campaign, Investment, RevenueReport
 
 
 class PerDiemTestCase(TestCase):
@@ -102,6 +102,10 @@ class PerDiemTestCase(TestCase):
             reason=self.CAMPAIGN_REASON,
             fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE,
             end_datetime=timezone.now() + datetime.timedelta(days=14)
+        )
+        self.investment = Investment.objects.create(
+            user=self.ordinary_user,
+            campaign=self.campaign
         )
         self.revenue_report = RevenueReport.objects.create(
             campaign=self.campaign,
