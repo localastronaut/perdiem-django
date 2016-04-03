@@ -9,6 +9,7 @@ if len(sys.argv) >= 2 and sys.argv[1] == 'test':
 
 import cbsettings
 
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "perdiem.settings")
     cbsettings.configure('perdiem.settings.switcher')
