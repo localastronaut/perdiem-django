@@ -1,11 +1,14 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block content %}
     <h1>PerDiem</h1>
     {% if user.is_authenticated %}
         <p>Welcome {% firstof user.get_full_name user.get_username %}!</p>
     {% else %}
-        <p>Please sign in.</p>
+        <p class= "text-center">Please sign in.</p>
+
+		<img class= "home" src= "{% static "img/perdiem.JPG" %}">
+
     {% endif %}
     <p><a href="{% url 'artists' %}">See Artists</a></p>
 {% endblock %}

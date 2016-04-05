@@ -1,3 +1,16 @@
+h1, h2, h3, p {
+	font-family: Dosis, sans-serif;
+}
 h1 {
     text-align: center;
+}
+p.text-center {
+	text-align: center;
+}
+img.home {
+	border-style: solid; 
+	border-width: 3px;
+	margin-left: 5%; 
+	margin-right: 5%;
+	width: 90%;
 }
