@@ -7,6 +7,15 @@
         <link rel="stylesheet" href="{% static "css/perdiem.css" %}" type="text/css" charset="utf-8" />
     </head>
     <body>
+        <!-- Nav -->
+        <ul class="nav">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+            {% endif %}
+        </ul>
+
         <!-- Content -->
         <div class="container">
             {% block content %}
