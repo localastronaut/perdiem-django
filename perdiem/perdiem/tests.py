@@ -36,6 +36,10 @@ class PerDiemTestCase(TestCase):
     CAMPAIGN_FANS_PERCENTAGE = 20
     CAMPAIGN_REVENUE_REPORT_AMOUNT = 500
 
+    @staticmethod
+    def strip_query_params(url):
+        return url.split('?')[0]
+
     def assertResponseRenders(self, url, status_code=200, method='GET', data={}, **kwargs):
         request_method = getattr(self.client, method.lower())
         follow = status_code == 302
@@ -60,6 +64,12 @@ class PerDiemTestCase(TestCase):
         response = self.assertResponseRenders(url, status_code=status_code, method=method, data=data, **kwargs)
         self.assertTrue(isinstance(response, JsonResponse))
         return response.json()
+
+    def assertResponseRedirects(self, url, redirect_url, method='GET', data={}, **kwargs):
+        response = self.assertResponseRenders(url, status_code=302, method=method, data=data, **kwargs)
+        redirect_url_from_response, _ = response.redirect_chain[0]
+        self.assertEquals(self.strip_query_params(redirect_url_from_response), redirect_url)
+        self.assertEquals(response.status_code, 200)
 
     def get200s(self):
         return []
@@ -136,11 +146,15 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/',
+            '/accounts/login/',
         ]
 
     def testHomePageUnauthenticated(self):
         self.client.logout()
         self.assertResponseRenders('/')
+
+    def testLogout(self):
+        self.assertResponseRedirects('/accounts/logout/', '/')
 
 
 class AdminHomeWebTestCase(PerDiemTestCase):
@@ -153,12 +167,6 @@ class AdminHomeWebTestCase(PerDiemTestCase):
 
 class AdminLoginWebTestCase(PerDiemTestCase):
 
-    @staticmethod
-    def strip_query_params(url):
-        return url.split('?')[0]
-
     def testAdminLoginPageRenders(self):
         self.client.logout()
-        response = self.assertResponseRenders('/admin/', status_code=302)
-        redirect_url, _ = response.redirect_chain[0]
-        self.assertEquals(self.strip_query_params(redirect_url), '/admin/login/')
+        self.assertResponseRedirects('/admin/', '/admin/login/')

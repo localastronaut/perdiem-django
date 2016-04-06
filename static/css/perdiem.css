@@ -4,6 +4,7 @@ h1, h2, h3, p {
 h1 {
     text-align: center;
 }
+
 p.text-center {
 	text-align: center;
 }
@@ -13,4 +14,11 @@ img.home {
 	margin-left: 5%; 
 	margin-right: 5%;
 	width: 90%;
+
+}
+
+.nav {
+    list-style: none;
+    float: right;
+
 }
