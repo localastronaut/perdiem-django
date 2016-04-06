@@ -141,22 +141,6 @@ class PerDiemTestCase(TestCase):
             self.assertResponseRenders(url)
 
 
-class PerDiemHomeWebTestCase(PerDiemTestCase):
-
-    def get200s(self):
-        return [
-            '/',
-            '/accounts/login/',
-        ]
-
-    def testHomePageUnauthenticated(self):
-        self.client.logout()
-        self.assertResponseRenders('/')
-
-    def testLogout(self):
-        self.assertResponseRedirects('/accounts/logout/', '/')
-
-
 class AdminHomeWebTestCase(PerDiemTestCase):
 
     def get200s(self):
