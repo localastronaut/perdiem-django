@@ -27,6 +27,7 @@ class BaseSettings(DjangoDefaults):
         'whitenoise.runserver_nostatic',
         'django.contrib.staticfiles',
         'django.contrib.humanize',
+        'accounts.apps.AccountsConfig',
         'artist.apps.ArtistConfig',
         'campaign.apps.CampaignConfig',
     )
