@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load staticfiles %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
 
 {% block content %}
-    <h1>{{ artist.name }}</h1>
+    <h1 class="header-font">{{ artist.name }}</h1>
     <img src="{{ artist.photo.img.url }}" />
     {% with genres=artist.genres.all %}
         <p>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</p>
@@ -56,7 +61,7 @@
             <li>{{ artist.name }}: {{ campaign.artist_percentage }}%</li>
             <li>Investors: {{ campaign.fans_percentage }}%</li>
         </ul>
-        <p>To raise the funds we are selling {{ campaign.num_shares|intcomma }} shares at ${{ campaign.value_per_share }} per share.</p>
+        <p>To raise the funds we are selling <strong>{{ campaign.num_shares|intcomma }}</strong> shares at <strong>${{ campaign.value_per_share }}</strong> per share.</p>
         <h3>Return on Investment</h3>
         <p>For example: If this project earns ${{ campaign.revenue_to_2x|intcomma }} in revenue, every investor will 2x their investment.</p>
     {% endif %}

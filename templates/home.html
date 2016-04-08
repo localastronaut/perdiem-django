@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+{% block extrastyle %}
+    <style>
+        body {
+            background-image: url("{% static "img/perdiem.JPG" %}");
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <h1>PerDiem</h1>
     {% if user.is_authenticated %}
-        <p>Welcome {% firstof user.get_full_name user.get_username %}!</p>
+        <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
     {% else %}
-        <p class= "text-center">Please sign in.</p>
-
-		<img class= "home" src= "{% static "img/perdiem.JPG" %}">
-
+        <p class="text-center"><a href="{% url 'login' %}?next={{ request.path }}">Please sign in.</a></p>
     {% endif %}
-    <p><a href="{% url 'artists' %}">See Artists</a></p>
+    <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
 {% endblock %}

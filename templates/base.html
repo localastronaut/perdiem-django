@@ -1,19 +1,24 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{% block title %}PerDiem{% endblock %}</title>
+        <title>{% block title %}PERDIEM{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Dosis:400,200' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static "css/foundation.min.css" %}" type="text/css" charset="utf-8" />
         <link rel="stylesheet" href="{% static "css/perdiem.css" %}" type="text/css" charset="utf-8" />
+        {% block extrastyle %}{% endblock %}
     </head>
     <body>
         <!-- Nav -->
         <ul class="nav">
+            <li><a class="active" href="{% url 'home' %}">Home</a></li>
+            <li><a class="active" href="{% url 'home' %}">How It Works</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+                <li style="float: right;"><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
             {% endif %}
         </ul>
 
@@ -25,5 +30,7 @@
 
         <!-- JS -->
         <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/modernizr.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/foundation.min.js" %}"></script>
     </body>
 </html>
