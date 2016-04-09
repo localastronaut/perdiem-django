@@ -14,7 +14,7 @@
         <!-- Nav -->
         <ul class="nav">
             <li><a class="active" href="{% url 'home' %}">Home</a></li>
-            <li><a class="active" href="{% url 'home' %}">How It Works</a></li>
+            <li><a class="active" href="{% url 'home' %}#how">How It Works</a></li>
             {% if user.is_authenticated %}
                 <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
@@ -51,5 +51,6 @@
         {% if request.login_form.errors %}
             <script type="text/javascript" src="{% static "js/accounts/login-errors.js" %}"></script>
         {% endif %}
+        {% block extrajs %}{% endblock %}
     </body>
 </html>

@@ -2,8 +2,9 @@
 {% load staticfiles %}
 
 {% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/home.css" %}" type="text/css" charset="utf-8" />
     <style>
-        body {
+        #home-page {
             background-image: url("{% static "img/perdiem.JPG" %}");
             background-size: 100% auto;
             background-repeat: no-repeat;
@@ -12,11 +13,22 @@
 {% endblock %}
 
 {% block content %}
-    <h1>PerDiem</h1>
-    {% if user.is_authenticated %}
-        <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
-    {% else %}
-        <p class="text-center"><a data-open="login-modal">Please sign in.</a></p>
-    {% endif %}
-    <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
+    <div id="home-page" class="page">
+        <h1>PerDiem</h1>
+        {% if user.is_authenticated %}
+            <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
+        {% else %}
+            <p class="text-center"><a data-open="login-modal">Please sign in.</a></p>
+        {% endif %}
+        <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
+    </div>
+    <div id="how-page" class="page">
+        <a id="how" class="smooth"></a>
+        <h1>How It Works</h1>
+        <p>1. AN ARTIST NEEDS TO RAISE MONEY TO CREATE THEIR MUSIC</p>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{% static "js/smooth-scroll.js" %}"></script>
 {% endblock %}
