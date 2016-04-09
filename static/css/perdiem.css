@@ -4,14 +4,14 @@ h1, h2, h3, p, li, input [type=submit] {
 h1 {
     text-align: center;
     font-size: 100px;
-    color: #ffffff;
+    color: #fff;
     font-weight: 200;
 }
 
 h2 {
     text-align: center;
     font-size: 50px;
-    color: #ffffff;
+    color: #fff;
     font-weight: 200;
 }
 
@@ -24,7 +24,7 @@ ul {
 p {
     font-size: 20px;
     font-weight: 400;
-    color: #FFF;
+    color: #fff;
 }
 
 p.text-center {
@@ -32,7 +32,7 @@ p.text-center {
 }
 
 a {
-    color: #EBEBEB;
+    color: #ebebeb;
     text-decoration: none;
 }
 
@@ -59,4 +59,8 @@ body {
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
+}
+
+.reveal {
+    background-color: #333;
 }

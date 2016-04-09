@@ -41,6 +41,7 @@ class BaseSettings(DjangoDefaults):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
+        'accounts.middleware.LoginFormMiddleware',
     )
     ROOT_URLCONF = 'perdiem.urls'
 

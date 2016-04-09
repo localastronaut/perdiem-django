@@ -12,7 +12,6 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/',
-            '/accounts/login/',
             '/accounts/register/',
         ]
 
@@ -22,6 +21,15 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
 
     def testLogout(self):
         self.assertResponseRedirects('/accounts/logout/', '/')
+
+    def testLogin(self):
+        self.client.logout()
+        login_data = {
+            'login-username': self.USER_USERNAME,
+            'login-password': self.USER_PASSWORD,
+        }
+        response = self.assertResponseRenders('/', method='POST', data=login_data)
+        self.assertIn('Logout', response.content)
 
     def testRegister(self):
         self.client.logout()

@@ -16,7 +16,7 @@
     {% if user.is_authenticated %}
         <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
     {% else %}
-        <p class="text-center"><a href="{% url 'login' %}?next={{ request.path }}">Please sign in.</a></p>
+        <p class="text-center"><a data-open="login-modal">Please sign in.</a></p>
     {% endif %}
     <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
 {% endblock %}
