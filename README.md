@@ -27,13 +27,13 @@ In the future you can reactivate the virtual environment with:
 
 ### Installation
 
-Then in your virtual environment, you will need to install Python dependencies such as [Gunicorn](http://gunicorn.org/), [django](https://www.djangoproject.com/), psycopg2, [pillow](https://pillow.readthedocs.org/), django-classbasedsettings, and [geopy](http://geopy.readthedocs.org/). You can do this simply with the command:
+Then in your virtual environment, you will need to install Python dependencies such as [Gunicorn](http://gunicorn.org/), [django](https://www.djangoproject.com/), psycopg2, [pillow](https://pillow.readthedocs.org/), django-classbasedsettings, [geopy](http://geopy.readthedocs.org/), and [Pinax Stripe](https://pinax-stripe.readthedocs.org/). You can do this simply with the command:
 
     pip install -r requirements.txt
 
 ### Configuration
 
-Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. Your `dev.py` file might look something like:
+Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. You will also need to define your Stripe test keys. Your `dev.py` file might look something like:
 
     from perdiem.settings.base import BaseSettings
 
@@ -49,6 +49,8 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
                 'PORT': '5432',
             }
         }
+        PINAX_STRIPE_PUBLIC_KEY = 'pk_test_abc123'
+        PINAX_STRIPE_PRIVATE_KEY = 'sk_test_abc123'
 
 Of course you should [generate your own secret key](http://stackoverflow.com/a/16630719) and use a more secure password for your database. If you like, you can override more of Django settings here. If you do not create this file, you will get a `cbsettings.exceptions.NoMatchingSettings` exception when starting the server.
 

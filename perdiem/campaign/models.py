@@ -6,10 +6,11 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
 from django.utils import timezone
+
+from pinax.stripe.models import Charge
 
 from artist.models import Artist
 
@@ -32,6 +33,9 @@ class Campaign(models.Model):
             reason=self.reason
         )
 
+    def value_per_share_cents(self):
+        return self.value_per_share * 100
+
     def total_shares_purchased(self):
         return self.investment_set.all().aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
 
@@ -40,13 +44,18 @@ class Campaign(models.Model):
 
     def percentage_funded(self):
         try:
-            return "{0:.2f}".format(float(self.amount_raised()) / self.amount)
+            return "{0:.0f}".format((float(self.amount_raised()) / self.amount) * 100)
         except ZeroDivisionError:
             return 100
 
     def days_remaining(self):
         if self.end_datetime:
             return max(0, (self.end_datetime - timezone.now()).days)
+
+    def campaign_open(self):
+        started = self.start_datetime is None or self.start_datetime < timezone.now()
+        ended = self.end_datetime and self.end_datetime < timezone.now()
+        return started and not ended and self.amount_raised() < self.amount
 
     def num_shares(self):
         return self.amount / self.value_per_share
@@ -56,6 +65,20 @@ class Campaign(models.Model):
 
     def revenue_to_2x(self):
         return self.amount * (100/self.fans_percentage) * 2
+
+    def investors(self):
+        investors = {}
+        investments = self.investment_set.all().select_related('charge', 'charge__customer', 'charge__customer__user')
+
+        for investment in investments:
+            investor = investment.investor()
+            if investor.id not in investors:
+                investors[investor.id] = {
+                    'name': investor.get_full_name() or investor.username,
+                    'total_investment': 0,
+                }
+            investors[investor.id]['total_investment'] += investment.num_shares * self.value_per_share
+        return investors.values()
 
 
 class Expense(models.Model):
@@ -75,17 +98,20 @@ class Expense(models.Model):
 
 class Investment(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    charge = models.OneToOneField(Charge, on_delete=models.CASCADE)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     transaction_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
-    num_shares = models.PositiveSmallIntegerField(default=1, help_text='The number of shares a user made in a transaction')
+    num_shares = models.PositiveSmallIntegerField(default=1, help_text='The number of shares an investor made in a transaction')
 
     def __unicode__(self):
-        return u'{num_shares} shares in {campaign} to {user}'.format(
+        return u'{num_shares} shares in {campaign} to {investor}'.format(
             num_shares=self.num_shares,
             campaign=unicode(self.campaign),
-            user=unicode(self.user)
+            investor=unicode(self.investor())
         )
+
+    def investor(self):
+        return self.charge.customer.user
 
 
 class RevenueReport(models.Model):

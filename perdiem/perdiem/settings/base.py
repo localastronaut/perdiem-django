@@ -26,7 +26,9 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.messages',
         'whitenoise.runserver_nostatic',
         'django.contrib.staticfiles',
+        'django.contrib.sites',
         'django.contrib.humanize',
+        'pinax.stripe',
         'accounts.apps.AccountsConfig',
         'artist.apps.ArtistConfig',
         'campaign.apps.CampaignConfig',
@@ -44,6 +46,7 @@ class BaseSettings(DjangoDefaults):
         'accounts.middleware.LoginFormMiddleware',
     )
     ROOT_URLCONF = 'perdiem.urls'
+    SITE_ID = 1
 
     TEMPLATES = [
         {
@@ -61,7 +64,6 @@ class BaseSettings(DjangoDefaults):
         },
     ]
     WSGI_APPLICATION = 'perdiem.wsgi.application'
-
 
     # Database
     DATABASES = {
@@ -89,3 +91,6 @@ class BaseSettings(DjangoDefaults):
         os.path.join(TOP_DIR, 'static'),
     )
     STATIC_URL = '/static/'
+
+    # Stripe
+    PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False

@@ -4,12 +4,14 @@
 
 """
 
+from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
+
 from geopy.geocoders import Nominatim
 
 from artist.forms import CoordinatesFromAddressForm
@@ -50,11 +52,12 @@ class ArtistDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
+        context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
 
         campaigns = context['artist'].campaign_set.all().order_by('-start_datetime')
         if campaigns.exists():
             campaign = campaigns[0]
             context['campaign'] = campaign
-            context['investors'] = User.objects.filter(investment__campaign=campaign).annotate(total_investment=Sum('investment__num_shares') * campaign.value_per_share)
+            context['investors'] = campaign.investors()
 
         return context

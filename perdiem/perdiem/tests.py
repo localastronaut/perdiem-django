@@ -113,10 +113,6 @@ class PerDiemTestCase(TestCase):
             fans_percentage=self.CAMPAIGN_FANS_PERCENTAGE,
             end_datetime=timezone.now() + datetime.timedelta(days=14)
         )
-        self.investment = Investment.objects.create(
-            user=self.ordinary_user,
-            campaign=self.campaign
-        )
         self.revenue_report = RevenueReport.objects.create(
             campaign=self.campaign,
             amount=self.CAMPAIGN_REVENUE_REPORT_AMOUNT

@@ -27,6 +27,26 @@
                 <li>{{ campaign.days_remaining }} day{{ campaign.days_remaining|pluralize}} remaining</li>
             {% endif %}
         </ul>
+
+        {% if campaign.campaign_open %}
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'pinax_stripe_charge' %}?campaign_id={{ campaign.id }}" method="POST">
+                    {% csrf_token %}
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ PINAX_STRIPE_PUBLIC_KEY }}"
+                        data-name="PerDiem"
+                        data-description="Invest in {{ artist.name }}"
+                        data-amount="{{ campaign.value_per_share_cents }}"
+                        data-locale="auto"
+                        data-label="Buy Share"
+                        data-email="{{ request.user.email }}">
+                    </script>
+                </form>
+            {% else %}
+                <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
+            {% endif %}
+        {% endif %}
+
         {% if campaign.days_remaining == 0 %}
             <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
         {% endif %}
@@ -79,7 +99,7 @@
         <h2>Current Investors</h2>
         <ul>
             {% for investor in investors %}
-                <li>{% firstof investor.get_full_name investor.get_username %}: ${{ investor.total_investment }}</li>
+                <li>{{ investor.name }}: ${{ investor.total_investment }}</li>
             {% endfor %}
         </ul>
     {% endif %}
