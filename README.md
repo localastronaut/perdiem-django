@@ -50,7 +50,7 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
             }
         }
         PINAX_STRIPE_PUBLIC_KEY = 'pk_test_abc123'
-        PINAX_STRIPE_PRIVATE_KEY = 'sk_test_abc123'
+        PINAX_STRIPE_SECRET_KEY = 'sk_test_abc123'
 
 Of course you should [generate your own secret key](http://stackoverflow.com/a/16630719) and use a more secure password for your database. If you like, you can override more of Django settings here. If you do not create this file, you will get a `cbsettings.exceptions.NoMatchingSettings` exception when starting the server.
 
