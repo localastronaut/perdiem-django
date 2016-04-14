@@ -18,6 +18,7 @@
             <li><a class="active" href="{% url 'home' %}#how">How It Works</a></li>
             {% if user.is_authenticated %}
                 <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
+                <li style="float: right;"><a href="{% url 'profile' %}">Profile</a></li>
             {% else %}
                 <li style="float: right;"><a data-open="login-modal">Login</a></li>
             {% endif %}

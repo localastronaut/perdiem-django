@@ -13,6 +13,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         return [
             '/',
             '/accounts/register/',
+            '/accounts/profile/',
         ]
 
     def testHomePageUnauthenticated(self):

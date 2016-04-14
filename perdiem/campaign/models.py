@@ -66,6 +66,15 @@ class Campaign(models.Model):
     def revenue_to_2x(self):
         return self.amount * (100/self.fans_percentage) * 2
 
+    def generated_revenue(self):
+        return self.revenuereport_set.all().aggregate(gr=models.Sum('amount'))['gr'] or 0
+
+    def generated_revenue_fans(self):
+        return self.generated_revenue() * (float(self.fans_percentage) / 100)
+
+    def generated_revenue_fans_per_share(self):
+        return self.generated_revenue_fans() / self.num_shares()
+
     def investors(self):
         investors = {}
         investments = self.investment_set.all().select_related('charge', 'charge__customer', 'charge__customer__user')
