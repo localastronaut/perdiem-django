@@ -52,7 +52,7 @@ class Campaign(models.Model):
         if self.end_datetime:
             return max(0, (self.end_datetime - timezone.now()).days)
 
-    def campaign_open(self):
+    def open(self):
         started = self.start_datetime is None or self.start_datetime < timezone.now()
         ended = self.end_datetime and self.end_datetime < timezone.now()
         return started and not ended and self.amount_raised() < self.amount

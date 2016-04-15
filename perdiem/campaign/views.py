@@ -13,16 +13,21 @@ from django.views.generic.edit import View
 from pinax.stripe.actions import charges, customers
 
 from campaign.forms import PaymentChargeForm
-from campaign.models import Investment
+from campaign.models import Campaign, Investment
 
 
 class PaymentChargeView(LoginRequiredMixin, View):
 
-    def post(self, request, *args, **kwargs):
-        # Validate request
-        request_dict = request.POST.copy()
-        request_dict.update(request.GET)
-        form = PaymentChargeForm(request_dict)
+    def post(self, request, campaign_id, *args, **kwargs):
+        # Validate request and campaign status
+        try:
+            campaign = Campaign.objects.get(id=campaign_id)
+        except Campaign.DoesNotExist:
+            return HttpResponseBadRequest("Campaign with ID {campaign_id} does not exist.".format(campaign_id=campaign_id))
+        else:
+            if not campaign.open():
+                return HttpResponseBadRequest("This campaign is no longer accepting investments.")
+        form = PaymentChargeForm(request.POST)
         if not form.is_valid():
             return HttpResponseBadRequest(unicode(form.errors))
         d = form.cleaned_data
@@ -34,7 +39,6 @@ class PaymentChargeView(LoginRequiredMixin, View):
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
 
         # Create charge
-        campaign = d['campaign']
         amount = decimal.Decimal(campaign.value_per_share)
         charge = charges.create(amount=amount, customer=customer.stripe_id)
         Investment.objects.create(charge=charge, campaign=campaign)

@@ -28,7 +28,7 @@
             {% endif %}
         </ul>
 
-        {% if campaign.campaign_open %}
+        {% if campaign.open %}
             {% if request.user.is_authenticated %}
                 <button id="invest-button" class="button" type="button">Buy Share</button>
             {% else %}
@@ -104,7 +104,7 @@
             locale: 'auto',
             email: '{{ request.user.email|escapejs }}',
             token: function(token) {
-                $.post("{% url 'pinax_stripe_charge' %}?campaign={{ campaign.id }}", {card: token.id})
+                $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id})
                     .done(function(resp) {
                         // Show success
                         var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';
