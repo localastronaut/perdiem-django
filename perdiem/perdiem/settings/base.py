@@ -93,4 +93,5 @@ class BaseSettings(DjangoDefaults):
     STATIC_URL = '/static/'
 
     # Stripe
+    PERDIEM_FEE = 1 # $1
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False

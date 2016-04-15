@@ -39,7 +39,8 @@ class PaymentChargeView(LoginRequiredMixin, View):
             customer = customers.create(request.user, card=card, plan=None, charge_immediately=False)
 
         # Create charge
-        amount = decimal.Decimal(campaign.value_per_share)
+        num_shares = d['num_shares']
+        amount = decimal.Decimal(campaign.total(num_shares))
         charge = charges.create(amount=amount, customer=customer.stripe_id)
         Investment.objects.create(charge=charge, campaign=campaign)
         return HttpResponse(status=205)

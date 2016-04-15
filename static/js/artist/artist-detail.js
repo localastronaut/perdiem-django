@@ -16,10 +16,13 @@ $(document).ready(function() {
     });
 
     $('#invest-button').click(function(e) {
+        var subtotal = 1 * share_value_cents;
+        var perdiem_fee = 100; // $1
+        var total = (perdiem_fee + subtotal) * 1.029 + 30; // Stripe 2.9% + $0.30 fee
         stripe_handler.open({
             name: 'PerDiem',
             description: 'Invest in ' + artist_name,
-            amount: share_value_cents
+            amount: Math.ceil(total)
         });
         e.preventDefault();
     });

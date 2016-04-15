@@ -5,7 +5,9 @@
 """
 
 from __future__ import unicode_literals
+import math
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Count, Sum
 from django.utils import timezone
@@ -35,6 +37,11 @@ class Campaign(models.Model):
 
     def value_per_share_cents(self):
         return self.value_per_share * 100
+
+    def total(self, num_shares):
+        subtotal = num_shares * self.value_per_share
+        total = (settings.PERDIEM_FEE + subtotal) * 1.029 + 0.3 # Stripe 2.9% + $0.30 fee
+        return math.ceil(total * 100.0) / 100.0
 
     def total_shares_purchased(self):
         return self.investment_set.all().aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
