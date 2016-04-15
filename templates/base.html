@@ -30,6 +30,26 @@
             {% endblock %}
         </div>
 
+        <!-- Success Modal -->
+        <div class="reveal" id="success-modal" data-reveal>
+            <h1>Done</h1>
+            <p class="success-message">The action completed successfully.</p>
+            <button class="button" data-close>Okay, got it!</button>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- Error Modal -->
+        <div class="reveal" id="error-modal" data-reveal>
+            <h1>Error</h1>
+            <p class="error-message">An unexpected error occurred.</p>
+            <button class="button" data-close>Okay, got it!</button>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <!-- Login Modal -->
         <div class="reveal" id="login-modal" data-reveal>
             <h1>Login</h1>
@@ -47,6 +67,7 @@
 
         <!-- JS -->
         <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.cookie.min.js" %}"></script>
         <script type="text/javascript" src="{% static "js/modernizr.js" %}"></script>
         <script type="text/javascript" src="{% static "js/foundation.min.js" %}"></script>
         <script type="text/javascript">$(document).foundation();</script>
