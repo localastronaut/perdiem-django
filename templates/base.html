@@ -7,7 +7,7 @@
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.png" %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href='https://fonts.googleapis.com/css?family=Dosis:400,200' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static "css/foundation.min.css" %}" type="text/css" charset="utf-8" />
+        <link rel="stylesheet" href="{% static "css/vendor/foundation.min.css" %}" type="text/css" charset="utf-8" />
         <link rel="stylesheet" href="{% static "css/perdiem.css" %}" type="text/css" charset="utf-8" />
         {% block extrastyle %}{% endblock %}
     </head>
@@ -66,10 +66,10 @@
         </div>
 
         <!-- JS -->
-        <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/jquery.cookie.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/modernizr.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/foundation.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/vendor/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/vendor/jquery.cookie.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/vendor/modernizr.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/vendor/foundation.min.js" %}"></script>
         <script type="text/javascript">$(document).foundation();</script>
         {% if request.login_form.errors %}
             <script type="text/javascript" src="{% static "js/accounts/login-errors.js" %}"></script>
