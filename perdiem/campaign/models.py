@@ -43,8 +43,14 @@ class Campaign(models.Model):
         total = (settings.PERDIEM_FEE + subtotal) * 1.029 + 0.3 # Stripe 2.9% + $0.30 fee
         return math.ceil(total * 100.0) / 100.0
 
+    def num_shares(self):
+        return self.amount / self.value_per_share
+
     def total_shares_purchased(self):
         return self.investment_set.all().aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
+
+    def num_shares_remaining(self):
+        return self.num_shares() - self.total_shares_purchased()
 
     def amount_raised(self):
         return self.total_shares_purchased() * self.value_per_share
@@ -63,9 +69,6 @@ class Campaign(models.Model):
         started = self.start_datetime is None or self.start_datetime < timezone.now()
         ended = self.end_datetime and self.end_datetime < timezone.now()
         return started and not ended and self.amount_raised() < self.amount
-
-    def num_shares(self):
-        return self.amount / self.value_per_share
 
     def artist_percentage(self):
         return 100 - self.fans_percentage

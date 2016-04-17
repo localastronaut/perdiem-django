@@ -22,8 +22,12 @@ $(document).ready(function() {
         return parseInt(value);
     }
     function num_shares_updated() {
-        // Enforce minimum of one
-        var num_shares = Math.max(1, get_num_shares());
+        // Enforce minimum and maximum
+        var num_shares = get_num_shares();
+        num_shares = Math.max(1, num_shares);
+        num_shares = Math.min(num_shares, num_shares_remaining);
+
+        // Set num shares in input
         $('.invest-num-shares > input').val(num_shares);
 
         // Disable minus button when only 1 share
@@ -31,6 +35,12 @@ $(document).ready(function() {
             $('.invest-num-shares > button#remove-shares').addClass('disabled').prop('disabled', true);
         } else {
             $('.invest-num-shares > button#remove-shares').removeClass('disabled').prop('disabled', false);
+        }
+        // Disable plus button when max shares
+        if (num_shares === num_shares_remaining) {
+            $('.invest-num-shares > button#add-shares').addClass('disabled').prop('disabled', true);
+        } else {
+            $('.invest-num-shares > button#add-shares').removeClass('disabled').prop('disabled', false);
         }
 
         // Update invest button text
@@ -52,14 +62,12 @@ $(document).ready(function() {
 
         // Decrement or increment number of shares based on button pressed
         if ($(this).is('.invest-num-shares > button#remove-shares')) {
-            num_shares = Math.max(1, num_shares - 1);
+            num_shares -= 1;
         } else if ($(this).is('.invest-num-shares > button#add-shares')) {
             num_shares += 1;
         } else {
             console.log("Unexpected invest-num-shares button pressed.");
         }
-
-        // Set num shares in input
         $('.invest-num-shares > input').val(num_shares);
         num_shares_updated();
     });

@@ -27,7 +27,7 @@ class PaymentChargeView(LoginRequiredMixin, View):
         else:
             if not campaign.open():
                 return HttpResponseBadRequest("This campaign is no longer accepting investments.")
-        form = PaymentChargeForm(request.POST)
+        form = PaymentChargeForm(request.POST, campaign=campaign)
         if not form.is_valid():
             return HttpResponseBadRequest(unicode(form.errors))
         d = form.cleaned_data

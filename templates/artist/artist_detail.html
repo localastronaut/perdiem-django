@@ -32,7 +32,7 @@
             {% if request.user.is_authenticated %}
                 <div class="invest-num-shares">
                     <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
-                    <input type="number" min="1" value="1" />
+                    <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="1" />
                     <button id="add-shares" class="secondary hollow button" type="button">+</button>
                 </div>
                 <button id="invest-button" class="button" type="button">Buy 1 Share</button>
@@ -106,6 +106,7 @@
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
         var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
+        var num_shares_remaining = {{ campaign.num_shares_remaining }};
         var stripe_handler = StripeCheckout.configure({
             key: '{{ PINAX_STRIPE_PUBLIC_KEY }}',
             locale: 'auto',
