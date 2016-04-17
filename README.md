@@ -27,7 +27,7 @@ In the future you can reactivate the virtual environment with:
 
 ### Installation
 
-Then in your virtual environment, you will need to install Python dependencies such as [Gunicorn](http://gunicorn.org/), [django](https://www.djangoproject.com/), psycopg2, [pillow](https://pillow.readthedocs.org/), django-classbasedsettings, [geopy](http://geopy.readthedocs.org/), and [Pinax Stripe](https://pinax-stripe.readthedocs.org/). You can do this simply with the command:
+Then in your virtual environment, you will need to install Python dependencies such as [Gunicorn](http://gunicorn.org/), [django](https://www.djangoproject.com/), psycopg2, [pillow](https://pillow.readthedocs.org/), django-classbasedsettings, django-templated-email, [geopy](http://geopy.readthedocs.org/), and [Pinax Stripe](https://pinax-stripe.readthedocs.org/). You can do this simply with the command:
 
     pip install -r requirements.txt
 

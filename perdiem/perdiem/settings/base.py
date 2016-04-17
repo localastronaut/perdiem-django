@@ -92,6 +92,11 @@ class BaseSettings(DjangoDefaults):
     )
     STATIC_URL = '/static/'
 
+    # Email
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = '/tmp/perdiem/email'
+    TEMPLATED_EMAIL_TEMPLATE_DIR = 'email/'
+
     # Stripe
     PERDIEM_FEE = 1 # $1
     PINAX_STRIPE_SEND_EMAIL_RECEIPTS = False

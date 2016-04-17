@@ -1,0 +1,9 @@
+{% block subject %}Thank You for investing in {{ artist.name }}!{% endblock %}
+
+{% block plain %}
+    Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.reason }}.
+{% endblock %}
+
+{% block html %}
+    <p>Thank you for investing in {{ artist.name }}. You are now the proud owner of {{ num_shares }} shares in {{ artist.name }}'s campaign {{ campaign.reason }}.</p>
+{% endblock %}
