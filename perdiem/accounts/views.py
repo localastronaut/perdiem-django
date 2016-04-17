@@ -45,7 +45,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super(ProfileView, self).get_context_data(**kwargs)
 
         # Get artists the user has invested in
-        investments = Investment.objects.filter(charge__customer__user=self.request.user)
+        investments = Investment.objects.filter(charge__customer__user=self.request.user, charge__paid=True)
         campaign_ids = investments.values_list('campaign', flat=True).distinct()
         campaigns = Campaign.objects.filter(id__in=campaign_ids)
         artist_ids = campaigns.values_list('artist', flat=True).distinct()

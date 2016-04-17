@@ -11,6 +11,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.generic.edit import View
 
 from pinax.stripe.actions import charges, customers
+from stripe import CardError
 
 from campaign.forms import PaymentChargeForm
 from campaign.models import Campaign, Investment
@@ -41,6 +42,9 @@ class PaymentChargeView(LoginRequiredMixin, View):
         # Create charge
         num_shares = d['num_shares']
         amount = decimal.Decimal(campaign.total(num_shares))
-        charge = charges.create(amount=amount, customer=customer.stripe_id)
+        try:
+            charge = charges.create(amount=amount, customer=customer.stripe_id)
+        except CardError as e:
+            return HttpResponseBadRequest(e.message)
         Investment.objects.create(charge=charge, campaign=campaign, num_shares=num_shares)
         return HttpResponse(status=205)

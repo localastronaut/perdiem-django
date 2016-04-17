@@ -47,7 +47,7 @@ class Campaign(models.Model):
         return self.amount / self.value_per_share
 
     def total_shares_purchased(self):
-        return self.investment_set.all().aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
+        return self.investment_set.filter(charge__paid=True).aggregate(total_shares=Sum('num_shares'))['total_shares'] or 0
 
     def num_shares_remaining(self):
         return self.num_shares() - self.total_shares_purchased()
@@ -87,7 +87,7 @@ class Campaign(models.Model):
 
     def investors(self):
         investors = {}
-        investments = self.investment_set.all().select_related('charge', 'charge__customer', 'charge__customer__user')
+        investments = self.investment_set.filter(charge__paid=True).select_related('charge', 'charge__customer', 'charge__customer__user')
 
         for investment in investments:
             investor = investment.investor()
