@@ -30,7 +30,13 @@
 
         {% if campaign.open %}
             {% if request.user.is_authenticated %}
-                <button id="invest-button" class="button" type="button">Buy Share</button>
+                <div class="invest-num-shares">
+                    <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
+                    <input type="number" min="1" value="1" />
+                    <button id="add-shares" class="secondary hollow button" type="button">+</button>
+                </div>
+                <button id="invest-button" class="button" type="button">Buy 1 Share</button>
+                <br /><small>* = ${{ campaign.value_per_share }} per share + ${{ PERDIEM_FEE }} PerDiem fee + 2.9%+$0.30 credit card fee</small>
             {% else %}
                 <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
             {% endif %}
@@ -97,6 +103,7 @@
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script type="text/javascript">
+        var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
         var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
         var stripe_handler = StripeCheckout.configure({
@@ -104,7 +111,8 @@
             locale: 'auto',
             email: '{{ request.user.email|escapejs }}',
             token: function(token) {
-                $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id, num_shares: 1})
+                var num_shares = parseInt($('.invest-num-shares > input').val());
+                $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id, num_shares: num_shares})
                     .done(function(resp) {
                         // Show success
                         var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';

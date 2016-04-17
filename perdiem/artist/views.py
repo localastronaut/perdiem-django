@@ -53,6 +53,7 @@ class ArtistDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ArtistDetailView, self).get_context_data(*args, **kwargs)
         context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
+        context['PERDIEM_FEE'] = settings.PERDIEM_FEE
 
         campaigns = context['artist'].campaign_set.all().order_by('-start_datetime')
         if campaigns.exists():

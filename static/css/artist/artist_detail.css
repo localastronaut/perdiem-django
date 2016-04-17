@@ -5,3 +5,19 @@ h1, h2, li, p, a {
 .container {
     text-align: center;
 }
+
+.invest-num-shares {
+    margin-bottom: 16px;
+}
+
+.invest-num-shares > button {
+    display: inline-block;
+    margin: 0;
+}
+
+.invest-num-shares > input {
+    display: inline-block;
+    margin: 0;
+    width: 75px;
+    text-align: right;
+}
