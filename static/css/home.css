@@ -2,14 +2,13 @@
     height: 100vh;
 }
 
-div.how-container{
+#how-page {
     padding: 30px 30px 30px 30px;
 }
 
 h1.how-title {
-	text-align: center;
+    text-align: center;
     color: #000;
-
 }
 
 p.how-page {
