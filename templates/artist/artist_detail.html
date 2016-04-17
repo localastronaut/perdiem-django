@@ -5,7 +5,6 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
-
 {% endblock %}
 
 {% block content %}
@@ -100,10 +99,7 @@
             {% endfor %}
             <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
         </ul>
-<!-- Test Chart -->
 
-
-<!-- End Test Chart -->
         <h2>What Do You Get For Investing?</h2>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <h3>Percentage</h3>
@@ -135,7 +131,6 @@
     {% endif %}
 {% endblock %}
 
-<<<<<<< Updated upstream
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script type="text/javascript">
@@ -167,5 +162,3 @@
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-detail.js" %}"></script>
 {% endblock %}
-=======
->>>>>>> Stashed changes
