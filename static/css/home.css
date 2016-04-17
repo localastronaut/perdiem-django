@@ -2,8 +2,8 @@
     height: 100vh;
 }
 
-div {
-    padding: 10px 10px 10px 10px;
+div.how-container{
+    padding: 30px 30px 30px 30px;
 }
 
 h1.how-title {
