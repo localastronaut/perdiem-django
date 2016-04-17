@@ -46,7 +46,7 @@ $(document).ready(function() {
         // Update invest button text
         var button_text = "Buy " + num_shares + " Share";
         if (num_shares !== 1) button_text += "s";
-        var amount = get_total_cost_cents() / 100;
+        var amount = parseFloat(get_total_cost_cents() / 100).toFixed(2);
         button_text += " ($" + amount + ")*";
         $('button#invest-button').text(button_text);
     }
