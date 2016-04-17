@@ -22,10 +22,163 @@
         {% endif %}
         <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
     </div>
+<!--     How it works page -->
+    <div class"how-container">
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
-        <h1>How It Works</h1>
-        <p>1. AN ARTIST NEEDS TO RAISE MONEY TO CREATE THEIR MUSIC</p>
+        <h1 class="how-title">How It Works</h1>
+        <p class="how-page">1. AN ARTIST NEEDS TO RAISE MONEY TO CREATE THEIR MUSIC</p>
+      <br />
+<div id="canvas-box">
+            <canvas id="bar-canvas" height="450" width="600"></canvas>
+        </div>
+
+
+    <script>
+    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+
+    var barChartData = {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            },
+            {
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205,0.8)",
+                highlightFill : "rgba(151,187,205,0.75)",
+                highlightStroke : "rgba(151,187,205,1)",
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            }
+        ]
+
+    }
+
+    </script>
+  <p class="how-copy">Artists can raise as much as they need</p>
+        <p class="how-p">100% of the investment goes directly to the artist. The only cost is $1 (+ credit card fee) to invest in an artist. </p>
+        <br />
+
+        <p class="how-page">2. THE ARTIST GIVES A PERCENTAGE OF SALES TO PEOPLE WHO INVEST IN THE MUSIC PROJECT</p>
+        <br />
+
+<div id="canvas-box">
+<div id="canvas-holder">
+            <canvas id="chart-area" width="500" height="500"/>
+        </div>
+
+
+    <script>
+
+        var doughnutData = [
+                {
+                    value: 300,
+                    color:"#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Red"
+                },
+                {
+                    value: 50,
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "Green"
+                },
+                {
+                    value: 100,
+                    color: "#FDB45C",
+                    highlight: "#FFC870",
+                    label: "Yellow"
+                },
+                {
+                    value: 40,
+                    color: "#949FB1",
+                    highlight: "#A8B3C5",
+                    label: "Grey"
+                },
+                {
+                    value: 120,
+                    color: "#4D5360",
+                    highlight: "#616774",
+                    label: "Dark Grey"
+                }
+
+            ];
+                
+
+
+
+
+    </script>
+
+    <p class="how-copy">ARTISTS KEEP FULL OWNERSHIP AND CONTROL OF THEIR MUSIC.</p>
+        <p class="how-p">An artist gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. PerDiem takes care of all the complicated stuff (tracking, managing, and distributing funds). </p>
+        <br />
+
+        <p class="how-page">3. REVENUE IS SPLIT FROM THE PROJECT BETWEEN THE ARTIST AND THE PEOPLE WHO INVEST IN IT</p>
+        <div id="canvas-box">
+                <canvas id="line-canvas"></canvas>
+        </div>
+                    <script>
+        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+        var lineChartData = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : [
+                {
+                    label: "Artist Revenue",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                },
+                {
+                    label: "Investor income",
+                    fillColor : "rgba(151,187,205,0.2)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(151,187,205,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                }
+            ]
+
+        }
+
+    window.onload = function(){
+        var ctxbar = document.getElementById("bar-canvas").getContext("2d");
+        window.myBar = new Chart(ctxbar).Bar(barChartData, {
+            responsive : true
+        });
+        var ctxchart = document.getElementById("chart-area").getContext("2d");
+        window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
+            responsive : true
+        });
+        var ctxline = document.getElementById("line-canvas").getContext("2d");
+        window.myLine = new Chart(ctxline).Line(lineChartData, {
+            responsive: true
+        });
+    }
+
+
+    </script>
+
+        <p class="how-copy">PEOPLE NOW HAVE AN INCENTIVE TO BUY AND PROMOTE THE ARTISTS MUSIC</p>
+        <p class="how-p">100% of revenue earned from the project is split between the artist and investors. Since the success of their investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn.</p>
+        <br />
+        <br />
+        <br />
+
+        <p class="how-copy">WANT TO LEARN EVEN MORE?</p>
+        <p class="how-p">CHECK OUT OUR FAQ AND TRUST & SAFETY
+        <br />JOIN OUR VIP LIST </p>
+<!-- How it works page end -->
     </div>
 {% endblock %}
 

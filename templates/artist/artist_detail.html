@@ -4,6 +4,8 @@
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
+
 {% endblock %}
 
 {% block content %}
@@ -17,6 +19,35 @@
     {% if campaign %}
         <h2>Goal</h2>
         <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
+        <!-- Countdown Widget -->
+        <div id=countdown-wrap>
+          <div id="glass">
+            <div id="progress"></div>
+          </div>
+          <div id=countdown-stats>
+          <div class="goal-stat">
+            <span class="goal-number">{{ campaign.percentage_funded }}%</span>
+            <span class="goal-label">Funded</span>
+          </div>
+          <div class="goal-stat">
+            <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
+            <span class="goal-label">Raised</span>
+          </div>
+          <div class="goal-stat">
+            <span class="goal-number">{{ campaign.days_remaining }}</span>
+            <span class="goal-label">Days to Go</span>
+          </div>
+          <div class="goal-stat">
+            {% with num_investors=investors|length %}
+                <span class="goal-number">{{ num_investors }}</span>
+                <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
+            {% endwith %}
+          </div>
+        </div>
+        <!-- Countdown Widget -->
+
+        <br />
+        <br />
         <ul>
             <li>{{ campaign.percentage_funded }}% funded</li>
             <li>${{ campaign.amount_raised|intcomma }} raised</li>
@@ -46,7 +77,8 @@
             <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
         {% endif %}
     {% endif %}
-
+        <br />
+        <br />
     {% if artist.bio %}
         <h2>Our Story</h2>
         {{ artist.bio.bio|safe }}
@@ -68,7 +100,10 @@
             {% endfor %}
             <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
         </ul>
+<!-- Test Chart -->
 
+
+<!-- End Test Chart -->
         <h2>What Do You Get For Investing?</h2>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <h3>Percentage</h3>
@@ -100,6 +135,7 @@
     {% endif %}
 {% endblock %}
 
+<<<<<<< Updated upstream
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script type="text/javascript">
@@ -131,3 +167,5 @@
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-detail.js" %}"></script>
 {% endblock %}
+=======
+>>>>>>> Stashed changes
