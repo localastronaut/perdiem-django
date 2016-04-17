@@ -31,15 +31,6 @@
   overflow: hidden;
 }
 
-#progress {
-  float: left;
-  width: 16%;
-  height: 20px;
-  background: #3090C7;
-  z-index: 333;
-  //border-radius: 5px;
-}
-
 .goal-stat {
   width: 20%;
   height: 30px;
