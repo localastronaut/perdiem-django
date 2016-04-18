@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Unsubscribed</h1>
+    {% if success %}
+        <p>The email address {{ user.email }} has been unsuccessfully unsubscribed from our system.</p>
+    {% else %}
+        <p>This link is invalid or has expired. Please try a link from a more recent email or sign in and try again.</p>
+    {% endif %}
+{% endblock %}

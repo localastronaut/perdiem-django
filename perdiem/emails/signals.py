@@ -8,7 +8,8 @@ from django.dispatch import receiver
 
 from pinax.stripe.models import Charge
 from pinax.stripe.webhooks import registry
-from templated_email import send_templated_mail
+
+from emails.messages import InvestSuccessEmail
 
 
 @receiver(registry.get_signal("charge.succeeded"))
@@ -19,15 +20,4 @@ def charge_succeeded_handler(sender, **kwargs):
     investment = charge.investment
 
     # Send out email for investing
-    investor = investment.investor()
-    context = {
-        'artist': investment.campaign.artist,
-        'campaign': investment.campaign,
-        'num_shares': investment.num_shares,
-    }
-    send_templated_mail(
-        template_name='invest_success',
-        from_email='noreply@investperdiem.com',
-        recipient_list=[investor.email],
-        context=context
-    )
+    InvestSuccessEmail().send(user=investment.investor(), investment=investment)

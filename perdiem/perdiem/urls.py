@@ -13,11 +13,13 @@ from django.views.static import serve
 from artist.views import CoordinatesFromAddressView, ArtistListView, \
     ArtistDetailView
 from campaign.views import PaymentChargeView
+from emails.views import UnsubscribeView
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^unsubscribe/(?P<username>[\w.@+-]+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
     url(r'^payments/charge/(?P<campaign_id>\d+)/?$', PaymentChargeView.as_view(), name='pinax_stripe_charge'),
     url(r'^payments/', include('pinax.stripe.urls')),
     url(r'^api/coordinates/?$', CoordinatesFromAddressView.as_view(), name='coordinates'),

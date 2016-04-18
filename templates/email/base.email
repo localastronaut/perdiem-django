@@ -1,0 +1,9 @@
+{% block plain %}
+    {% block plain_body %}{% endblock %}
+    To unsubscribe from all emails from PerDiem, go to: {{ unsubscribe_url }}.
+{% endblock %}
+
+{% block html %}
+    {% block html_body %}{% endblock %}
+    To unsubscribe from all emails from PerDiem, click <a href="{{ unsubscribe_url }}">here</a>.
+{% endblock %}

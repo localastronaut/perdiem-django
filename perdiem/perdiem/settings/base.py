@@ -32,6 +32,7 @@ class BaseSettings(DjangoDefaults):
         'accounts.apps.AccountsConfig',
         'artist.apps.ArtistConfig',
         'campaign.apps.CampaignConfig',
+        'emails.apps.EmailsConfig',
     )
     MIDDLEWARE_CLASSES = (
         'django.contrib.sessions.middleware.SessionMiddleware',
