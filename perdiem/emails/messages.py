@@ -22,7 +22,8 @@ class BaseEmail(object):
 
     def get_context_data(self, user, **kwargs):
         return {
-            'unsubscribe_url': create_unsubscribe_link(user)
+            'user': user,
+            'unsubscribe_url': create_unsubscribe_link(user),
         }
 
     def send(self, user, context={}, **kwargs):
@@ -34,6 +35,11 @@ class BaseEmail(object):
                 recipient_list=[user.email],
                 context=context
             )
+
+
+class WelcomeEmail(BaseEmail):
+
+    template_name = 'welcome'
 
 
 class InvestSuccessEmail(BaseEmail):

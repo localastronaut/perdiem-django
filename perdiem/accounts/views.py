@@ -14,6 +14,7 @@ from django.views.generic.edit import CreateView
 from accounts.forms import RegisterAccountForm
 from artist.models import Artist
 from campaign.models import Campaign, Investment
+from emails.messages import WelcomeEmail
 
 
 class RegisterAccountView(CreateView):
@@ -33,6 +34,9 @@ class RegisterAccountView(CreateView):
         user = authenticate(username=username, password=password)
         if user:
             login(self.request, user)
+
+        # Send user welcome email
+        WelcomeEmail().send(user=user)
 
         return valid
 
