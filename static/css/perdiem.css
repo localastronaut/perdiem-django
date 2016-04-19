@@ -24,7 +24,7 @@ ul {
 p {
     font-size: 20px;
     font-weight: 400;
-    color: #fff;
+    color: #000;
 }
 
 p.text-center {
@@ -78,8 +78,26 @@ canvas {
     text-align: center;
 }
 
-#canvas-holder{
+#canvas-holder {
     width:30%;
     padding: 0;
     margin: auto;
+}
+
+h1.profile-header {
+    color: #000;
+}
+
+p.profile-body {
+    color: #000;
+}
+
+
+h1.privacy-title {
+    color: #000;
+}
+
+p.footer {
+    color: #000;
+    text-align: center;
 }

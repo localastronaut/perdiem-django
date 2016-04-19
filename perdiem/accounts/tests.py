@@ -13,6 +13,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         return [
             '/',
             '/faq/',
+            '/privacy/',
             '/accounts/register/',
             '/accounts/profile/',
         ]

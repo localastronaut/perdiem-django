@@ -14,7 +14,7 @@
 
 {% block content %}
     <div id="home-page" class="page">
-        <h1>PerDiem</h1>
+        <h1 class="home-title">PERDIEM</h1>
         {% if user.is_authenticated %}
             <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
@@ -61,6 +61,8 @@
         <p class="how-copy">WANT TO LEARN EVEN MORE?</p>
         <p class="how-p">CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND TRUST &amp; SAFETY
         <br />JOIN OUR VIP LIST </p>
+        <br />
+        <p class="footer"><a href="{% url 'privacy' %}">Privacy</a></p>
         <!-- How it works end -->
     </div>
 {% endblock %}
