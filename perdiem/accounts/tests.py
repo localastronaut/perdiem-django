@@ -12,6 +12,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/',
+            '/faq/',
             '/accounts/register/',
             '/accounts/profile/',
         ]
