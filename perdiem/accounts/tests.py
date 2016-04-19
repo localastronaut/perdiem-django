@@ -14,6 +14,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/',
             '/faq/',
             '/privacy/',
+            '/404/',
             '/accounts/register/',
             '/accounts/profile/',
         ]

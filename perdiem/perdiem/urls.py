@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^artists/?$', ArtistListView.as_view(), name='artists'),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
 
-    url(r'^privacty/?$', TemplateView.as_view(template_name='extra/privacy.html'), name='privacy'),
+    url(r'^404/?$', TemplateView.as_view(template_name='extra/404.html'), name='404'),
+    url(r'^privacy/?$', TemplateView.as_view(template_name='extra/privacy.html'), name='privacy'),
     url(r'^faq/?$', TemplateView.as_view(template_name='extra/faq.html'), name='faq'),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
 ]

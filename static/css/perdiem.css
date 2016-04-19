@@ -4,14 +4,14 @@ h1, h2, h3, p, li, input [type=submit] {
 h1 {
     text-align: center;
     font-size: 100px;
-    color: #fff;
+    color: #000;
     font-weight: 200;
 }
 
 h2 {
     text-align: center;
     font-size: 50px;
-    color: #fff;
+    color: #000;
     font-weight: 200;
 }
 
@@ -100,4 +100,10 @@ h1.privacy-title {
 p.footer {
     color: #000;
     text-align: center;
+}
+
+img.404 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
