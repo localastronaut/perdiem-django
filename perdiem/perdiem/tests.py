@@ -137,15 +137,12 @@ class PerDiemTestCase(TestCase):
             self.assertResponseRenders(url)
 
 
-class AdminHomeWebTestCase(PerDiemTestCase):
+class AdminWebTestCase(PerDiemTestCase):
 
     def get200s(self):
         return [
             '/admin/',
         ]
-
-
-class AdminLoginWebTestCase(PerDiemTestCase):
 
     def testAdminLoginPageRenders(self):
         self.client.logout()
