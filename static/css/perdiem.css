@@ -96,18 +96,6 @@ canvas {
     margin: auto;
 }
 
-h1.profile-header {
-    color: #000;
-}
-
-p.profile-body {
-    color: #000;
-}
-
-h1.privacy-title {
-    color: #000;
-}
-
 .footer {
     width: 100%;
     height: 100px;
