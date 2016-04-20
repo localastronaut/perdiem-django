@@ -9,12 +9,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
-from accounts.forms import RegisterAccountForm
+from accounts.forms import RegisterAccountForm, ContactForm
 from artist.models import Artist
 from campaign.models import Campaign, Investment
-from emails.messages import WelcomeEmail
+from emails.messages import WelcomeEmail, ContactEmail
 
 
 class RegisterAccountView(CreateView):
@@ -72,3 +72,33 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context['total_earned'] = total_earned
 
         return context
+
+
+class ContactFormView(FormView):
+
+    template_name = 'registration/contact.html'
+    form_class = ContactForm
+
+    def get_success_url(self):
+        return reverse('contact_thanks')
+
+    def get_initial(self):
+        initial = super(ContactFormView, self).get_initial()
+        user = self.request.user
+        if user.is_authenticated():
+            initial['email'] = user.email
+            initial['first_name'] = user.first_name
+            initial['last_name'] = user.last_name
+        return initial
+
+    def form_valid(self, form):
+        # Add user_id to context, if available
+        context = form.cleaned_data
+        user = self.request.user
+        if user.is_authenticated():
+            context['user_id'] = user.id
+
+        # Send contact email
+        ContactEmail().send_to_email(email='support@investperdiem.com', context=context)
+
+        return super(ContactFormView, self).form_valid(form)

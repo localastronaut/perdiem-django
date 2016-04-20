@@ -1,6 +1,6 @@
 {% extends "email/base.email" %}
 
-{% block subject %}Welcome to PerDiem!{% endblock %}
+{% block email_subject %}Welcome to PerDiem!{% endblock %}
 
 {% block plain_body %}
     Thanks for joining PerDiem!

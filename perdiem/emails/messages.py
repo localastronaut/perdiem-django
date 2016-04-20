@@ -26,20 +26,28 @@ class BaseEmail(object):
             'unsubscribe_url': create_unsubscribe_link(user),
         }
 
+    def send_to_email(self, email, context={}):
+        send_templated_mail(
+            template_name=self.get_template_name(),
+            from_email='noreply@investperdiem.com',
+            recipient_list=[email],
+            context=context
+        )
+
     def send(self, user, context={}, **kwargs):
         context.update(self.get_context_data(user, **kwargs))
         if self.ignore_unsubscribed or EmailSubscription.objects.is_subscribed(user):
-            send_templated_mail(
-                template_name=self.get_template_name(),
-                from_email='noreply@investperdiem.com',
-                recipient_list=[user.email],
-                context=context
-            )
+            self.send_to_email(user.email, context)
 
 
 class WelcomeEmail(BaseEmail):
 
     template_name = 'welcome'
+
+
+class ContactEmail(BaseEmail):
+
+    template_name = 'contact'
 
 
 class InvestSuccessEmail(BaseEmail):

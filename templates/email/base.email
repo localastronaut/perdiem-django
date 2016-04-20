@@ -1,9 +1,15 @@
+{% block subject %}{% block email_subject %}A message from PerDiem{% endblock %}{% endblock %}
+
 {% block plain %}
     {% block plain_body %}{% endblock %}
-    To unsubscribe from all emails from PerDiem, go to: {{ unsubscribe_url }}.
+    {% if unsubscribe_url %}
+        To unsubscribe from all emails from PerDiem, go to: {{ unsubscribe_url }}.
+    {% endif %}
 {% endblock %}
 
 {% block html %}
     {% block html_body %}{% endblock %}
-    To unsubscribe from all emails from PerDiem, click <a href="{{ unsubscribe_url }}">here</a>.
+    {% if unsubscribe_url %}
+        To unsubscribe from all emails from PerDiem, click <a href="{{ unsubscribe_url }}">here</a>.
+    {% endif %}
 {% endblock %}

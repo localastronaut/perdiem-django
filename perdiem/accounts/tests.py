@@ -14,6 +14,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/',
             '/faq/',
             '/privacy/',
+            '/contact/',
             '/404/',
             '/accounts/register/',
             '/accounts/profile/',
@@ -47,4 +48,12 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
                 'password1': self.USER_PASSWORD,
                 'password2': self.USER_PASSWORD,
             }
+        )
+
+    def testContact(self):
+        self.assertResponseRedirects(
+            '/contact/',
+            '/contact/thanks',
+            method='POST',
+            data={'inquiry': 'General Inquiry', 'email': 'msmith@example.com', 'message': 'Hello World!',}
         )
