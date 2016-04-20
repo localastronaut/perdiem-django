@@ -113,7 +113,6 @@ canvas {
 .footer-items > li {
     display: inline;
     float: center;
-    vertical-align: center;
 }
 
 .footer-items a {
