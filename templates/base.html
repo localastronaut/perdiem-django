@@ -12,28 +12,30 @@
         {% block extrastyle %}{% endblock %}
     </head>
     <body>
-        <!-- Nav -->
-        <ul class="nav">
-            <li><a class="active" href="{% url 'home' %}">Home</a></li>
-            <li><a class="active" href="{% url 'home' %}#how">How It Works</a></li>
-            <li><a class="active" href="{% url 'artists' %}">Artists</a></li>
-            {% if user.is_authenticated %}
-                <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
-                <li style="float: right;"><a href="{% url 'profile' %}">Profile</a></li>
-            {% else %}
-                <li style="float: right;"><a data-open="login-modal">Login</a></li>
-            {% endif %}
-        </ul>
+        <div class="full-page">
+            <!-- Nav -->
+            <ul class="nav">
+                <li><a class="active" href="{% url 'home' %}">Home</a></li>
+                <li><a class="active" href="{% url 'home' %}#how">How It Works</a></li>
+                <li><a class="active" href="{% url 'artists' %}">Artists</a></li>
+                {% if user.is_authenticated %}
+                    <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
+                    <li style="float: right;"><a href="{% url 'profile' %}">Profile</a></li>
+                {% else %}
+                    <li style="float: right;"><a data-open="login-modal">Login</a></li>
+                {% endif %}
+            </ul>
 
-        <!-- Content -->
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-        </div>
+            <!-- Content -->
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p class="footer"><a href="{% url 'privacy' %}">Privacy</a></p>
+            <!-- Footer -->
+            <div class="footer">
+                <p><a href="{% url 'privacy' %}">Privacy</a></p>
+            </div>
         </div>
 
         <!-- Success Modal -->

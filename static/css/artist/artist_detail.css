@@ -6,6 +6,10 @@ h1, h2, li, p, a {
     text-align: center;
 }
 
+#countdown-wrap {
+    height: 150px;
+}
+
 .invest-num-shares {
     margin-bottom: 16px;
 }

@@ -3,8 +3,8 @@
 {% load staticfiles %}
 
 {% block extrastyle %}
-    <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{% static "css/artist/artist_detail.css" %}" type="text/css" charset="utf-8" />
     <style>
         #progress {
             float: left;
@@ -28,34 +28,33 @@
         <h2>Goal</h2>
         <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
         <!-- Countdown Widget -->
-        <div id=countdown-wrap>
-          <div id="glass">
-            <div id="progress"></div>
-          </div>
-          <div id=countdown-stats>
-          <div class="goal-stat">
-            <span class="goal-number">{{ campaign.percentage_funded }}%</span>
-            <span class="goal-label">Funded</span>
-          </div>
-          <div class="goal-stat">
-            <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
-            <span class="goal-label">Raised</span>
-          </div>
-          <div class="goal-stat">
-            <span class="goal-number">{{ campaign.days_remaining }}</span>
-            <span class="goal-label">Days to Go</span>
-          </div>
-          <div class="goal-stat">
-            {% with num_investors=investors|length %}
-                <span class="goal-number">{{ num_investors }}</span>
-                <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
-            {% endwith %}
-          </div>
+        <div id="countdown-wrap">
+            <div id="glass">
+                <div id="progress"></div>
+            </div>
+            <div id="countdown-stats">
+                <div class="goal-stat">
+                    <span class="goal-number">{{ campaign.percentage_funded }}%</span>
+                    <span class="goal-label">Funded</span>
+                </div>
+                <div class="goal-stat">
+                    <span class="goal-number">${{ campaign.amount_raised|intcomma }}</span>
+                    <span class="goal-label">Raised</span>
+                </div>
+                <div class="goal-stat">
+                    <span class="goal-number">{{ campaign.days_remaining }}</span>
+                    <span class="goal-label">Days to Go</span>
+                </div>
+                <div class="goal-stat">
+                    {% with num_investors=investors|length %}
+                        <span class="goal-number">{{ num_investors }}</span>
+                        <span class="goal-label">Investor{{ num_investors|pluralize }}</span>
+                    {% endwith %}
+                </div>
+            </div>
         </div>
         <!-- Countdown Widget -->
 
-        <br />
-        <br />
         <ul>
             <li>{{ campaign.percentage_funded }}% funded</li>
             <li>${{ campaign.amount_raised|intcomma }} raised</li>
