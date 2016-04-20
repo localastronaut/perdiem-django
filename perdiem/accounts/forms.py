@@ -21,3 +21,18 @@ class RegisterAccountForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ContactForm(forms.Form):
+
+    INQUIRY_CHOICES = (
+        ('Support', 'Support',),
+        ('Feedback', 'Feedback',),
+        ('General Inquiry',  'General Inquiry',),
+    )
+
+    inquiry = forms.ChoiceField(choices=INQUIRY_CHOICES)
+    email = forms.EmailField()
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    message = forms.CharField(widget=forms.Textarea)

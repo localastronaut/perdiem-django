@@ -10,6 +10,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
 
+from accounts.views import ContactFormView
 from artist.views import CoordinatesFromAddressView, ArtistListView, \
     ArtistDetailView
 from campaign.views import PaymentChargeView
@@ -28,6 +29,8 @@ urlpatterns = [
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
 
     url(r'^faq/?$', TemplateView.as_view(template_name='extra/faq.html'), name='faq'),
+    url(r'^contact/thanks/?$', TemplateView.as_view(template_name='registration/contact_thanks.html'), name='contact_thanks'),
+    url(r'^contact/?$', ContactFormView.as_view(), name='contact'),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
 
