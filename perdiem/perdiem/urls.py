@@ -30,6 +30,8 @@ urlpatterns = [
 
     url(r'^500/?$', TemplateView.as_view(template_name='extra/500.html'), name='500'),
     url(r'^404/?$', TemplateView.as_view(template_name='extra/404.html'), name='404'),
+    url(r'^terms of use/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
+    url(r'^trust & safety/?$', TemplateView.as_view(template_name='extra/trust.html'), name='trust'),
     url(r'^privacy/?$', TemplateView.as_view(template_name='extra/privacy.html'), name='privacy'),
     url(r'^faq/?$', TemplateView.as_view(template_name='extra/faq.html'), name='faq'),
     url(r'^contact/thanks/?$', TemplateView.as_view(template_name='registration/contact_thanks.html'), name='contact_thanks'),

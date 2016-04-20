@@ -110,6 +110,17 @@ canvas {
     color: #000;
 }
 
+.footer-items > li {
+    display: inline;
+    float: center;
+    vertical-align: center;
+}
+
+.footer-items a {
+    padding: 5px 5px;
+    text-decoration: none;
+}
+
 img.img-404 {
     display: block;
     margin-left: auto;
