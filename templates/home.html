@@ -6,8 +6,9 @@
     <style>
         #home-page {
             background-image: url("{% static "img/perdiem.jpg" %}");
-            background-size: 100% auto;
+            background-size: auto 100%;
             background-repeat: no-repeat;
+            background-position: center;
         }
     </style>
 {% endblock %}
@@ -15,6 +16,7 @@
 {% block content %}
     <div id="home-page" class="page">
         <h1 class="home-title">PERDIEM</h1>
+        <h2 class="home-description">CROWDSOURCED INVESTING IN MUSIC</h2>
         {% if user.is_authenticated %}
             <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
@@ -33,7 +35,7 @@
         </div>
 
         <p class="how-copy">Artists can raise as much as they need</p>
-        <p class="how-p">100% of the investment goes directly to the artist. The only cost is $1 (+ credit card fee) to invest in an artist.</p>
+        <h4 class="how-p">100% of the investment goes directly to the artist. The only cost is $1 (+ credit card fee) to invest in an artist.</h4>
         <br />
 
         <p class="how-page">2. THE ARTIST GIVES A PERCENTAGE OF SALES TO PEOPLE WHO INVEST IN THE MUSIC PROJECT</p>
@@ -44,7 +46,7 @@
         </div>
 
         <p class="how-copy">ARTISTS KEEP FULL OWNERSHIP AND CONTROL OF THEIR MUSIC.</p>
-        <p class="how-p">An artist gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. PerDiem takes care of all the complicated stuff (tracking, managing, and distributing funds). </p>
+        <h4 class="how-p">An artist gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. PerDiem takes care of all the complicated stuff (tracking, managing, and distributing funds). </h4>
         <br />
 
         <p class="how-page">3. REVENUE IS SPLIT FROM THE PROJECT BETWEEN THE ARTIST AND THE PEOPLE WHO INVEST IN IT</p>
@@ -53,7 +55,7 @@
         </div>
 
         <p class="how-copy">PEOPLE NOW HAVE AN INCENTIVE TO BUY AND PROMOTE THE ARTISTS MUSIC</p>
-        <p class="how-p">100% of revenue earned from the project is split between the artist and investors. Since the success of their investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn.</p>
+        <h4 class="how-p">100% of revenue earned from the project is split between the artist and investors. Since the success of their investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn.</h4>
         <br />
         <br />
         <br />
