@@ -101,6 +101,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Artist Bio -->
         <h2>Our Story</h2>
         {{ artist.bio.bio|safe }}
     {% endif %}
@@ -109,6 +110,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Music -->
         <h2>Music</h2>
         {% for playlist in artist.soundcloudplaylist_set.all %}
             <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
@@ -119,6 +121,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- What is the money being used for? -->
         <h2>What is the Money Being Used For?</h2>
         <p>{{ campaign.use_of_funds }}</p>
         <ul>
@@ -135,6 +138,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Percentage -->
         <h3>Percentage</h3>
         <ul>
             <li>{{ artist.name }}: {{ campaign.artist_percentage }}%</li>
@@ -144,6 +148,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Return on Investment -->
         <h3>Return on Investment</h3>
         <p>For example: If this project earns ${{ campaign.revenue_to_2x|intcomma }} in revenue, every investor will 2x their investment.</p>
     {% endif %}
@@ -152,6 +157,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Socials -->
         <h2>Follow Us!</h2>
         <ul>
             {% for social in artist.social_set.all %}
@@ -164,6 +170,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- Current Investors -->
         <h2>Current Investors</h2>
         <ul>
             {% for investor in investors %}
