@@ -36,6 +36,7 @@ p {
     font-size: 20px;
     font-weight: 400;
     color: #000;
+    text-align: center;
 }
 
 p.text-center {
@@ -43,8 +44,12 @@ p.text-center {
 }
 
 a {
-    color: #ebebeb;
+    color: #000;
     text-decoration: none;
+}
+
+a:hover {
+    color: #80b3ff;
 }
 
 html,
@@ -135,4 +140,14 @@ img.img-404 {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+h2.profile-header {
+    text-align: center;
+    font-size: 25px;
+}
+
+p.profile-total {
+    text-align: center;
+    font-size: 25px;
 }

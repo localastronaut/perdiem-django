@@ -3,17 +3,27 @@
 
 {% block content %}
     <h1>Profile</h1>
+    <h2 class="profile-header">Good morning {% firstof user.get_full_name user.get_username %}!</h2>
     {% if artists %}
+    <div class="investments">
+    <div class="break">
+    <hr>
+    </div>
+    <h2> Portfolio</h2>
+        <p> Here are the artists that you have invested in:</p>
         <ul>
             {% for artist in artists %}
                 <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
             {% endfor %}
         </ul>
-        <p>Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
+        <div class="break">
+        <hr>
+        </div>
+        <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
         {% if total_earned %}
-            <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
+            <p >Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
         {% else %}
-            <p>Your money is going towards making some sweet music!</p>
+            <p class="profile-total">Your money is going towards making some sweet music!</p>
         {% endif %}
     {% else %}
         <p>You haven't invested in anything yet!</p>
