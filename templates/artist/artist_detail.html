@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+<!-- Artist Name -->
     <h1 class="header-font">{{ artist.name }}</h1>
     <div class="break">
     <hr>
@@ -33,9 +34,10 @@
     <hr>
     </div>
     {% if campaign %}
+<!-- Goal -->
         <h2>Goal</h2>
         <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
-        <!-- Countdown Widget -->
+<!-- Countdown Widget -->
         <div id="countdown-wrap">
             <div id="glass">
                 <div id="progress"></div>
@@ -62,20 +64,11 @@
             </div>
         </div>
         <!-- Countdown Widget -->
-
-        <ul>
-            <li>{{ campaign.percentage_funded }}% funded</li>
-            <li>${{ campaign.amount_raised|intcomma }} raised</li>
-            {% with num_investors=investors|length %}
-                <li>{{ num_investors }} investor{{ num_investors|pluralize }}</li>
-            {% endwith %}
-            {% if campaign.days_remaining != None %}
-                <li>{{ campaign.days_remaining }} day{{ campaign.days_remaining|pluralize}} remaining</li>
-            {% endif %}
         </ul>
         <div class="break">
         <hr>
         </div>
+<!-- Buy Shares -->
         <h2>Buy Shares</h2>
         {% if campaign.open %}
             {% if request.user.is_authenticated %}
@@ -133,6 +126,7 @@
         <div class="break">
         <hr>
         </div>
+<!-- What do you get for investing? -->
         <h2>What Do You Get For Investing?</h2>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <div class="break">
