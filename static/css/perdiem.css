@@ -38,10 +38,6 @@ p {
     color: #000;
 }
 
-p.text-center {
-    text-align: center;
-}
-
 a {
     color: #ebebeb;
     text-decoration: none;

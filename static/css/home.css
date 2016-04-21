@@ -38,3 +38,8 @@ p.how-p {
 .heading-center {
     padding-top: 25%;
 }
+
+p.home-text {
+    text-align: center;
+    color: #ffffff;
+}
