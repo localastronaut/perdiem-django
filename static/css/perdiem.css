@@ -136,3 +136,8 @@ img.img-404 {
     margin-left: auto;
     margin-right: auto;
 }
+
+.break {
+    padding-left: 5%;
+    padding-right: 5%;
+}
