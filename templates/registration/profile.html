@@ -8,23 +8,24 @@
         <div class="investments">
             <div class="break">
                 <hr>
-    </div>
-    <h2> Portfolio</h2>
-        <p> Here are the artists that you have invested in:</p>
-        <ul>
-            {% for artist in artists %}
-                <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
-            {% endfor %}
-        </ul>
+            </div>
+            <h2>Portfolio</h2>
+            <p>Here are the artists that you have invested in:</p>
+            <ul>
+                {% for artist in artists %}
+                    <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
+                {% endfor %}
+            </ul>
             <div class="break">
                 <hr>
+            </div>
+            <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
+            {% if total_earned %}
+                <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
+            {% else %}
+                <p class="profile-total">Your money is going towards making some sweet music!</p>
+            {% endif %}
         </div>
-        <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
-        {% if total_earned %}
-            <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
-        {% else %}
-            <p class="profile-total">Your money is going towards making some sweet music!</p>
-        {% endif %}
     {% else %}
         <p>You haven't invested in anything yet!</p>
     {% endif %}
