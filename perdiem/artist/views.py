@@ -44,6 +44,10 @@ class ArtistListView(ListView):
     template_name = 'artist/artist_list.html'
     context_object_name = 'artists'
 
+    def genre(self, artist):
+        artist.genre = ', '.join(artist.genres.all().values_list('name', flat=True))
+        return artist.genre
+
     def percentage_funded(self, artist):
         campaign = artist.latest_campaign()
         if campaign:
@@ -57,6 +61,8 @@ class ArtistListView(ListView):
         order_by_name = self.request.GET.get('sort', 'date')
         if order_by_name == 'funded':
             ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
+        elif order_by_name == 'genre':
+            ordered_artists = sorted(artists, key=self.genre)
         else:
             ordered_artists = artists.order_by('id')
 
@@ -74,8 +80,8 @@ class ArtistDetailView(DetailView):
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
 
         campaign = context['artist'].latest_campaign()
-        context['campaign'] = campaign
         if campaign:
+            context['campaign'] = campaign
             context['investors'] = campaign.investors()
 
         return context
