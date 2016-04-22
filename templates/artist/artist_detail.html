@@ -63,14 +63,17 @@
                 </div>
             </div>
         </div>
+        {% if campaign.days_remaining == 0 %}
+            <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
+        {% endif %}
         <!-- Countdown Widget -->
         </ul>
-        <div class="break">
-            <hr>
-        </div>
-    <!-- Buy Shares -->
-        <h2>Buy Shares</h2>
+        <!-- Buy Shares -->
         {% if campaign.open %}
+            <div class="break">
+                <hr>
+            </div>
+            <h2>Buy Shares</h2>
             {% if request.user.is_authenticated %}
                 <div class="invest-num-shares">
                     <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
@@ -82,10 +85,6 @@
             {% else %}
                 <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
             {% endif %}
-        {% endif %}
-
-        {% if campaign.days_remaining == 0 %}
-            <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
         {% endif %}
     {% endif %}
         <br />
