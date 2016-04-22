@@ -29,6 +29,9 @@ class ArtistWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/artists/',
+            '/artists/?sort=date',
+            '/artists/?sort=genre',
+            '/artists/?sort=funded',
             '/artist/{slug}/'.format(slug=self.artist.slug),
         ]
 
