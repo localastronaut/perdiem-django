@@ -57,9 +57,11 @@ class ArtistListView(ListView):
             return funded
 
     def location(self, artist):
-        default_location = (0, 0,)
+        user_lat = self.request.GET.get('lat', 0)
+        user_lon = self.request.GET.get('lon', 0)
+        user_location = (user_lat, user_lon,)
         artist_location = (artist.lat, artist.lon,)
-        return distance(default_location, artist_location)
+        return distance(user_location, artist_location)
 
     def dispatch(self, request, *args, **kwargs):
         self.order_by = request.GET.get('sort', 'date')
