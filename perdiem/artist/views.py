@@ -41,8 +41,26 @@ class CoordinatesFromAddressView(PermissionRequiredMixin, View):
 
 class ArtistListView(ListView):
 
-    model = Artist
+    template_name = 'artist/artist_list.html'
     context_object_name = 'artists'
+
+    def percentage_funded(self, artist):
+        campaign = artist.latest_campaign()
+        if campaign:
+            funded = campaign.percentage_funded()
+            artist.funded = funded
+            return funded
+
+    def get_queryset(self):
+        artists = Artist.objects.all()
+
+        order_by_name = self.request.GET.get('sort', 'date')
+        if order_by_name == 'funded':
+            ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
+        else:
+            ordered_artists = artists.order_by('id')
+
+        return ordered_artists
 
 
 class ArtistDetailView(DetailView):
@@ -55,10 +73,8 @@ class ArtistDetailView(DetailView):
         context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
 
-        campaigns = context['artist'].campaign_set.all().order_by('-start_datetime')
-        if campaigns.exists():
-            campaign = campaigns[0]
-            context['campaign'] = campaign
+        context['campaign'] = context['artist'].latest_campaign()
+        if context['campaign']:
             context['investors'] = campaign.investors()
 
         return context

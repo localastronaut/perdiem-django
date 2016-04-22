@@ -29,6 +29,11 @@ class Artist(models.Model):
     def __unicode__(self):
         return self.name
 
+    def latest_campaign(self):
+        campaigns = self.campaign_set.all().order_by('-start_datetime')
+        if campaigns:
+            return campaigns[0]
+
 
 class Bio(models.Model):
 

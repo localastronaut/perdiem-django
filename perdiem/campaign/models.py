@@ -59,7 +59,7 @@ class Campaign(models.Model):
         try:
             return "{0:.0f}".format((float(self.amount_raised()) / self.amount) * 100)
         except ZeroDivisionError:
-            return 100
+            return '100'
 
     def days_remaining(self):
         if self.end_datetime:

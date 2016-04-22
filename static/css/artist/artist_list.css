@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+.artistlist.row > .column > p {
+    color: #fff;
+}
+
 .break {
     padding-left: 5%;
     padding-right: 5%;
