@@ -12,6 +12,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
 
+from geopy.distance import distance
 from geopy.geocoders import Nominatim
 
 from artist.forms import CoordinatesFromAddressForm
@@ -55,14 +56,30 @@ class ArtistListView(ListView):
             artist.funded = funded
             return funded
 
+    def location(self, artist):
+        default_location = (0, 0,)
+        artist_location = (artist.lat, artist.lon,)
+        return distance(default_location, artist_location)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.order_by = request.GET.get('sort', 'date')
+        return super(ArtistListView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ArtistListView, self).get_context_data(**kwargs)
+        context['order_by'] = self.order_by
+        return context
+
     def get_queryset(self):
         artists = Artist.objects.all()
 
-        order_by_name = self.request.GET.get('sort', 'date')
-        if order_by_name == 'funded':
-            ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
-        elif order_by_name == 'genre':
+        order_by_name = self.order_by
+        if order_by_name == 'genre':
             ordered_artists = sorted(artists, key=self.genre)
+        elif order_by_name == 'funded':
+            ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
+        elif order_by_name == 'location':
+            ordered_artists = sorted(artists, key=self.location)
         else:
             ordered_artists = artists.order_by('id')
 
