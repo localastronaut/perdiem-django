@@ -73,8 +73,9 @@ class ArtistDetailView(DetailView):
         context['PINAX_STRIPE_PUBLIC_KEY'] = settings.PINAX_STRIPE_PUBLIC_KEY
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
 
-        context['campaign'] = context['artist'].latest_campaign()
-        if context['campaign']:
+        campaign = context['artist'].latest_campaign()
+        context['campaign'] = campaign
+        if campaign:
             context['investors'] = campaign.investors()
 
         return context
