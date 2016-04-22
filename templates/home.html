@@ -15,14 +15,15 @@
 
 {% block content %}
     <div id="home-page" class="page">
+        <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">CROWDSOURCED INVESTING IN MUSIC</h2>
         {% if user.is_authenticated %}
-            <p class="text-center">Welcome {% firstof user.get_full_name user.get_username %}!</p>
+            <p class="home-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
-            <p class="text-center"><a data-open="login-modal">Please sign in.</a></p>
+            <p class="home-text"><a data-open="login-modal">Please sign in.</a></p>
         {% endif %}
-        <p class="text-center"><a href="{% url 'artists' %}">See Artists</a></p>
+        <p class="home-text"><a href="{% url 'artists' %}">See Artists</a></p>
     </div>
     <!-- How-it-works -->
     <div id="how-page" class="page">
@@ -61,7 +62,7 @@
         <br />
 
         <p class="how-copy">WANT TO LEARN EVEN MORE?</p>
-        <p class="how-p">CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND TRUST &amp; SAFETY
+        <p class="how-p">CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a>
         <br />JOIN OUR VIP LIST </p>
         <br />
         <!-- How it works end -->
