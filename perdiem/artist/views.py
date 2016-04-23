@@ -16,7 +16,7 @@ from geopy.distance import distance
 from geopy.geocoders import Nominatim
 
 from artist.forms import CoordinatesFromAddressForm
-from artist.models import Artist
+from artist.models import Genre, Artist
 
 
 class CoordinatesFromAddressView(PermissionRequiredMixin, View):
@@ -45,10 +45,6 @@ class ArtistListView(ListView):
     template_name = 'artist/artist_list.html'
     context_object_name = 'artists'
 
-    def genre(self, artist):
-        artist.genre = ', '.join(artist.genres.all().values_list('name', flat=True))
-        return artist.genre
-
     def percentage_funded(self, artist):
         campaign = artist.latest_campaign()
         if campaign:
@@ -64,26 +60,29 @@ class ArtistListView(ListView):
         return distance(user_location, artist_location)
 
     def dispatch(self, request, *args, **kwargs):
-        self.order_by = request.GET.get('sort', 'date')
+        self.active_genre = request.GET.get('genre', 'All')
+        self.order_by = request.GET.get('sort', 'recent')
         return super(ArtistListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ArtistListView, self).get_context_data(**kwargs)
+        context['genres'] = Genre.objects.all().values_list('name', flat=True)
+        context['active_genre'] = self.active_genre
         context['order_by'] = self.order_by
         return context
 
     def get_queryset(self):
         artists = Artist.objects.all()
+        if self.active_genre != 'All':
+            artists = artists.filter(genres__name=self.active_genre)
 
         order_by_name = self.order_by
-        if order_by_name == 'genre':
-            ordered_artists = sorted(artists, key=self.genre)
-        elif order_by_name == 'funded':
+        if order_by_name == 'funded':
             ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
         elif order_by_name == 'location':
             ordered_artists = sorted(artists, key=self.location)
         else:
-            ordered_artists = artists.order_by('id')
+            ordered_artists = artists.order_by('-id')
 
         return ordered_artists
 

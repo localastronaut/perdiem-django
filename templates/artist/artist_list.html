@@ -10,10 +10,25 @@
     <div class="break">
         <hr>
     </div>
+    Genres:
+    <ul class="dropdown menu" data-dropdown-menu>
+        <li>
+            <a href="#">{{ active_genre }}</a>
+            <ul class="menu">
+                {% if active_genre != 'All' %}
+                    <li><a href="?genre=All">All</a></li>
+                {% endif %}
+                {% for genre in genres %}
+                    {% if genre != active_genre %}
+                        <li><a href="?genre={{ genre|urlencode }}">{{ genre }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
     Sort by:
     <div class="small button-group">
-        <a href="?sort=date" class="button">Date Added</a>
-        <a href="?sort=genre" class="button">Genre</a>
+        <a href="?sort=recent" class="button">Recently Added</a>
         <a href="?sort=funded" class="button">% Funded</a>
         <button type="button" id="location" class="button">Location</button>
     </div>
