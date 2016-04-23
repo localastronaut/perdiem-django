@@ -4,6 +4,8 @@
 
 """
 
+from django.conf import settings
+
 from templated_email import send_templated_mail
 
 from emails.exceptions import NoTemplateProvided
@@ -29,7 +31,7 @@ class BaseEmail(object):
     def send_to_email(self, email, context={}):
         send_templated_mail(
             template_name=self.get_template_name(),
-            from_email='noreply@investperdiem.com',
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
             context=context
         )

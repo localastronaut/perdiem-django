@@ -18,6 +18,9 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/privacy/',
             '/contact/',
             '/accounts/register/',
+            '/accounts/password/reset/',
+            '/accounts/password/reset/0/0-0/',
+            '/accounts/password/reset/complete/',
             '/accounts/profile/',
         ]
 
@@ -49,6 +52,15 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
                 'password1': self.USER_PASSWORD,
                 'password2': self.USER_PASSWORD,
             }
+        )
+
+    def testPasswordReset(self):
+        self.client.logout()
+        self.assertResponseRedirects(
+            '/accounts/password/reset/',
+            '/accounts/password/reset/sent',
+            method='POST',
+            data={'email': self.user.email,}
         )
 
     def testContact(self):
