@@ -64,7 +64,7 @@ class ArtistListView(ListView):
         return distance(user_location, artist_location)
 
     def dispatch(self, request, *args, **kwargs):
-        self.order_by = request.GET.get('sort', 'date')
+        self.order_by = request.GET.get('sort', 'recent')
         return super(ArtistListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -83,7 +83,7 @@ class ArtistListView(ListView):
         elif order_by_name == 'location':
             ordered_artists = sorted(artists, key=self.location)
         else:
-            ordered_artists = artists.order_by('id')
+            ordered_artists = artists.order_by('-id')
 
         return ordered_artists
 
