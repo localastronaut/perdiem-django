@@ -2,6 +2,10 @@
     display: none;
 }
 
+.filter-sort-options > ul {
+    display: inline-block;
+}
+
 .artistlist {
     margin: 20px;
     padding: 50px;
