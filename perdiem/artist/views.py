@@ -45,6 +45,12 @@ class ArtistListView(ListView):
     template_name = 'artist/artist_list.html'
     context_object_name = 'artists'
 
+    ORDER_BY_NAME = {
+        'recent': 'Recently Added',
+        'funded': '% Funded',
+        'location': 'Location',
+    }
+
     def percentage_funded(self, artist):
         campaign = artist.latest_campaign()
         if campaign:
@@ -61,14 +67,22 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.active_genre = request.GET.get('genre', 'All')
-        self.order_by = request.GET.get('sort', 'recent')
+        order_by_slug = request.GET.get('sort', 'recent')
+        self.order_by = {
+            'slug': order_by_slug,
+            'name': self.ORDER_BY_NAME[order_by_slug],
+        }
         return super(ArtistListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ArtistListView, self).get_context_data(**kwargs)
-        context['genres'] = Genre.objects.all().order_by('name').values_list('name', flat=True)
-        context['active_genre'] = self.active_genre
-        context['order_by'] = self.order_by
+        sort_options = [{'slug': s, 'name': n,} for s, n in self.ORDER_BY_NAME.iteritems()]
+        context.update({
+            'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
+            'active_genre': self.active_genre,
+            'sort_options': sorted(sort_options, key=lambda o: o['name']),
+            'order_by': self.order_by,
+        })
         return context
 
     def get_queryset(self):

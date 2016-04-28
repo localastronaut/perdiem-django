@@ -14,7 +14,7 @@ $(document).ready(function() {
         window.location.href = url;
     }
 
-    $('button#location').click(function() {
+    $('#order-by li#location').click(function() {
         if (navigator.geolocation) {
             $('.getting-location').show();
             navigator.geolocation.getCurrentPosition(get_order_by_location, get_order_by_location);
