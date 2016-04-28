@@ -30,7 +30,6 @@ class ArtistWebTestCase(PerDiemTestCase):
         return [
             '/artists/',
             '/artists/?sort=recent',
-            '/artists/?sort=genre',
             '/artists/?sort=funded',
             '/artists/?sort=location',
             '/artist/{slug}/'.format(slug=self.artist.slug),

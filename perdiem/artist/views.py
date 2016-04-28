@@ -67,7 +67,9 @@ class ArtistListView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.active_genre = request.GET.get('genre', 'All')
-        order_by_slug = request.GET.get('sort', 'recent')
+        order_by_slug = request.GET.get('sort')
+        if order_by_slug not in self.ORDER_BY_NAME:
+            order_by_slug = 'recent'
         self.order_by = {
             'slug': order_by_slug,
             'name': self.ORDER_BY_NAME[order_by_slug],
