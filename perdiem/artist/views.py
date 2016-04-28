@@ -66,16 +66,19 @@ class ArtistListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ArtistListView, self).get_context_data(**kwargs)
-        context['genres'] = Genre.objects.all().values_list('name', flat=True)
+        context['genres'] = Genre.objects.all().order_by('name').values_list('name', flat=True)
         context['active_genre'] = self.active_genre
         context['order_by'] = self.order_by
         return context
 
     def get_queryset(self):
         artists = Artist.objects.all()
+
+        # Filtering
         if self.active_genre != 'All':
             artists = artists.filter(genres__name=self.active_genre)
 
+        # Sorting
         order_by_name = self.order_by
         if order_by_name == 'funded':
             ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)

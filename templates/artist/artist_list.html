@@ -16,11 +16,11 @@
             <a href="#">{{ active_genre }}</a>
             <ul class="menu">
                 {% if active_genre != 'All' %}
-                    <li><a href="?genre=All">All</a></li>
+                    <li><a href="?genre=All&sort={{ order_by }}">All</a></li>
                 {% endif %}
                 {% for genre in genres %}
                     {% if genre != active_genre %}
-                        <li><a href="?genre={{ genre|urlencode }}">{{ genre }}</a></li>
+                        <li><a href="?genre={{ genre|urlencode }}&sort={{ order_by }}">{{ genre }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
@@ -28,8 +28,8 @@
     </ul>
     Sort by:
     <div class="small button-group">
-        <a href="?sort=recent" class="button">Recently Added</a>
-        <a href="?sort=funded" class="button">% Funded</a>
+        <a href="?genre={{ active_genre }}&sort=recent" class="button">Recently Added</a>
+        <a href="?genre={{ active_genre }}&sort=funded" class="button">% Funded</a>
         <button type="button" id="location" class="button">Location</button>
     </div>
     <p class="getting-location">Getting your location...</p>
@@ -40,9 +40,7 @@
                     <img src="{{ artist.photo.img.url }}" />
                     <br />{{ artist.name }}
                 </a>
-                {% if order_by == 'genre' %}
-                    <p>Genre: {{ artist.genre }}</p>
-                {% elif order_by == 'funded' %}
+                {% if order_by == 'funded' %}
                     <p>% Funded: {{ artist.funded }}</p>
                 {% elif order_by == 'location' %}
                     <p>Location: {{ artist.location }}</p>
@@ -56,5 +54,8 @@
 {% endblock %}
 
 {% block extrajs %}
+    <script type="text/javascript">
+        var active_genre = '{{ active_genre|escapejs }}';
+    </script>
     <script type="text/javascript" src="{% static "js/artist/artist-list.js" %}"></script>
 {% endblock %}

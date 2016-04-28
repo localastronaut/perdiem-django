@@ -8,7 +8,7 @@ $(document).ready(function() {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
         }
-        var url = '?sort=location';
+        var url = '?genre=' + active_genre + '&sort=location';
         if (lat) url += '&lat=' + lat;
         if (lon) url += '&lon=' + lon;
         window.location.href = url;
