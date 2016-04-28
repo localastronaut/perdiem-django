@@ -93,7 +93,7 @@ class ArtistListView(ListView):
             artists = artists.filter(genres__name=self.active_genre)
 
         # Sorting
-        order_by_name = self.order_by
+        order_by_name = self.order_by['slug']
         if order_by_name == 'funded':
             ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
         elif order_by_name == 'location':

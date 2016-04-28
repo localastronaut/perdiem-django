@@ -29,7 +29,7 @@ class ArtistWebTestCase(PerDiemTestCase):
     def get200s(self):
         return [
             '/artists/',
-            '/artists/?sort=date',
+            '/artists/?sort=recent',
             '/artists/?sort=genre',
             '/artists/?sort=funded',
             '/artists/?sort=location',
