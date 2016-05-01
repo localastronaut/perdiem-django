@@ -12,7 +12,7 @@
     </div>
     <div class="filter-sort-options">
         Show me
-        <ul class="dropdown menu" id="genre" data-dropdown-menu>
+        <ul class="dropdown menu" id="genre" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
             <li>
                 <a href="#">{{ active_genre }}</a>
                 <ul class="menu">
@@ -28,7 +28,7 @@
             </li>
         </ul>
         music sorted by
-        <ul class="dropdown menu" id="order-by" data-dropdown-menu>
+        <ul class="dropdown menu" id="order-by" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
             <li>
                 <a href="#">{{ order_by.name }}</a>
                 <ul class="menu">
