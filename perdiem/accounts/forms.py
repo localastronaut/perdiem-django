@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 class RegisterAccountForm(UserCreationForm):
 
     email = forms.EmailField(required=True)
+    subscribe_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
 
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'email', 'password1', 'password2',)

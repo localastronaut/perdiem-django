@@ -15,6 +15,7 @@ from accounts.forms import RegisterAccountForm, ContactForm
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
+from emails.models import EmailSubscription
 
 
 class RegisterAccountView(CreateView):
@@ -34,6 +35,10 @@ class RegisterAccountView(CreateView):
         user = authenticate(username=username, password=password)
         if user:
             login(self.request, user)
+
+        # Create the user's newsletter subscription (if applicable)
+        if d['subscribe_news']:
+            EmailSubscription.objects.create(user=user, subscription=EmailSubscription.SUBSCRIPTION_NEWS)
 
         # Send user welcome email
         WelcomeEmail().send(user=user)
