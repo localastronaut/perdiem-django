@@ -59,9 +59,10 @@ class ArtistListView(ListView):
     def dispatch(self, request, *args, **kwargs):
         # Filtering
         self.active_genre = request.GET.get('genre', 'All')
+        self.distance = request.GET.get('distance')
+        self.location = request.GET.get('location')
         self.lat = request.GET.get('lat')
         self.lon = request.GET.get('lon')
-        self.distance = request.GET.get('distance')
 
         # Sorting
         order_by_slug = request.GET.get('sort')
@@ -79,9 +80,10 @@ class ArtistListView(ListView):
         context.update({
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,
+            'distance': self.distance if (self.lat and self.lon) or self.location else None,
+            'location': self.location,
             'lat': self.lat,
             'lon': self.lon,
-            'distance': self.distance,
             'sort_options': sorted(sort_options, key=lambda o: o['name']),
             'order_by': self.order_by,
         })
@@ -95,7 +97,11 @@ class ArtistListView(ListView):
             artists = artists.filter(genres__name=self.active_genre)
 
         # Filter by location
-        if self.lat and self.lon and self.distance:
+        if self.distance and self.location:
+            geolocator = Nominatim()
+            location = geolocator.geocode(self.location)
+            artists = artists.filter_by_location(distance=int(self.distance), lat=location.latitude, lon=location.longitude)
+        elif self.distance and self.lat and self.lon:
             artists = artists.filter_by_location(distance=int(self.distance), lat=self.lat, lon=self.lon)
 
         # Sorting

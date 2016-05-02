@@ -30,7 +30,7 @@
         music
         <button class="button hollow" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
             {% if distance %}within {{ distance }} miles{% endif %}
-            from {% if lat and lon %}my location{% else %}Anywhere{% endif %}
+            from {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}Anywhere{% endif %}
         </button>
         <div class="dropdown-pane" id="location-dropdown" data-dropdown>
             within
@@ -45,7 +45,19 @@
                     <input type="number" id="slider-miles">
                 </div>
             </div>
-            miles of My Location
+            miles of
+            <div class="input-group" id="text-location" {% if lat and lon %}style="display: none;"{% endif %}>
+                <input class="input-group-field" type="text" placeholder="Los Angeles, CA" value="{% firstof location '' %}" />
+                <div class="input-group-button">
+                    <button class="button"><i class="fa fa-map-marker"></i></button>
+                </div>
+            </div>
+            <div class="input-group" id="my-location" {% if not lat or not lon %}style="display: none;"{% endif %}>
+                <input class="input-group-field disabled" type="text" value="My Location" disabled />
+                <div class="input-group-button">
+                    <button class="button">&times;</button>
+                </div>
+            </div>
             <br />
             <button id="location-update-button" class="button">Update</button>
             <button id="location-reset-button" class="button">Reset</button>
@@ -89,6 +101,7 @@
 
 {% block extrajs %}
     <script type="text/javascript">
+        var my_location = {% if lat and lon %}true{% else %}false{% endif %};
         var order_by = '{{ order_by.slug|escapejs }}';
         var active_genre = '{{ active_genre|escapejs }}';
     </script>

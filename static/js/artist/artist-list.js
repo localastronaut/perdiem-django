@@ -8,12 +8,29 @@ $(document).ready(function() {
     $('.dropdown a').click(function() {
         $('#location-dropdown').foundation('close');
     });
-    $('.dropdown-pane .slider').click(function(e) {
+    $('.dropdown-pane').click(function(e) {
         e.stopPropagation();
     });
     $('button#location-dropdown-button').click(function(e) {
-        $('#location-dropdown').foundation('open');
+        $('#location-dropdown').foundation('toggle');
         e.stopPropagation();
+    });
+
+    // Reset location
+    $('.dropdown-pane button#location-reset-button').click(function() {
+        window.location.href = '?genre=' + active_genre + '&sort=' + order_by;
+    });
+
+    // Set my location
+    $('.dropdown-pane #my-location button').click(function() {
+        my_location = false;
+        $('.dropdown-pane #my-location').hide();
+        $('.dropdown-pane #text-location').show();
+    });
+    $('.dropdown-pane #text-location button').click(function() {
+        my_location = true;
+        $('.dropdown-pane #text-location').hide();
+        $('.dropdown-pane #my-location').show();
     });
 
     // Filter by user's location
@@ -30,16 +47,15 @@ $(document).ready(function() {
         window.location.href = url;
     }
     $('.dropdown-pane button#location-update-button').click(function() {
-        if (navigator.geolocation) {
-            $('.getting-location').show();
-            navigator.geolocation.getCurrentPosition(get_order_by_location, get_order_by_location);
+        if (my_location) {
+            if (navigator.geolocation) {
+                $('.getting-location').show();
+                navigator.geolocation.getCurrentPosition(get_order_by_location, get_order_by_location);
+            } else {
+                get_order_by_location(null);
+            }
         } else {
-            get_order_by_location(null);
+            window.location.href = '?genre=' + active_genre + '&distance=' + $('.dropdown-pane input').val() + '&location=' + $('.dropdown-pane #text-location input').val() + '&sort=' + order_by;
         }
-    });
-
-    // Reset location
-    $('.dropdown-pane button#location-reset-button').click(function() {
-        window.location.href = '?genre=' + active_genre + '&sort=' + order_by;
     });
 });

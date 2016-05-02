@@ -30,6 +30,7 @@ class ArtistWebTestCase(PerDiemTestCase):
         return [
             '/artists/',
             '/artists/?distance=50&lat=43.7689&lon=-79.4138',
+            '/artists/?distance=50&location=Toronto,%20ON',
             '/artists/?sort=recent',
             '/artists/?sort=funded',
             '/artist/{slug}/'.format(slug=self.artist.slug),
