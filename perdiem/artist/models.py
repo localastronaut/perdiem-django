@@ -8,6 +8,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from artist.managers import ArtistQuerySet
+
 
 class Genre(models.Model):
 
@@ -25,6 +27,8 @@ class Artist(models.Model):
     lat = models.DecimalField(max_digits=6, decimal_places=4, db_index=True, help_text='Latitude of artist location')
     lon = models.DecimalField(max_digits=7, decimal_places=4, db_index=True, help_text='Longitude of artist location')
     location = models.CharField(max_length=40, help_text='Description of artist location (usually city, state, country format)')
+
+    objects = ArtistQuerySet.as_manager()
 
     def __unicode__(self):
         return self.name

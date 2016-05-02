@@ -27,18 +27,37 @@
                 </ul>
             </li>
         </ul>
-        music sorted by
+        music
+        <button class="button hollow" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
+            {% if distance %}within {{ distance }} miles{% endif %}
+            from {% if lat and lon %}my location{% else %}Anywhere{% endif %}
+        </button>
+        <div class="dropdown-pane" id="location-dropdown" data-dropdown>
+            within
+            <div class="row">
+                <div class="small-8 columns">
+                    <div class="slider" data-slider data-initial-start="{% firstof distance 50 %}">
+                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="slider-miles"></span>
+                        <span class="slider-fill" data-slider-fill></span>
+                    </div>
+                </div>
+                <div class="small-4 columns">
+                    <input type="number" id="slider-miles">
+                </div>
+            </div>
+            miles of My Location
+            <br />
+            <button id="location-update-button" class="button">Update</button>
+            <button id="location-reset-button" class="button">Reset</button>
+        </div>
+        sorted by
         <ul class="dropdown menu" id="order-by" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
             <li>
                 <a href="#">{{ order_by.name }}</a>
                 <ul class="menu">
                     {% for option in sort_options %}
                         {% if option.slug != order_by.slug %}
-                            {% if option.slug == 'location' %}
-                                <li id="location"><a href="#">{{ option.name }}</a></li>
-                            {% else %}
-                                <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}">{{ option.name }}</a></li>
-                            {% endif %}
+                            <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}">{{ option.name }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -56,10 +75,11 @@
                 </a>
                 {% if order_by.slug == 'funded' %}
                     <p>% Funded: {{ artist.funded }}</p>
-                {% elif order_by.slug == 'location' %}
-                    <p>Location: {{ artist.location }}</p>
                 {% endif %}
+                <p>Location: {{ artist.location }}</p>
             </div>
+        {% empty %}
+            <p>No results. Try expanding your search criteria.</p>
         {% endfor %}
     </div>
     <div class="break">
@@ -69,6 +89,7 @@
 
 {% block extrajs %}
     <script type="text/javascript">
+        var order_by = '{{ order_by.slug|escapejs }}';
         var active_genre = '{{ active_genre|escapejs }}';
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-list.js" %}"></script>
