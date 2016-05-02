@@ -25,6 +25,18 @@
             {% else %}
                 <p class="profile-total">Your money is going towards making some sweet music!</p>
             {% endif %}
+            {% if updates %}
+                <div class="break">
+                    <hr>
+                </div>
+                <!-- Updates -->
+                <h2>Updates</h2>
+                <ul>
+                    {% for update in updates %}
+                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     {% else %}
         <p>You haven't invested in anything yet!</p>

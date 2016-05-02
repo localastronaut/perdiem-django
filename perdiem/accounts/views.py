@@ -12,9 +12,10 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from accounts.forms import RegisterAccountForm, ContactForm
-from artist.models import Artist
+from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
+from emails.models import EmailSubscription
 
 
 class RegisterAccountView(CreateView):
@@ -35,6 +36,10 @@ class RegisterAccountView(CreateView):
         if user:
             login(self.request, user)
 
+        # Create the user's newsletter subscription (if applicable)
+        if d['subscribe_news']:
+            EmailSubscription.objects.create(user=user, subscription=EmailSubscription.SUBSCRIPTION_NEWS)
+
         # Send user welcome email
         WelcomeEmail().send(user=user)
 
@@ -53,7 +58,9 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         campaign_ids = investments.values_list('campaign', flat=True).distinct()
         campaigns = Campaign.objects.filter(id__in=campaign_ids)
         artist_ids = campaigns.values_list('artist', flat=True).distinct()
-        context['artists'] = Artist.objects.filter(id__in=artist_ids)
+        artists = Artist.objects.filter(id__in=artist_ids)
+        context['artists'] = artists
+        context['updates'] = Update.objects.filter(artist__in=artists).order_by('-created_datetime')
 
         # Update context with total investments
         aggregate_context = investments.aggregate(

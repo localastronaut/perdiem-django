@@ -14,10 +14,21 @@ from emails.managers import EmailSubscriptionManager
 
 class EmailSubscription(models.Model):
 
+    SUBSCRIPTION_ALL = 'ALL'
+    SUBSCRIPTION_NEWS = 'NEWS'
+    SUBSCRIPTION_CHOICES = (
+        (SUBSCRIPTION_ALL, 'General'),
+        (SUBSCRIPTION_NEWS, 'Newsletter'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscription = models.CharField(choices=SUBSCRIPTION_CHOICES, max_length=6, default=SUBSCRIPTION_ALL)
     subscribed = models.BooleanField(default=True)
 
     objects = EmailSubscriptionManager()
+
+    class Meta:
+        unique_together = (('user', 'subscription',),)
 
     def __unicode__(self):
         return unicode(self.user)

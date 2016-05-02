@@ -34,10 +34,10 @@
         <hr>
     </div>
     {% if campaign %}
-    <!-- Goal -->
+        <!-- Goal -->
         <h2>Goal</h2>
         <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
-    <!-- Countdown Widget -->
+        <!-- Countdown Widget -->
         <div id="countdown-wrap">
             <div id="glass">
                 <div id="progress"></div>
@@ -93,7 +93,7 @@
         <div class="break">
             <hr>
         </div>
-    <!-- Artist Bio -->
+        <!-- Artist Bio -->
         <h2>Our Story</h2>
         {{ artist.bio.bio|safe }}
     {% endif %}
@@ -102,7 +102,7 @@
         <div class="break">
             <hr>
         </div>
-    <!-- Music -->
+        <!-- Music -->
         <h2>Music</h2>
         {% for playlist in artist.soundcloudplaylist_set.all %}
             <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
@@ -113,7 +113,7 @@
         <div class="break">
             <hr>
         </div>
-    <!-- What is the money being used for? -->
+        <!-- What is the money being used for? -->
         <h2>What is the Money Being Used For?</h2>
         <p>{{ campaign.use_of_funds }}</p>
         <ul>
@@ -125,13 +125,13 @@
         <div class="break">
             <hr>
         </div>
-    <!-- What do you get for investing? -->
+        <!-- What do you get for investing? -->
         <h2>What Do You Get For Investing?</h2>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <div class="break">
             <hr>
         </div>
-    <!-- Percentage -->
+        <!-- Percentage -->
         <h3>Percentage</h3>
         <ul>
             <li>{{ artist.name }}: {{ campaign.artist_percentage }}%</li>
@@ -141,7 +141,7 @@
         <div class="break">
             <hr>
         </div>
-    <!-- Return on Investment -->
+        <!-- Return on Investment -->
         <h3>Return on Investment</h3>
         <p>For example: If this project earns ${{ campaign.revenue_to_2x|intcomma }} in revenue, every investor will 2x their investment.</p>
     {% endif %}
@@ -150,7 +150,7 @@
         <div class="break">
             <hr>
         </div>
-    <!-- Socials -->
+        <!-- Socials -->
         <h2>Follow Us!</h2>
         <ul>
             {% for social in artist.social_set.all %}
@@ -163,17 +163,31 @@
         <div class="break">
             <hr>
         </div>
-    <!-- Current Investors -->
+        <!-- Current Investors -->
         <h2>Current Investors</h2>
         <ul>
             {% for investor in investors %}
                 <li>{{ investor.name }}: ${{ investor.total_investment }}</li>
             {% endfor %}
         </ul>
+    {% endif %}
+
+    {% if updates %}
         <div class="break">
             <hr>
         </div>
+        <!-- Updates -->
+        <h2>Updates</h2>
+        <ul>
+            {% for update in updates %}
+                <li>{{ update.created_datetime }}: {{ update.text }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
+
+    <div class="break">
+        <hr>
+    </div>
 {% endblock %}
 
 {% block extrajs %}
