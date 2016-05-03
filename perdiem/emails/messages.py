@@ -52,6 +52,11 @@ class ContactEmail(BaseEmail):
     template_name = 'contact'
 
 
+class ArtistApplyEmail(BaseEmail):
+
+    template_name = 'artist_apply'
+
+
 class InvestSuccessEmail(BaseEmail):
 
     template_name = 'invest_success'

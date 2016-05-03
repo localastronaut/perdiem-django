@@ -7,15 +7,18 @@
 from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from geopy.geocoders import Nominatim
 
-from artist.forms import CoordinatesFromAddressForm
+from artist.forms import CoordinatesFromAddressForm, ArtistApplyForm
 from artist.models import Genre, Artist
+from emails.messages import ArtistApplyEmail
 
 
 class CoordinatesFromAddressView(PermissionRequiredMixin, View):
@@ -132,3 +135,31 @@ class ArtistDetailView(DetailView):
         context['updates'] = artist.update_set.all().order_by('-created_datetime')
 
         return context
+
+
+class ArtistApplyFormView(FormView):
+
+    template_name = 'artist/artist_application.html'
+    form_class = ArtistApplyForm
+
+    def get_success_url(self):
+        return reverse('artist_application_thanks')
+
+    def get_initial(self):
+        initial = super(ArtistApplyFormView, self).get_initial()
+        user = self.request.user
+        if user.is_authenticated():
+            initial['email'] = user.email
+        return initial
+
+    def form_valid(self, form):
+        # Add user_id to context, if available
+        context = form.cleaned_data
+        user = self.request.user
+        if user.is_authenticated():
+            context['user_id'] = user.id
+
+        # Send artist application email
+        ArtistApplyEmail().send_to_email(email='info@investperdiem.com', context=context)
+
+        return super(ArtistApplyFormView, self).form_valid(form)

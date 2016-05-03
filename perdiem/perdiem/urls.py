@@ -12,7 +12,7 @@ from django.views.static import serve
 
 from accounts.views import ContactFormView
 from artist.views import CoordinatesFromAddressView, ArtistListView, \
-    ArtistDetailView
+    ArtistDetailView, ArtistApplyFormView
 from campaign.views import PaymentChargeView
 from emails.views import UnsubscribeView
 
@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^api/coordinates/?$', CoordinatesFromAddressView.as_view(), name='coordinates'),
 
     url(r'^artists/?$', ArtistListView.as_view(), name='artists'),
+    url(r'^artist/apply/?$', ArtistApplyFormView.as_view(), name='artist_application'),
+    url(r'^artist/apply/thanks/?$', TemplateView.as_view(template_name='artist/artist_application_thanks.html'), name='artist_application_thanks'),
     url(r'^artist/(?P<slug>[\w_-]+)/?$', ArtistDetailView.as_view(), name='artist'),
 
     url(r'^terms/?$', TemplateView.as_view(template_name='extra/terms.html'), name='terms'),
