@@ -35,6 +35,7 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artists/?sort=funded',
             '/artist/apply/',
             '/artist/{slug}/'.format(slug=self.artist.slug),
+            '/artist/{slug}/'.format(slug=self.artist_no_campaign.slug),
         ]
 
     def testArtistDoesNotExistReturns404(self):

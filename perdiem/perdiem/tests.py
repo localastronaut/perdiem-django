@@ -30,6 +30,7 @@ class PerDiemTestCase(TestCase):
     ARTIST_LONGITUDE = -79.4138
     ARTIST_LOCATION = 'Willowdale, Toronto, Ontario, Canada'
     ARTIST_UPDATE = 'North American Tour This Year!'
+    ARTIST_NO_CAMPAIGN_NAME = 'Scale the Summit'
 
     CAMPAIGN_AMOUNT = 10000
     CAMPAIGN_REASON = 'to record a new album'
@@ -116,6 +117,14 @@ class PerDiemTestCase(TestCase):
         self.revenue_report = RevenueReport.objects.create(
             campaign=self.campaign,
             amount=self.CAMPAIGN_REVENUE_REPORT_AMOUNT
+        )
+
+        self.artist_no_campaign = Artist.objects.create(
+            name=self.ARTIST_NO_CAMPAIGN_NAME,
+            slug=slugify(self.ARTIST_NO_CAMPAIGN_NAME),
+            lat=self.ARTIST_LATITUDE,
+            lon=self.ARTIST_LONGITUDE,
+            location=self.ARTIST_LOCATION
         )
 
     def setUp(self):
