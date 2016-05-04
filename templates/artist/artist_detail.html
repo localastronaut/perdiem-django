@@ -195,29 +195,31 @@
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
-        var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
-        var num_shares_remaining = {{ campaign.num_shares_remaining }};
-        var stripe_handler = StripeCheckout.configure({
-            key: '{{ PINAX_STRIPE_PUBLIC_KEY }}',
-            locale: 'auto',
-            email: '{{ request.user.email|escapejs }}',
-            token: function(token) {
-                var num_shares = parseInt($('.invest-num-shares > input').val());
-                $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id, num_shares: num_shares})
-                    .done(function(resp) {
-                        // Show success
-                        var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';
-                        $('#success-modal > p.success-message').text(success_message);
-                        $('#success-modal').foundation('open');
-                    })
-                    .fail(function(resp) {
-                        // Show error
-                        var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
-                        $('#error-modal > p.error-message').html(error_message);
-                        $('#error-modal').foundation('open');
-                    });
-            }
-        });
+        {% if campaign %}
+            var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
+            var num_shares_remaining = {{ campaign.num_shares_remaining }};
+            var stripe_handler = StripeCheckout.configure({
+                key: '{{ PINAX_STRIPE_PUBLIC_KEY }}',
+                locale: 'auto',
+                email: '{{ request.user.email|escapejs }}',
+                token: function(token) {
+                    var num_shares = parseInt($('.invest-num-shares > input').val());
+                    $.post("{% url 'pinax_stripe_charge' campaign_id=campaign.id %}", {card: token.id, num_shares: num_shares})
+                        .done(function(resp) {
+                            // Show success
+                            var success_message = 'Thanks! Your investment is being processed. When payment completes, your name will appear in the investor list.';
+                            $('#success-modal > p.success-message').text(success_message);
+                            $('#success-modal').foundation('open');
+                        })
+                        .fail(function(resp) {
+                            // Show error
+                            var error_message = 'There was an issue processing your payment.<br />' + resp.responseText;
+                            $('#error-modal > p.error-message').html(error_message);
+                            $('#error-modal').foundation('open');
+                        });
+                }
+            });
+        {% endif %}
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-detail.js" %}"></script>
 {% endblock %}
