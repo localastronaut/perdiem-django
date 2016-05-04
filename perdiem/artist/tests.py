@@ -33,11 +33,31 @@ class ArtistWebTestCase(PerDiemTestCase):
             '/artists/?distance=50&location=Toronto,%20ON',
             '/artists/?sort=recent',
             '/artists/?sort=funded',
+            '/artist/apply/',
             '/artist/{slug}/'.format(slug=self.artist.slug),
         ]
 
     def testArtistDoesNotExistReturns404(self):
         self.assertResponseRenders('/artist/does-not-exist/', status_code=404)
+
+    def testArtistApplication(self):
+        self.assertResponseRedirects(
+            '/artist/apply/',
+            '/artist/apply/thanks',
+            method='POST',
+            data={
+                'artist_name': 'Segmentation Fault',
+                'genre': 'Heavy Metal',
+                'hometown': 'Waterloo, ON, Canada',
+                'email': self.user.email,
+                'phone_number': '(226) 123-4567',
+                'bio': 'We are a really cool heavy metal band. We mostly perform covers but are excited to create an album, and we\'re hoping PerDiem can help us do that.',
+                'campaign_reason': 'We want to record our next album: Access Granted.',
+                'campaign_expenses': 'Studio time, mastering, mixing, etc.',
+                'music_link': 'https://www.spotify.com/',
+                'terms': True,
+            }
+        )
 
 
 class CoordinatesFromAddressTestCase(PerDiemTestCase):
