@@ -44,7 +44,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         self.client.logout()
         self.assertResponseRedirects(
             '/accounts/register/',
-            '/',
+            '/accounts/profile',
             method='POST',
             data={
                 'username': 'msmith',

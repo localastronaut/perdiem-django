@@ -24,7 +24,7 @@ class RegisterAccountView(CreateView):
     form_class = RegisterAccountForm
 
     def get_success_url(self):
-        return reverse('home')
+        return reverse('profile')
 
     def form_valid(self, form):
         valid = super(RegisterAccountView, self).form_valid(form)
