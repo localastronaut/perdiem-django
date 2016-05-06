@@ -40,7 +40,7 @@ p {
 }
 
 a {
-    color: #000;
+    color: #D3D3D3;
     text-decoration: none;
 }
 
@@ -62,9 +62,8 @@ body {
 
 .nav {
     list-style: none;
-    padding: 8px 16px;
     margin: 0;
-    background-color: #ddd;
+    background-color: #transparent;
     overflow: hidden;
     opacity: 0.8;
 }
@@ -72,6 +71,7 @@ body {
 .nav > li {
     display: inline;
     float: left;
+    padding: 8px 8px;
 }
 
 .nav a {
