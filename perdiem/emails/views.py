@@ -17,7 +17,7 @@ class UnsubscribeView(TemplateView):
     template_name = 'registration/unsubscribe.html'
 
     def dispatch(self, request, *args, **kwargs):
-        self.user = get_object_or_404(User, username=kwargs['username'])
+        self.user = get_object_or_404(User, id=kwargs['user_id'])
         return super(UnsubscribeView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
