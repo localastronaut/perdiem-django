@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load staticfiles %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static "css/artist/artist_list.css" %}" type="text/css" charset="utf-8" />
+{% endblock %}
 
 {% block content %}
     <h1>Profile</h1>
-    <h2 class="profile-header">Good morning {% firstof user.get_full_name user.get_username %}!</h2>
+    <h2 class="profile-header">Welcome {% firstof user.get_full_name user.get_username %}!</h2>
     {% if artists %}
         <div class="investments">
             <div class="break">
@@ -12,8 +17,13 @@
             <h2>Portfolio</h2>
             <p>Here are the artists that you have invested in:</p>
             <ul>
-                {% for artist in artists %}
-                    <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
+                <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
+                        {% for artist in artists %}
+            <div class="column">
+                    <li><a href="{% url 'artist' slug=artist.slug %}">
+                    <img src="{{ artist.photo.img.url }}" />
+                    <br />{{ artist.name }} </a></li>
+                </div>
                 {% endfor %}
             </ul>
             <div class="break">
@@ -33,7 +43,7 @@
                 <h2>Updates</h2>
                 <ul>
                     {% for update in updates %}
-                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
+                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - <br>{{ update.text }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
