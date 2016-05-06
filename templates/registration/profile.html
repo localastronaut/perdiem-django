@@ -4,6 +4,7 @@
 {% block content %}
     <h1>Profile</h1>
     <h2 class="profile-header">Good morning {% firstof user.get_full_name user.get_username %}!</h2>
+    {% if user.userprofile.invest_anonymously %}<p><small>(displays publicly as Anonymous)</small></p>{% endif %}
     <ul class="tabs" data-tabs id="profile-tabs">
         <li class="tabs-title is-active"><a href="#overview" aria-selected="true">Overview</a></li>
         <li class="tabs-title"><a href="#name">Name</a></li>

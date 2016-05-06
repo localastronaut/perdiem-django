@@ -62,6 +62,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             data={
                 'first_name': self.USER_FIRST_NAME,
                 'last_name': self.USER_LAST_NAME,
+                'invest_anonymously': False,
             }
         )
 

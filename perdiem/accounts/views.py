@@ -88,6 +88,11 @@ class ProfileView(LoginRequiredMixin, FormView):
         kwargs['instance'] = self.request.user
         return kwargs
 
+    def get_initial(self):
+        initial = super(ProfileView, self).get_initial()
+        initial['invest_anonymously'] = self.request.user.userprofile.invest_anonymously
+        return initial
+
     def form_valid(self, form):
         user = self.request.user
         d = form.cleaned_data
@@ -96,6 +101,10 @@ class ProfileView(LoginRequiredMixin, FormView):
         user.first_name = d['first_name']
         user.last_name = d['last_name']
         user.save()
+
+        # Update anonymity
+        user.userprofile.invest_anonymously = d['invest_anonymously']
+        user.userprofile.save()
 
         return super(ProfileView, self).form_valid(form)
 

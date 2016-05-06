@@ -27,6 +27,8 @@ class RegisterAccountForm(UserCreationForm):
 
 class ProfileUpdateForm(forms.ModelForm):
 
+    invest_anonymously = forms.BooleanField(required=False)
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name',)
