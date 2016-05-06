@@ -4,41 +4,56 @@
 {% block content %}
     <h1>Profile</h1>
     <h2 class="profile-header">Good morning {% firstof user.get_full_name user.get_username %}!</h2>
-    {% if artists %}
-        <div class="investments">
-            <div class="break">
-                <hr>
-            </div>
-            <h2>Portfolio</h2>
-            <p>Here are the artists that you have invested in:</p>
-            <ul>
-                {% for artist in artists %}
-                    <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
-                {% endfor %}
-            </ul>
-            <div class="break">
-                <hr>
-            </div>
-            <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
-            {% if total_earned %}
-                <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
-            {% else %}
-                <p class="profile-total">Your money is going towards making some sweet music!</p>
-            {% endif %}
-            {% if updates %}
-                <div class="break">
-                    <hr>
+    <ul class="tabs" data-tabs id="profile-tabs">
+        <li class="tabs-title is-active"><a href="#overview" aria-selected="true">Overview</a></li>
+        <li class="tabs-title"><a href="#name">Name</a></li>
+    </ul>
+    <div class="break">
+        <hr>
+    </div>
+    <div class="tabs-content" data-tabs-content="profile-tabs">
+        <div class="tabs-panel is-active" id="overview">
+            {% if artists %}
+                <div class="investments">
+                    <h2>Portfolio</h2>
+                    <p>Here are the artists that you have invested in:</p>
+                    <ul>
+                        {% for artist in artists %}
+                            <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <div class="break">
+                        <hr>
+                    </div>
+                    <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
+                    {% if total_earned %}
+                        <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
+                    {% else %}
+                        <p class="profile-total">Your money is going towards making some sweet music!</p>
+                    {% endif %}
+                    {% if updates %}
+                        <div class="break">
+                            <hr>
+                        </div>
+                        <!-- Updates -->
+                        <h2>Updates</h2>
+                        <ul>
+                            {% for update in updates %}
+                                <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
-                <!-- Updates -->
-                <h2>Updates</h2>
-                <ul>
-                    {% for update in updates %}
-                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
-                    {% endfor %}
-                </ul>
+            {% else %}
+                <p>You haven't invested in anything yet!</p>
             {% endif %}
         </div>
-    {% else %}
-        <p>You haven't invested in anything yet!</p>
-    {% endif %}
+        <div class="tabs-panel" id="name">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+    </div>
 {% endblock %}

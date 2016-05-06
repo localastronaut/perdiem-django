@@ -19,6 +19,8 @@ from campaign.models import Campaign, Investment, RevenueReport
 class PerDiemTestCase(TestCase):
 
     USER_USERNAME = 'jsmith'
+    USER_FIRST_NAME = 'John'
+    USER_LAST_NAME = 'Smith'
     USER_EMAIL = 'jsmith@example.com'
     USER_PASSWORD = 'abc123'
     ORDINARY_USER_USERNAME = 'jdoe'
