@@ -1,4 +1,6 @@
 [run]
+source = perdiem/
+
 # Omit files from coverage that only run on prod
 omit =
     perdiem/settings/__init__.py

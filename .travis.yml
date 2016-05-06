@@ -15,7 +15,7 @@ script:
   - cd perdiem
   - python manage.py migrate
   - python manage.py collectstatic --no-input
-  - coverage run --source=. ./manage.py test
+  - coverage run ./manage.py test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
