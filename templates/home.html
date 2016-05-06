@@ -19,11 +19,13 @@
         <h1 class="home-title">PERDIEM</h1>
         <h2 class="home-description">CROWDSOURCED INVESTING IN MUSIC</h2>
         {% if user.is_authenticated %}
-            <p class="home-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
+            <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
-            <p class="home-text"><a data-open="login-modal">Please sign in.</a></p>
+        <br>
+            <p class="home-text"><a data-open="login-modal">LOGIN</a></p>
+            <p>...or <a href="{% url 'register' %}">create an account</a>.</p>
         {% endif %}
-        <p class="home-text"><a href="{% url 'artists' %}">See Artists</a></p>
+        <p class="home-how"><a href={% url 'home' %}#how>How It Works <br> &#8595;</a></p>
     </div>
     <!-- How-it-works -->
     <div id="how-page" class="page">
