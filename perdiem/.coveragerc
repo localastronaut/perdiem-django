@@ -1,5 +1,5 @@
 [run]
-source = perdiem/
+source = ./
 
 # Omit files from coverage that only run on prod
 omit =
