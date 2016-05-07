@@ -46,6 +46,7 @@ p.home-text {
     padding: 10px;
     border: 2px solid white;
     border-radius: 10px;
+    margin-top: 1em;
 }
 
 p.home-how {

@@ -38,7 +38,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             'login-password': self.USER_PASSWORD,
         }
         response = self.assertResponseRenders('/', method='POST', data=login_data)
-        self.assertIn('Logout', response.content)
+        self.assertIn('LOGOUT', response.content)
 
     def testRegister(self):
         self.client.logout()
