@@ -6,6 +6,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class RegisterAccountForm(UserCreationForm):
@@ -22,6 +23,15 @@ class RegisterAccountForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    invest_anonymously = forms.BooleanField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name',)
 
 
 class ContactForm(forms.Form):

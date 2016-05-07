@@ -2,7 +2,7 @@
 #### The world's first fan run record label
 
 [![Build Status](https://travis-ci.org/RevolutionTech/perdiem-django.svg?branch=master)](https://travis-ci.org/RevolutionTech/perdiem-django)
-[![Coverage Status](https://coveralls.io/repos/github/RevolutionTech/perdiem-django/badge.svg?branch=master)](https://coveralls.io/github/RevolutionTech/perdiem-django?branch=master)
+[![codecov](https://codecov.io/gh/RevolutionTech/perdiem-django/branch/master/graph/badge.svg)](https://codecov.io/gh/RevolutionTech/perdiem-django)
 [![Dependency Status](https://www.versioneye.com/user/projects/56db9ef4309a580033b7dd87/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56db9ef4309a580033b7dd87)
 
 ## Setup

@@ -54,6 +54,18 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
+    def testUpdateProfile(self):
+        self.assertResponseRedirects(
+            '/accounts/profile/',
+            '/accounts/profile',
+            method='POST',
+            data={
+                'first_name': self.USER_FIRST_NAME,
+                'last_name': self.USER_LAST_NAME,
+                'invest_anonymously': False,
+            }
+        )
+
     def testPasswordReset(self):
         self.client.logout()
         self.assertResponseRedirects(

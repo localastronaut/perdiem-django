@@ -21,8 +21,8 @@ class UnsubscribeWebTestCase(PerDiemTestCase):
 
     def testUnsubscribeInvalidLink(self):
         self.client.logout()
-        unsubscribe_url = '/unsubscribe/{username}/{invalid_token}/'.format(
-            username=self.user.username,
+        unsubscribe_url = '/unsubscribe/{user_id}/{invalid_token}/'.format(
+            user_id=self.user.id,
             invalid_token='abc123'
         )
         response = self.assertResponseRenders(unsubscribe_url)

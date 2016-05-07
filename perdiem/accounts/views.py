@@ -8,10 +8,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
-from accounts.forms import RegisterAccountForm, ContactForm
+from accounts.forms import RegisterAccountForm, ProfileUpdateForm, ContactForm
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
@@ -46,9 +45,13 @@ class RegisterAccountView(CreateView):
         return valid
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, FormView):
 
     template_name = 'registration/profile.html'
+    form_class = ProfileUpdateForm
+
+    def get_success_url(self):
+        return reverse('profile')
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -79,6 +82,31 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context['total_earned'] = total_earned
 
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileView, self).get_form_kwargs()
+        kwargs['instance'] = self.request.user
+        return kwargs
+
+    def get_initial(self):
+        initial = super(ProfileView, self).get_initial()
+        initial['invest_anonymously'] = self.request.user.userprofile.invest_anonymously
+        return initial
+
+    def form_valid(self, form):
+        user = self.request.user
+        d = form.cleaned_data
+
+        # Update name
+        user.first_name = d['first_name']
+        user.last_name = d['last_name']
+        user.save()
+
+        # Update anonymity
+        user.userprofile.invest_anonymously = d['invest_anonymously']
+        user.userprofile.save()
+
+        return super(ProfileView, self).form_valid(form)
 
 
 class ContactFormView(FormView):
