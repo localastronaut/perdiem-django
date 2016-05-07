@@ -49,6 +49,8 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
                 'PORT': '5432',
             }
         }
+        SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1234-abc123.apps.googleusercontent.com'
+        SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'abc123'
         PINAX_STRIPE_PUBLIC_KEY = 'pk_test_abc123'
         PINAX_STRIPE_SECRET_KEY = 'sk_test_abc123'
 

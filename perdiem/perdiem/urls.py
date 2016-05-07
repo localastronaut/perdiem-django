@@ -18,6 +18,7 @@ from emails.views import UnsubscribeView
 
 
 urlpatterns = [
+    url('', include(('social.apps.django_app.urls', 'social',))),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^unsubscribe/(?P<user_id>\d+)/(?P<token>[\w.:\-_=]+)/$', UnsubscribeView.as_view(), name='unsubscribe'),
