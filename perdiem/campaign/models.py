@@ -94,6 +94,7 @@ class Campaign(models.Model):
             if investor.id not in investors:
                 investors[investor.id] = {
                     'name': investor.userprofile.get_display_name(),
+                    'public_profile_url': investor.userprofile.public_profile_url(),
                     'total_investment': 0,
                 }
             investors[investor.id]['total_investment'] += investment.num_shares * self.value_per_share

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+    <h1>{{ profile_user.userprofile.get_display_name }}'s Profile</h1>
+    <div class="break">
+        <hr>
+    </div>
+    {% if artists %}
+        <div class="investments">
+            <h2>Portfolio</h2>
+            <p>Here are the artists that {{ profile_user.userprofile.get_display_name }} has invested in:</p>
+            <ul>
+                {% for artist in artists %}
+                    <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
+                {% endfor %}
+            </ul>
+            {% if updates %}
+                <div class="break">
+                    <hr>
+                </div>
+                <!-- Updates -->
+                <h2>Updates</h2>
+                <ul>
+                    {% for update in updates %}
+                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>{{ profile_user.userprofile.get_display_name }} hasn't invested in anything yet!</p>
+    {% endif %}
+{% endblock %}

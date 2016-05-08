@@ -6,8 +6,10 @@
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from accounts.forms import RegisterAccountForm, ProfileUpdateForm, ContactForm
@@ -107,6 +109,23 @@ class ProfileView(LoginRequiredMixin, FormView):
         user.userprofile.save()
 
         return super(ProfileView, self).form_valid(form)
+
+
+class PublicProfileView(TemplateView):
+
+    template_name = 'registration/public_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicProfileView, self).get_context_data(**kwargs)
+        profile_user = User.objects.get(username=kwargs['username'])
+        artists = Artist.objects.filter(campaign__investment__charge__customer__user=profile_user).distinct()
+
+        context.update({
+            'profile_user': profile_user,
+            'artists': artists,
+            'updates': Update.objects.filter(artist__in=artists).order_by('-created_datetime'),
+        })
+        return context
 
 
 class ContactFormView(FormView):

@@ -22,6 +22,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/accounts/password/reset/0/0-0/',
             '/accounts/password/reset/complete/',
             '/accounts/profile/',
+            '/accounts/profile/{username}/'.format(username=self.user.username),
         ]
 
     def testHomePageUnauthenticated(self):
