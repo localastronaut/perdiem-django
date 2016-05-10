@@ -1,0 +1,20 @@
+.artistlist {
+    margin: 20px;
+    padding: 50px;
+} 
+
+.artistlist.row > .column {
+    background: #000;
+    padding: 20px;
+    opacity: 0.8;
+    border: 1px solid #ffffff;
+    text-align: center;
+}
+
+.artistlist.row > .column > p {
+    color: #fff;
+}
+
+.column {
+    color: #ffffff;
+}

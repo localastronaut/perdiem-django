@@ -22,14 +22,13 @@
         <div class="full-page">
             <!-- Nav -->
             <ul class="nav">
-                <li><a class="active" href="{% url 'home' %}">Home</a></li>
-                <li><a class="active" href="{% url 'home' %}#how">How It Works</a></li>
-                <li><a class="active" href="{% url 'artists' %}">Artists</a></li>
+                <li><a class="active" href="{% url 'home' %}">HOME</a></li>
+                <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
                 {% if user.is_authenticated %}
-                    <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
-                    <li style="float: right;"><a href="{% url 'profile' %}">Profile</a></li>
+                    <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    <li style="float: right;"><a href="{% url 'profile' %}">PROFILE</a></li>
                 {% else %}
-                    <li style="float: right;"><a data-open="login-modal">Login</a></li>
+                    <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
                 {% endif %}
             </ul>
 

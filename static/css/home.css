@@ -36,10 +36,21 @@ p.how-p {
 }
 
 .heading-center {
-    padding-top: 25%;
+    padding-top: 20%;
 }
 
 p.home-text {
-    text-align: center;
-    color: #ffffff;
+    background-color: transparent;
+    width: 20%;
+    margin: auto;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    margin-top: 1em;
+}
+
+p.home-how {
+    width: 50px, 50px;
+    padding: 50px;
+    font-size: 25px;
 }
