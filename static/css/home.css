@@ -47,10 +47,16 @@ p.home-text {
     border: 2px solid white;
     border-radius: 10px;
     margin-top: 1em;
+    text-align: center;
 }
 
 p.home-how {
     width: 50px, 50px;
     padding: 50px;
     font-size: 25px;
+    text-align: center;
+}
+
+p.welcome-text {
+    text-align: center;
 }
