@@ -113,6 +113,7 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.social_auth.load_extra_data',
         'social.pipeline.user.user_details',
     )
+    LOGIN_URL = '/'
 
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

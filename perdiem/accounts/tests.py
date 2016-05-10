@@ -22,6 +22,7 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             '/accounts/password/reset/0/0-0/',
             '/accounts/password/reset/complete/',
             '/accounts/profile/',
+            '/accounts/profile/{username}/'.format(username=self.user.username),
         ]
 
     def testHomePageUnauthenticated(self):
@@ -55,11 +56,11 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         )
 
     def testUpdateProfile(self):
-        self.assertResponseRedirects(
+        self.assertResponseRenders(
             '/accounts/profile/',
-            '/accounts/profile',
             method='POST',
             data={
+                'username': self.USER_USERNAME,
                 'first_name': self.USER_FIRST_NAME,
                 'last_name': self.USER_LAST_NAME,
                 'invest_anonymously': False,

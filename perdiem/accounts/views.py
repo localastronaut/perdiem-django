@@ -6,8 +6,10 @@
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from accounts.forms import RegisterAccountForm, ProfileUpdateForm, ContactForm
@@ -83,21 +85,23 @@ class ProfileView(LoginRequiredMixin, FormView):
 
         return context
 
-    def get_form_kwargs(self):
-        kwargs = super(ProfileView, self).get_form_kwargs()
-        kwargs['instance'] = self.request.user
-        return kwargs
-
     def get_initial(self):
         initial = super(ProfileView, self).get_initial()
-        initial['invest_anonymously'] = self.request.user.userprofile.invest_anonymously
+        user = self.request.user
+        initial.update({
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'invest_anonymously': user.userprofile.invest_anonymously,
+        })
         return initial
 
     def form_valid(self, form):
         user = self.request.user
         d = form.cleaned_data
 
-        # Update name
+        # Update username and name
+        user.username = d['username']
         user.first_name = d['first_name']
         user.last_name = d['last_name']
         user.save()
@@ -107,6 +111,23 @@ class ProfileView(LoginRequiredMixin, FormView):
         user.userprofile.save()
 
         return super(ProfileView, self).form_valid(form)
+
+
+class PublicProfileView(TemplateView):
+
+    template_name = 'registration/public_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicProfileView, self).get_context_data(**kwargs)
+        profile_user = User.objects.get(username=kwargs['username'])
+        artists = Artist.objects.filter(campaign__investment__charge__customer__user=profile_user).distinct()
+
+        context.update({
+            'profile_user': profile_user,
+            'artists': artists,
+            'updates': Update.objects.filter(artist__in=artists).order_by('-created_datetime'),
+        })
+        return context
 
 
 class ContactFormView(FormView):
