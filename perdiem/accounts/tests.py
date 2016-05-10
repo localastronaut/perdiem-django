@@ -56,9 +56,8 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
         )
 
     def testUpdateProfile(self):
-        self.assertResponseRedirects(
+        self.assertResponseRenders(
             '/accounts/profile/',
-            '/accounts/profile',
             method='POST',
             data={
                 'username': self.USER_USERNAME,
