@@ -28,7 +28,7 @@ h4 {
 
 h5 {
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 ul {
@@ -38,7 +38,7 @@ ul {
 }
 
 p {
-    font-size: 20px;
+    font-size: 1em;
     font-weight: 400;
     color: #000;
     text-align: left;
@@ -168,6 +168,16 @@ p.profile-total {
 }
 
 .trust {
+    padding: 2em;
+    margin-top: 2em;
+}
+
+.terms {
+    padding: 2em;
+    margin-top: 2em;
+}
+
+.privacy {
     padding: 2em;
     margin-top: 2em;
 }
