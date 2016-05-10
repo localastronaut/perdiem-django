@@ -1,4 +1,4 @@
-h1, h2, h3, p, li, input [type=submit] {
+h1, h2, h3, h4, h5, p, li, input [type=submit] {
     font-family: Dosis, sans-serif;
 }
 
@@ -26,6 +26,11 @@ h4 {
     font-size: 14px;
 }
 
+h5 {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
 ul {
     list-style-type: none;
     text-align: center;
@@ -36,7 +41,7 @@ p {
     font-size: 20px;
     font-weight: 400;
     color: #000;
-    text-align: center;
+    text-align: left;
 }
 
 a {
@@ -151,4 +156,13 @@ p.profile-total {
 .break {
     padding-left: 5%;
     padding-right: 5%;
+}
+
+#left-align {
+    text-align: left;
+}
+
+.faq {
+    padding: 2em;
+    margin-top: 2em;
 }
