@@ -4,6 +4,7 @@
 
 .filter-sort-options > ul {
     display: inline-block;
+    text-align: center;
 }
 
 .artistlist {

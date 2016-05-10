@@ -166,3 +166,11 @@ p.profile-total {
     padding: 2em;
     margin-top: 2em;
 }
+
+.apply-page {
+    padding: 2em;
+}
+
+.apply-button {
+    text-align: center;
+}
