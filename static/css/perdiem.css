@@ -29,6 +29,7 @@ h4 {
 h5 {
     font-weight: bold;
     font-size: 1.2em;
+    text-align: center;
 }
 
 ul {
@@ -41,7 +42,7 @@ p {
     font-size: 1em;
     font-weight: 400;
     color: #000;
-    text-align: left;
+    text-align: center;
 }
 
 a {
@@ -156,10 +157,6 @@ p.profile-total {
 .break {
     padding-left: 5%;
     padding-right: 5%;
-}
-
-#left-align {
-    text-align: left;
 }
 
 .faq {
