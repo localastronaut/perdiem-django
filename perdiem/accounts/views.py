@@ -58,13 +58,14 @@ class MultipleFormView(TemplateView):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
 
         for form_name, attrs in self.get_form_classes().iteritems():
-            if attrs['context_name'] not in context:
+            form_context_name = "{form_name}_form".format(form_name=form_name)
+            if form_context_name not in context:
                 form_kwargs = {
                     'initial': attrs['get_initial'](),
                 }
                 if self.request.method == 'POST' and self.request.POST.get('action') == form_name:
                     form_kwargs['data'] = self.request.POST
-                context[attrs['context_name']] = attrs['class'](self.request.user, **form_kwargs)
+                context[form_context_name] = attrs['class'](self.request.user, **form_kwargs)
 
         return context
 
@@ -76,10 +77,11 @@ class MultipleFormView(TemplateView):
             return HttpResponseBadRequest("Form action unrecognized or unspecified.")
 
         form = form_attrs['class'](self.request.user, request.POST)
+        form_context_name = "{form_name}_form".format(form_name=form_name)
         if form.is_valid():
             form_attrs['form_valid'](form)
         else:
-            kwargs.update({form_attrs['context_name']: form,})
+            kwargs.update({form_context_name: form,})
         return self.render_to_response(self.get_context_data(**kwargs))
 
 
@@ -91,13 +93,11 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         return {
             'edit_name': {
                 'class': EditNameForm,
-                'context_name': 'edit_name_form',
                 'get_initial': self.edit_name_get_initial,
                 'form_valid': self.edit_name_form_valid,
             },
             'change_password': {
                 'class': PasswordChangeForm,
-                'context_name': 'change_password_form',
                 'get_initial': lambda: {},
                 'form_valid': self.change_password_form_valid,
             },
