@@ -42,8 +42,8 @@ class EditNameForm(forms.Form):
     last_name = forms.CharField(max_length=30, required=False)
     invest_anonymously = forms.BooleanField(required=False)
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super(EditNameForm, self).__init__(*args, **kwargs)
 
     def clean_username(self):

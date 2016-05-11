@@ -5,6 +5,7 @@
 """
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -56,14 +57,14 @@ class MultipleFormView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
 
-        for attrs in self.get_form_classes().itervalues():
+        for form_name, attrs in self.get_form_classes().iteritems():
             if attrs['context_name'] not in context:
                 form_kwargs = {
                     'initial': attrs['get_initial'](),
                 }
-                if self.request.method == 'POST':
+                if self.request.method == 'POST' and self.request.POST.get('action') == form_name:
                     form_kwargs['data'] = self.request.POST
-                context[attrs['context_name']] = attrs['class'](user=self.request.user, **form_kwargs)
+                context[attrs['context_name']] = attrs['class'](self.request.user, **form_kwargs)
 
         return context
 
@@ -74,13 +75,12 @@ class MultipleFormView(TemplateView):
         except KeyError:
             return HttpResponseBadRequest("Form action unrecognized or unspecified.")
 
-        form = form_attrs['class'](request.POST, user=self.request.user)
+        form = form_attrs['class'](self.request.user, request.POST)
         if form.is_valid():
             form_attrs['form_valid'](form)
-            return HttpResponseRedirect(reverse('profile'))
         else:
             kwargs.update({form_attrs['context_name']: form,})
-            return self.render_to_response(self.get_context_data(**kwargs))
+        return self.render_to_response(self.get_context_data(**kwargs))
 
 
 class ProfileView(LoginRequiredMixin, MultipleFormView):
@@ -94,6 +94,12 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
                 'context_name': 'edit_name_form',
                 'get_initial': self.edit_name_get_initial,
                 'form_valid': self.edit_name_form_valid,
+            },
+            'change_password': {
+                'class': PasswordChangeForm,
+                'context_name': 'change_password_form',
+                'get_initial': lambda: {},
+                'form_valid': self.change_password_form_valid,
             },
         }
 
@@ -149,6 +155,14 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         # Update anonymity
         user.userprofile.invest_anonymously = d['invest_anonymously']
         user.userprofile.save()
+
+    def change_password_form_valid(self, form):
+        user = self.request.user
+        d = form.cleaned_data
+
+        # Update user's password
+        user.set_password(d['new_password1'])
+        user.save()
 
 
 class PublicProfileView(TemplateView):

@@ -68,6 +68,18 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
+    def testChangePassword(self):
+        self.assertResponseRenders(
+            '/accounts/profile/',
+            method='POST',
+            data={
+                'action': 'change_password',
+                'old_password': self.USER_PASSWORD,
+                'new_password1': 'abc1234',
+                'new_password2': 'abc1234',
+            }
+        )
+
     def testPasswordReset(self):
         self.client.logout()
         self.assertResponseRedirects(
