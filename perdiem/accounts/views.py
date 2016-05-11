@@ -9,10 +9,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
-from accounts.forms import RegisterAccountForm, ProfileUpdateForm, ContactForm
+from accounts.forms import RegisterAccountForm, EditNameForm, ContactForm
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
@@ -47,13 +48,54 @@ class RegisterAccountView(CreateView):
         return valid
 
 
-class ProfileView(LoginRequiredMixin, FormView):
+class MultipleFormView(TemplateView):
+
+    def get_form_classes(self):
+        return {}
+
+    def get_context_data(self, **kwargs):
+        context = super(MultipleFormView, self).get_context_data(**kwargs)
+
+        for attrs in self.get_form_classes().itervalues():
+            if attrs['context_name'] not in context:
+                form_kwargs = {
+                    'initial': attrs['get_initial'](),
+                }
+                if self.request.method == 'POST':
+                    form_kwargs['data'] = self.request.POST
+                context[attrs['context_name']] = attrs['class'](**form_kwargs)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        try:
+            form_name = request.POST['action']
+            form_attrs = self.get_form_classes()[form_name]
+        except KeyError:
+            return HttpResponseBadRequest("Form action unrecognized or unspecified.")
+
+        form = form_attrs['class'](request.POST)
+        if form.is_valid():
+            form_attrs['form_valid'](form)
+            return HttpResponseRedirect(reverse('profile'))
+        else:
+            kwargs.update({form_attrs['context_name']: form,})
+            return self.render_to_response(self.get_context_data(**kwargs))
+
+
+class ProfileView(LoginRequiredMixin, MultipleFormView):
 
     template_name = 'registration/profile.html'
-    form_class = ProfileUpdateForm
 
-    def get_success_url(self):
-        return reverse('profile')
+    def get_form_classes(self):
+        return {
+            'edit_name': {
+                'class': EditNameForm,
+                'context_name': 'edit_name_form',
+                'get_initial': self.edit_name_get_initial,
+                'form_valid': self.edit_name_form_valid,
+            },
+        }
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -85,18 +127,16 @@ class ProfileView(LoginRequiredMixin, FormView):
 
         return context
 
-    def get_initial(self):
-        initial = super(ProfileView, self).get_initial()
+    def edit_name_get_initial(self):
         user = self.request.user
-        initial.update({
+        return {
             'username': user.username,
             'first_name': user.first_name,
             'last_name': user.last_name,
             'invest_anonymously': user.userprofile.invest_anonymously,
-        })
-        return initial
+        }
 
-    def form_valid(self, form):
+    def edit_name_form_valid(self, form):
         user = self.request.user
         d = form.cleaned_data
 
@@ -109,8 +149,6 @@ class ProfileView(LoginRequiredMixin, FormView):
         # Update anonymity
         user.userprofile.invest_anonymously = d['invest_anonymously']
         user.userprofile.save()
-
-        return super(ProfileView, self).form_valid(form)
 
 
 class PublicProfileView(TemplateView):

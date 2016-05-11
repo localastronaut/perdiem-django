@@ -55,11 +55,12 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
-    def testUpdateProfile(self):
+    def testEditName(self):
         self.assertResponseRenders(
             '/accounts/profile/',
             method='POST',
             data={
+                'action': 'edit_name',
                 'username': self.USER_USERNAME,
                 'first_name': self.USER_FIRST_NAME,
                 'last_name': self.USER_LAST_NAME,

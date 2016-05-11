@@ -25,7 +25,7 @@ class RegisterAccountForm(UserCreationForm):
         return user
 
 
-class ProfileUpdateForm(forms.ModelForm):
+class EditNameForm(forms.ModelForm):
 
     invest_anonymously = forms.BooleanField(required=False)
 
