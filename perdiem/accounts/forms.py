@@ -7,6 +7,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core import validators
 
 
 class RegisterAccountForm(UserCreationForm):
@@ -25,13 +26,31 @@ class RegisterAccountForm(UserCreationForm):
         return user
 
 
-class EditNameForm(forms.ModelForm):
+class EditNameForm(forms.Form):
 
+    username = forms.CharField(
+        max_length=150,
+        validators=[
+            validators.RegexValidator(
+                r'^[\w.@+-]+$',
+                ('Enter a valid username. This value may contain only '
+                  'letters, numbers ' 'and @/./+/-/_ characters.')
+            ),
+        ]
+    )
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
     invest_anonymously = forms.BooleanField(required=False)
 
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name',)
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(EditNameForm, self).__init__(*args, **kwargs)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.exclude(id=self.user.id).filter(username=username).exists():
+            raise forms.ValidationError("A user with that username already exists.")
+        return username
 
 
 class ContactForm(forms.Form):

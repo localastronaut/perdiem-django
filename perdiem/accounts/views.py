@@ -63,7 +63,7 @@ class MultipleFormView(TemplateView):
                 }
                 if self.request.method == 'POST':
                     form_kwargs['data'] = self.request.POST
-                context[attrs['context_name']] = attrs['class'](**form_kwargs)
+                context[attrs['context_name']] = attrs['class'](user=self.request.user, **form_kwargs)
 
         return context
 
@@ -74,7 +74,7 @@ class MultipleFormView(TemplateView):
         except KeyError:
             return HttpResponseBadRequest("Form action unrecognized or unspecified.")
 
-        form = form_attrs['class'](request.POST)
+        form = form_attrs['class'](request.POST, user=self.request.user)
         if form.is_valid():
             form_attrs['form_valid'](form)
             return HttpResponseRedirect(reverse('profile'))
