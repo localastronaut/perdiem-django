@@ -22,7 +22,7 @@
     <div class="break">
         <hr>
     </div>
-    <img src="{{ artist.photo.img.url }}" />
+    {% include "artist/includes/artist_detail.html" with artist=artist %}
     {% with genres=artist.genres.all %}
     <div class="break">
         <hr>
