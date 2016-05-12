@@ -125,12 +125,18 @@ canvas {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: #efefef;
+    background-color: #000;
     text-align: center;
 }
 
 .footer a {
-    color: #000;
+    color: #fff;
+    font-family: Roboto;
+    font-size: .6em;
+    letter-spacing: 3px;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
 }
 
 .footer-items > li {
