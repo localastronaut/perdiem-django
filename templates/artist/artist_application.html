@@ -2,13 +2,18 @@
 
 {% block content %}
     <h1>Artist Application</h1>
-    <p>Want to be on PerDiem? Apply here.</p>
     <div class="break">
         <hr>
     </div>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
+    <div class="apply-page">
+        <p>Want to be on PerDiem? Apply here.</p>
+        <div class="break">
+            <hr>
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
 {% endblock %}
