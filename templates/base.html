@@ -35,7 +35,7 @@
                             <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
                             <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
                         {% else %}
-                            <li style="float: center;"><a data-open="login-modal">LOGIN</a></li>
+                            <li style="float: center;"><a  class="nav-color" data-open="login-modal">LOGIN</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
                         <!-- Nav -->
                         <div class="show-for-small-only">
                             <ul class="nav">
-                                <li><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
+                                <li class="small-menu"><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
                             </ul>
                         </div>
                         <div class="hide-for-small-only">
@@ -52,20 +52,19 @@
                                 <li><a class="active" href="{% url 'home' %}">HOME</a></li>
                                 <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
                                 {% if user.is_authenticated %}
-                                    <li style="float: right;"><a class="active" href="{% url 'logout' %}">LOGOUT</a></li>
-                                    <li style="float: right;"><a class="active" href="{% url 'profile' %}">PROFILE</a></li>
+                                    <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                                    <li style="float: right;"><a href="{% url 'profile' %}">PROFILE</a></li>
                                 {% else %}
                                     <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
                                 {% endif %}
                             </ul>
                         </div>
-                    </div>
                     <!-- Content -->
                     <div class="container">
                         {% block content %}
                         {% endblock %}
                     </div>
-
+                </div>
                     <!-- Footer -->
                     <div class="footer">
                         <ul class="footer-items">
