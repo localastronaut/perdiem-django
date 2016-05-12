@@ -7,6 +7,10 @@
     padding: 30px 30px 30px 30px;
 }
 
+#fan-page {
+    padding: 30px 30px 30px 30px;
+}
+
 h1.home-title {
     color: #ffffff;
 }
@@ -40,15 +44,13 @@ p.how-p {
     padding-top: 20%;
 }
 
-p.home-text {
-    background-color: transparent;
+.home-text {
     width: 9em;
-    margin: auto;
     padding: 10px;
     border: 2px solid white;
     border-radius: 10px;
-    margin-top: 1em;
-    text-align: center;
+    margin: 0 auto;
+
 }
 
 .home-how {
@@ -63,4 +65,24 @@ p.home-text {
 p.welcome-text {
     text-align: center;
     color: #fff;
+}
+
+.home-boxes {
+    text-align: center;
+    margin: 20px;
+}
+
+.box-margin {
+    margin: 10px;
+    padding: 15px;
+    width: 120px;
+}
+
+.icons {
+    text-align: center;
+    margin: 20px;
+}
+
+#sign-up {
+    margin: 30px;
 }
