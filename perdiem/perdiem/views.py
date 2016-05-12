@@ -27,6 +27,7 @@ class MultipleFormView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
 
+        context['forms_with_errors'] = []
         for form_name, form_view_class in self.constituent_form_views.iteritems():
             form_view = form_view_class(self.request)
             form_context_name = "{form_name}_form".format(form_name=form_name)
@@ -37,6 +38,8 @@ class MultipleFormView(TemplateView):
                 if self.request.method == 'POST' and self.request.POST.get('action') == form_name:
                     form_kwargs['data'] = self.request.POST
                 context[form_context_name] = form_view.form_class(self.request.user, **form_kwargs)
+            elif context[form_context_name].errors:
+                context['forms_with_errors'].append(form_context_name)
 
         return context
 
