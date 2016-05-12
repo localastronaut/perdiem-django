@@ -19,70 +19,72 @@
         {% block extrastyle %}{% endblock %}
     </head>
     <body>
-     <div class="off-canvas-wrapper">
-        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-            <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
-            <!-- Close button -->
-            <button class="close-button" aria-label="Close menu" type="button" data-close>
-            <span aria-hidden="true">&times;</span>
-            </button>
-            <!-- Menu -->
-            <ul class="vertical menu">
-                <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
-                <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
-                {% if user.is_authenticated %}
-                    <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
-                    <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
-                {% else %}
-                    <li style="float: center;"><a data-open="login-modal">LOGIN</a></li>
-                {% endif %}
-            </ul>
-            </div>
-      <div class="off-canvas-content" data-off-canvas-content>
-        <div class="full-page">
-            <!-- Nav -->
-            <div class="show-for-small-only">
-            <ul class="nav">
-                <li><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li></ul>
-            </div>
-                <div class="hide-for-small-only">
-                    <ul class="nav">
-                    <li><a class="active" href="{% url 'home' %}">HOME</a></li>
-                    <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
-                    {% if user.is_authenticated %}
-                        <li style="float: right;"><a class="active" href="{% url 'logout' %}">LOGOUT</a></li>
-                        <li style="float: right;"><a class="active" href="{% url 'profile' %}">PROFILE</a></li>
-                    {% else %}
-                        <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
-                {% endif %}
-            </ul>
-                </div>
-        </div>
-            <!-- Content -->
-            <div class="container">
-                {% block content %}
-                {% endblock %}
-            </div>
+        <div class="off-canvas-wrapper">
+            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+                <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+                    <!-- Close button -->
+                    <button class="close-button" aria-label="Close menu" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
-            <!-- Footer -->
-                <div class="footer">
-                    <ul class="footer-items">
-                        <li><a href="{% url 'privacy' %}">Privacy</a></li>
-                        <li><a href="{% url 'terms' %}">Terms of Use</a></li>
-                        <li><a href="{% url 'trust' %}">Trust &amp; Safety</a></li>
-                        <li><a href="{% url 'faq' %}">FAQ</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <!-- Menu -->
+                    <ul class="vertical menu">
+                        <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
+                        <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
+                        {% if user.is_authenticated %}
+                            <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
+                            <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
+                        {% else %}
+                            <li style="float: center;"><a data-open="login-modal">LOGIN</a></li>
+                        {% endif %}
                     </ul>
-                    <div id="socials">
-                        <a href="https://www.facebook.com/828188463946021" target="_blank"><img class="facebook" src="{% static "img/socials/facebook_logo.png" %}" width="30" height="30" /></a>
-                        <a href="http://instagram.com/perdiemmusic" target="_blank"><img class="instagram" src="{% static "img/socials/instagram_logo.png" %}" width="30" height="30" /></a>
-                        <a href="http://twitter.com/perdiemmusic" target="_blank"><img class="twitter" src="{% static "img/socials/twitter_logo.png" %}" width="30" height="30" /></a>
-                        <a href="https://www.youtube.com/channel/UC-6u9L-W6Dn7kaYLOz4YuTg" target="_blank"><img class="youtube" src="{% static "img/socials/youtube_logo.png" %}" width="30" height="30" /></a>
+                </div>
+                <div class="off-canvas-content" data-off-canvas-content>
+                    <div class="full-page">
+                        <!-- Nav -->
+                        <div class="show-for-small-only">
+                            <ul class="nav">
+                                <li><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
+                            </ul>
+                        </div>
+                        <div class="hide-for-small-only">
+                            <ul class="nav">
+                                <li><a class="active" href="{% url 'home' %}">HOME</a></li>
+                                <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
+                                {% if user.is_authenticated %}
+                                    <li style="float: right;"><a class="active" href="{% url 'logout' %}">LOGOUT</a></li>
+                                    <li style="float: right;"><a class="active" href="{% url 'profile' %}">PROFILE</a></li>
+                                {% else %}
+                                    <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="container">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        <ul class="footer-items">
+                            <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                            <li><a href="{% url 'terms' %}">Terms of Use</a></li>
+                            <li><a href="{% url 'trust' %}">Trust &amp; Safety</a></li>
+                            <li><a href="{% url 'faq' %}">FAQ</a></li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                        <div id="socials">
+                            <a href="https://www.facebook.com/828188463946021" target="_blank"><img class="facebook" src="{% static "img/socials/facebook_logo.png" %}" width="30" height="30" /></a>
+                            <a href="http://instagram.com/perdiemmusic" target="_blank"><img class="instagram" src="{% static "img/socials/instagram_logo.png" %}" width="30" height="30" /></a>
+                            <a href="http://twitter.com/perdiemmusic" target="_blank"><img class="twitter" src="{% static "img/socials/twitter_logo.png" %}" width="30" height="30" /></a>
+                            <a href="https://www.youtube.com/channel/UC-6u9L-W6Dn7kaYLOz4YuTg" target="_blank"><img class="youtube" src="{% static "img/socials/youtube_logo.png" %}" width="30" height="30" /></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <!-- Success Modal -->
         <div class="reveal" id="success-modal" data-reveal>
