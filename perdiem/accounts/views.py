@@ -18,7 +18,7 @@ from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
 from emails.models import EmailSubscription
-from perdiem.views import MultipleFormView
+from perdiem.views import ConstituentFormView, MultipleFormView
 
 
 class RegisterAccountView(CreateView):
@@ -49,23 +49,54 @@ class RegisterAccountView(CreateView):
         return valid
 
 
+class EditNameFormView(ConstituentFormView):
+
+    form_class = EditNameForm
+
+    def get_initial(self):
+        user = self.request.user
+        return {
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'invest_anonymously': user.userprofile.invest_anonymously,
+        }
+
+    def form_valid(self, form):
+        user = self.request.user
+        d = form.cleaned_data
+
+        # Update username and name
+        user.username = d['username']
+        user.first_name = d['first_name']
+        user.last_name = d['last_name']
+        user.save()
+
+        # Update anonymity
+        user.userprofile.invest_anonymously = d['invest_anonymously']
+        user.userprofile.save()
+
+
+class ChangePasswordFormView(ConstituentFormView):
+
+    form_class = PasswordChangeForm
+
+    def form_valid(self, form):
+        user = self.request.user
+        d = form.cleaned_data
+
+        # Update user's password
+        user.set_password(d['new_password1'])
+        user.save()
+
+
 class ProfileView(LoginRequiredMixin, MultipleFormView):
 
     template_name = 'registration/profile.html'
-
-    def get_form_classes(self):
-        return {
-            'edit_name': {
-                'class': EditNameForm,
-                'get_initial': self.edit_name_get_initial,
-                'form_valid': self.edit_name_form_valid,
-            },
-            'change_password': {
-                'class': PasswordChangeForm,
-                'get_initial': lambda: {},
-                'form_valid': self.change_password_form_valid,
-            },
-        }
+    constituent_form_views = {
+        'edit_name': EditNameFormView,
+        'change_password': ChangePasswordFormView,
+    }
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -96,37 +127,6 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         context['total_earned'] = total_earned
 
         return context
-
-    def edit_name_get_initial(self):
-        user = self.request.user
-        return {
-            'username': user.username,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'invest_anonymously': user.userprofile.invest_anonymously,
-        }
-
-    def edit_name_form_valid(self, form):
-        user = self.request.user
-        d = form.cleaned_data
-
-        # Update username and name
-        user.username = d['username']
-        user.first_name = d['first_name']
-        user.last_name = d['last_name']
-        user.save()
-
-        # Update anonymity
-        user.userprofile.invest_anonymously = d['invest_anonymously']
-        user.userprofile.save()
-
-    def change_password_form_valid(self, form):
-        user = self.request.user
-        d = form.cleaned_data
-
-        # Update user's password
-        user.set_password(d['new_password1'])
-        user.save()
 
 
 class PublicProfileView(TemplateView):
