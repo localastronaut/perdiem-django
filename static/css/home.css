@@ -1,5 +1,6 @@
 .page {
     min-height: 100vh;
+    position: relative;
 }
 
 #how-page {
@@ -50,13 +51,16 @@ p.home-text {
     text-align: center;
 }
 
-p.home-how {
-    width: 50px, 50px;
-    padding: 50px;
+.home-how {
     font-size: 25px;
     text-align: center;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
 }
 
 p.welcome-text {
     text-align: center;
+    color: #fff;
 }
