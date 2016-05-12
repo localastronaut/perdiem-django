@@ -70,20 +70,25 @@ body {
     list-style: none;
     margin: 0;
     background-color: transparent;
+    background-color: black;
     overflow: hidden;
     opacity: 0.8;
+    vertical-align: center;
 }
 
 .nav > li {
     display: inline;
     float: left;
     padding: 8px 8px;
+    padding: 5px 15px;
 }
 
 .nav a {
     display: block;
     color: #000;
     padding: 8px 16px;
+    color: #fff;
+    padding: 5px 5px;
     text-decoration: none;
 }
 
@@ -159,33 +164,19 @@ p.profile-total {
     padding-right: 5%;
 }
 
-.faq {
-    padding: 2em;
-    margin-top: 2em;
-}
-
-.trust {
-    padding: 2em;
-    margin-top: 2em;
-}
-
-.terms {
-    padding: 2em;
-    margin-top: 2em;
-}
-
-.privacy {
-    padding: 2em;
-    margin-top: 2em;
-}
-
-.contact-form {
-    padding: 2em;
-}
-
-.apply-page {
+.page-padding {
     padding: 2em;
 }
 
 .apply-button {
     text-align: center;
+}
+
+a.nav-color {
+    color: #000;
+}
+
+.extra-padding {
+    padding: 2em;
+    margin-top: 2em;
+}
