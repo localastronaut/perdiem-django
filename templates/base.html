@@ -19,19 +19,45 @@
         {% block extrastyle %}{% endblock %}
     </head>
     <body>
+     <div class="off-canvas-wrapper">
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+
+            <!-- Close button -->
+            <button class="close-button" aria-label="Close menu" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <!-- Menu -->
+            <ul class="vertical menu">
+                    <li><a class="nav-color" href="{% url 'home' %}">HOME</a></li>
+                    <li><a class="nav-color" href="{% url 'artists' %}">ARTISTS</a></li>
+                    {% if user.is_authenticated %}
+                        <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
+                        <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
+                    {% else %}
+                        <li style="float: center;"><a data-open="login-modal">LOGIN</a></li>
+                    {% endif %}
+            </ul>
+      </div>
+      <div class="off-canvas-content" data-off-canvas-content>
         <div class="full-page">
             <!-- Nav -->
+            <div class="show-for-small-only">
             <ul class="nav">
-                <li><a class="active" href="{% url 'home' %}">HOME</a></li>
-                <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
-                {% if user.is_authenticated %}
-                    <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                    <li style="float: right;"><a href="{% url 'profile' %}">PROFILE</a></li>
-                {% else %}
-                    <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
+                    <li><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li></ul>
+                </div>
+                <div class="hide-for-small-only">
+                    <ul class="nav">
+                    <li><a class="active" href="{% url 'home' %}">HOME</a></li>
+                    <li><a class="active" href="{% url 'artists' %}">ARTISTS</a></li>
+                    {% if user.is_authenticated %}
+                        <li style="float: right;"><a class="active" href="{% url 'logout' %}">LOGOUT</a></li>
+                        <li style="float: right;"><a class="active" href="{% url 'profile' %}">PROFILE</a></li>
+                    {% else %}
+                        <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
                 {% endif %}
             </ul>
-
+            </div>
             <!-- Content -->
             <div class="container">
                 {% block content %}
@@ -104,5 +130,6 @@
             <script type="text/javascript" src="{% static "js/accounts/login-errors.js" %}"></script>
         {% endif %}
         {% block extrajs %}{% endblock %}
+        </div>
     </body>
 </html>
