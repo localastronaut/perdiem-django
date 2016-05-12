@@ -23,10 +23,12 @@ class BaseEmail(object):
         return self.template_name
 
     def get_context_data(self, user, **kwargs):
-        return {
+        context = {
             'user': user,
-            'unsubscribe_url': create_unsubscribe_link(user),
         }
+        if not self.ignore_unsubscribed:
+            context['unsubscribe_url'] = create_unsubscribe_link(user)
+        return context
 
     def send_to_email(self, email, context={}):
         send_templated_mail(
