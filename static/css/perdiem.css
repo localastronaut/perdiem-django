@@ -28,7 +28,8 @@ h4 {
 
 h5 {
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.2em;
+    text-align: center;
 }
 
 ul {
@@ -38,7 +39,7 @@ ul {
 }
 
 p {
-    font-size: 20px;
+    font-size: 1em;
     font-weight: 400;
     color: #000;
     text-align: center;
@@ -163,20 +164,7 @@ p.profile-total {
     padding-right: 5%;
 }
 
-#left-align {
-    text-align: left;
-}
-
-.faq {
-    padding: 2em;
-    margin-top: 2em;
-}
-
-.contact-thanks {
-    padding: 2em;
-}
-
-.apply-page {
+.page-padding {
     padding: 2em;
 }
 
@@ -186,4 +174,9 @@ p.profile-total {
 
 a.nav-color {
     color: #000;
+}
+
+.extra-padding {
+    padding: 2em;
+    margin-top: 2em;
 }
