@@ -22,7 +22,7 @@
             <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
             <p class="home-text"><a data-open="login-modal">LOGIN</a></p>
-            <p>...or <a href="{% url 'register' %}">create an account</a>.</p>
+            <p class="welcome-text">...or <a href="{% url 'register' %}">create an account</a>.</p>
         {% endif %}
         <p class="home-how"><a href={% url 'home' %}#how>How It Works <br> &#8595;</a></p>
     </div>
