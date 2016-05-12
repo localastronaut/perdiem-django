@@ -80,6 +80,17 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
+    def testUpdateEmailPreferences(self):
+        self.assertResponseRenders(
+            '/accounts/profile/',
+            method='POST',
+            data={
+                'action': 'email_preferences',
+                'subscription_all': True,
+                'subscription_news': False
+            }
+        )
+
     def testPasswordReset(self):
         self.client.logout()
         self.assertResponseRedirects(

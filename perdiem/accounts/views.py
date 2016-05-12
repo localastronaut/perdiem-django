@@ -13,7 +13,9 @@ from django.db import models
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
-from accounts.forms import RegisterAccountForm, EditNameForm, ContactForm
+from accounts.forms import (
+    RegisterAccountForm, EditNameForm, EmailPreferencesForm, ContactForm
+)
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
@@ -52,6 +54,7 @@ class RegisterAccountView(CreateView):
 class EditNameFormView(ConstituentFormView):
 
     form_class = EditNameForm
+    provide_user = True
 
     def get_initial(self):
         user = self.request.user
@@ -80,6 +83,7 @@ class EditNameFormView(ConstituentFormView):
 class ChangePasswordFormView(ConstituentFormView):
 
     form_class = PasswordChangeForm
+    provide_user = True
 
     def form_valid(self, form):
         user = self.request.user
@@ -90,12 +94,37 @@ class ChangePasswordFormView(ConstituentFormView):
         user.save()
 
 
+class EmailPreferencesFormView(ConstituentFormView):
+
+    form_class = EmailPreferencesForm
+
+    def get_initial(self):
+        initial = {}
+        for subscription_type, _ in EmailSubscription.SUBSCRIPTION_CHOICES:
+            subscribed = EmailSubscription.objects.is_subscribed(user=self.request.user, subscription_type=subscription_type)
+            initial['subscription_{stype}'.format(stype=subscription_type.lower())] = subscribed
+        return initial
+
+    def form_valid(self, form):
+        user = self.request.user
+
+        # Update user's email subscriptions
+        email_subscriptions = {k: v for k, v in form.cleaned_data.iteritems() if k.startswith('subscription_')}
+        for subscription_type, is_subscribed in email_subscriptions.iteritems():
+            EmailSubscription.objects.update_or_create(
+                user=user,
+                subscription=getattr(EmailSubscription, subscription_type.upper()),
+                defaults={'subscribed': is_subscribed,}
+            )
+
+
 class ProfileView(LoginRequiredMixin, MultipleFormView):
 
     template_name = 'registration/profile.html'
     constituent_form_views = {
         'edit_name': EditNameFormView,
         'change_password': ChangePasswordFormView,
+        'email_preferences': EmailPreferencesFormView,
     }
 
     def get_context_data(self, **kwargs):

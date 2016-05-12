@@ -53,6 +53,18 @@ class EditNameForm(forms.Form):
         return username
 
 
+class EmailPreferencesForm(forms.Form):
+
+    subscription_news = forms.BooleanField(required=False, label='Subscribe to general updates about PerDiem')
+    subscription_all = forms.BooleanField(required=False, label='Uncheck this box to unsubscribe from all emails from PerDiem')
+
+    def clean(self):
+        d = self.cleaned_data
+        if d['subscription_news'] and not d['subscription_all']:
+            raise forms.ValidationError("You cannot subscribe to general updates if you are unsubscribed from all emails.")
+        return d
+
+
 class ContactForm(forms.Form):
 
     INQUIRY_CHOICES = (

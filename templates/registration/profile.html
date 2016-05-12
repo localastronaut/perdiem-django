@@ -14,6 +14,7 @@
         <li class="tabs-title {% if not forms_with_errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
         <li class="tabs-title {% if 'edit_name_form' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
         <li class="tabs-title {% if 'change_password_form' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
+        <li class="tabs-title {% if 'email_preferences_form' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
     </ul>
     <div class="break">
         <hr>
@@ -70,6 +71,14 @@
                 {% csrf_token %}
                 <input type="hidden" name="action" value="change_password" />
                 {{ change_password_form.as_p }}
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+        <div class="tabs-panel {% if 'email_preferences_form' in forms_with_errors %}is-active{% endif %}" id="email-preferences">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="email_preferences" />
+                {{ email_preferences_form.as_p }}
                 <input type="submit" value="Update" />
             </form>
         </div>

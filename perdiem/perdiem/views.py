@@ -10,6 +10,8 @@ from django.views.generic import TemplateView
 
 class ConstituentFormView(object):
 
+    provide_user = False
+
     def __init__(self, request):
         self.request = request
 
@@ -32,12 +34,15 @@ class MultipleFormView(TemplateView):
             form_view = form_view_class(self.request)
             form_context_name = "{form_name}_form".format(form_name=form_name)
             if form_context_name not in context:
+                form_args = []
                 form_kwargs = {
                     'initial': form_view.get_initial(),
                 }
+                if form_view.provide_user:
+                    form_args.append(self.request.user)
                 if self.request.method == 'POST' and self.request.POST.get('action') == form_name:
                     form_kwargs['data'] = self.request.POST
-                context[form_context_name] = form_view.form_class(self.request.user, **form_kwargs)
+                context[form_context_name] = form_view.form_class(*form_args, **form_kwargs)
             elif context[form_context_name].errors:
                 context['forms_with_errors'].append(form_context_name)
 
@@ -51,7 +56,10 @@ class MultipleFormView(TemplateView):
             return HttpResponseBadRequest("Form action unrecognized or unspecified.")
 
         form_view = form_view_class(request)
-        form = form_view.form_class(request.user, request.POST)
+        form_args = [request.POST]
+        if form_view.provide_user:
+            form_args = [request.user] + form_args
+        form = form_view.form_class(*form_args)
         if form.is_valid():
             form_view.form_valid(form)
         else:
