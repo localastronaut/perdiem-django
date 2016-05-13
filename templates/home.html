@@ -20,13 +20,47 @@
         <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
         {% if user.is_authenticated %}
             <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
+            <div class="home-boxes">
+                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
+            </div>
         {% else %}
             <div class="home-boxes">
-            <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
-            <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
             </div>
         {% endif %}
     </div>
+    <!-- How it works for fans -->
+    <div id="fan-page" class="page">
+        <a id="fan" class="smooth"></a>
+        <h2 class="how-title">HOW IT WORKS FOR FANS</h2>
+        <div class="break">
+            <hr>
+        </div>
+        <h3>DISCOVER AN ARTIST THAT YOU WANT TO SUPPORT</h3>
+        <div class="icons">
+            <i class="fa fa-search fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>100% of your investment goes directly to the artist</p>
+        <p>You can earn money by supporting artists you believe in</p>
+        <h3>BUY SHARES IN THAT ARTISTS PROJECT</h3>
+        <div class="icons">
+            <i class="fa fa-money fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>You will get a % of the revenue from the project you invest in</p>
+        <h3>EARN MONEY BASED ON HOW SUCCESSFUL THE MUSIC IS</h3>
+        <div class="icons">
+            <i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>Get exclusive updates from the artists</p>
+        <p>Hear their music before anyone else</p>
+        <div id="sign-up">
+            <h5>Want to start investing in music?</h5>
+            <div class="apply-button">
+                <a href="{% url 'artists' %}" class="button">Discover Artists</a>
+            </div>
+        </div>
     <!-- How it works for artists -->
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
@@ -67,36 +101,6 @@
             <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
         </div>
     </div>
-    <!-- How it works for fans -->
-    <div id="fan-page" class="page">
-        <a id="fan" class="smooth"></a>
-        <h2 class="how-title">HOW IT WORKS FOR FANS</h2>
-        <div class="break">
-            <hr>
-        </div>
-        <h3>DISCOVER AN ARTIST THAT YOU WANT TO SUPPORT</h3>
-        <div class="icons">
-            <i class="fa fa-search fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>100% of your investment goes directly to the artist</p>
-        <p>You can earn money by supporting artists you believe in</p>
-        <h3>BUY SHARES IN THAT ARTISTS PROJECT</h3>
-        <div class="icons">
-            <i class="fa fa-money fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>You will get a % of the revenue from the project you invest in</p>
-        <h3>EARN MONEY BASED ON HOW SUCCESSFUL THE MUSIC IS</h3>
-        <div class="icons">
-            <i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i>
-        </div>
-        <p>Get exclusive updates from the artists</p>
-        <p>Hear their music before anyone else</p>
-        <div id="sign-up">
-            <h5>Want to start investing in music?</h5>
-            <div class="apply-button">
-                <a href="{% url 'register' %}" class="button">Sign up</a>
-            </div>
-        </div>
         <div class="break">
             <hr>
         </div>
