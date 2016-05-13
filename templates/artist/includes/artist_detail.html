@@ -1,6 +1,0 @@
-{% load thumbnail %}
-
-    {% thumbnail artist.photo.img "500" as thumb %}
-        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
-    {% endthumbnail %}
-</a>
