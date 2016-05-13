@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load staticfiles %}
+{% load thumbnail %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
@@ -22,7 +23,9 @@
     <div class="break">
         <hr>
     </div>
-    <img src="{{ artist.photo.img.url }}" />
+    {% thumbnail artist.photo.img "500" as thumb %}
+        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+    {% endthumbnail %}
     {% with genres=artist.genres.all %}
     <div class="break">
         <hr>

@@ -1,7 +1,7 @@
 {% load thumbnail %}
 
 <a href="{% url 'artist' slug=artist.slug %}">
-    {% thumbnail artist.photo.img "250" as thumb %}
+    {% thumbnail artist.photo.img "250x250" crop="center" as thumb %}
         <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
     <br />{{ artist.name }}
