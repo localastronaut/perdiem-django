@@ -23,7 +23,9 @@
     <div class="break">
         <hr>
     </div>
-    {% include "artist/includes/artist_detail.html" with artist=artist %}
+    {% thumbnail artist.photo.img "500" as thumb %}
+    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+    {% endthumbnail %}
     {% with genres=artist.genres.all %}
     <div class="break">
         <hr>
