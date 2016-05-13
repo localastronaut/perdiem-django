@@ -58,7 +58,11 @@
         <div id="sign-up">
             <h5>Want to start investing in music?</h5>
             <div class="apply-button">
-                <a href="{% url 'artists' %}" class="button">Discover Artists</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'artists' %}" class="button">Discover Artists</a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="button">Sign Up</a>
+                {% endif %}
             </div>
         </div>
     </div>
