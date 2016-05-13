@@ -17,56 +17,95 @@
     <div id="home-page" class="page">
         <div class="heading-center"></div>
         <h1 class="home-title">PERDIEM</h1>
-        <h2 class="home-description">CROWDSOURCED INVESTING IN MUSIC</h2>
+        <h2 class="home-description">THE NEXT GENERATION OF MUSIC</h2>
         {% if user.is_authenticated %}
             <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
+            <div class="home-boxes">
+                <a class="button text-center box-margin" href={% url 'home' %}#how>Artist Details</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#fan>Fan Details</a>
+            </div>
         {% else %}
-            <p class="home-text"><a data-open="login-modal">LOGIN</a></p>
-            <p class="welcome-text">...or <a href="{% url 'register' %}">create an account</a>.</p>
+            <div class="home-boxes">
+                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
+            </div>
         {% endif %}
-        <p class="home-how"><a href={% url 'home' %}#how>How It Works <br> &#8595;</a></p>
     </div>
-    <!-- How-it-works -->
+    <!-- How it works for fans -->
+    <div id="fan-page" class="page">
+        <a id="fan" class="smooth"></a>
+        <h2 class="how-title">HOW IT WORKS FOR FANS</h2>
+        <div class="break">
+            <hr>
+        </div>
+        <h3>DISCOVER AN ARTIST THAT YOU WANT TO SUPPORT</h3>
+        <div class="icons">
+            <i class="fa fa-search fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>100% of your investment goes directly to the artist</p>
+        <p>You can earn money by supporting artists you believe in</p>
+        <h3>BUY SHARES IN THAT ARTISTS PROJECT</h3>
+        <div class="icons">
+            <i class="fa fa-money fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>You will get a % of the revenue from the project you invest in</p>
+        <h3>EARN MONEY BASED ON HOW SUCCESSFUL THE MUSIC IS</h3>
+        <div class="icons">
+            <i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i>
+        </div>
+        <p>Get exclusive updates from the artists</p>
+        <p>Hear their music before anyone else</p>
+        <div id="sign-up">
+            <h5>Want to start investing in music?</h5>
+            <div class="apply-button">
+                <a href="{% url 'artists' %}" class="button">Discover Artists</a>
+            </div>
+        </div>
+    <!-- How it works for artists -->
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
-        <h1 class="how-title">How It Works</h1>
-        <p class="how-page">1. AN ARTIST NEEDS TO RAISE MONEY TO CREATE THEIR MUSIC</p>
+        <h2 class="how-title">HOW IT WORKS FOR ARTISTS</h2>
+        <div class="break">
+            <hr>
+        </div>
+        <h3>RAISE MONEY TO CREATE YOUR MUSIC BY HAVING FANS INVEST IN YOUR PROJECT</h3>
         <br />
         <div id="canvas-box">
             <canvas id="bar-canvas" height="450" width="600"></canvas>
         </div>
 
-        <p class="how-copy">Artists can raise as much as they need</p>
-        <h4 class="how-p">100% of the investment goes directly to the artist. The only cost is $1 (+ credit card fee) to invest in an artist.</h4>
+        <h4>Keep 100% ownership of your music</h4>
+        <p>We never take a cut of your investments or revenue. You always have 100% control over your music and can leave the platform at anytime. We created a system that is built on the integrity of our artists and community.</p>
         <br />
 
-        <p class="how-page">2. THE ARTIST GIVES A PERCENTAGE OF SALES TO PEOPLE WHO INVEST IN THE MUSIC PROJECT</p>
+        <h2>GIVE A PERCENTAGE OF SALES BACK TO PEOPLE WHO INVEST IN YOUR MUSIC PROJECT</h2>
         <br />
 
         <div id="canvas-holder">
             <canvas id="chart-area" width="500" height="500"></canvas>
         </div>
 
-        <p class="how-copy">ARTISTS KEEP FULL OWNERSHIP AND CONTROL OF THEIR MUSIC.</p>
-        <h4 class="how-p">An artist gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. PerDiem takes care of all the complicated stuff (tracking, managing, and distributing funds). </h4>
+        <h3>Take full control of your music revenue</h3>
+        <p>Gives a percentage of sales back to the investors as an incentive for them to fund and promote their music. We take care of all the complicated stuff for you (distribution and liscensing, tracking, and managing funds). This allows you focus on doing what you do best... making music.</p>
         <br />
 
-        <p class="how-page">3. REVENUE IS SPLIT FROM THE PROJECT BETWEEN THE ARTIST AND THE PEOPLE WHO INVEST IN IT</p>
+        <h2>BUILD A TEAM OF PEOPLE ALL PUSHING FOR YOUR SUCCESS</h2>
         <div id="canvas-box">
             <canvas id="line-canvas"></canvas>
         </div>
-
-        <p class="how-copy">PEOPLE NOW HAVE AN INCENTIVE TO BUY AND PROMOTE THE ARTISTS MUSIC</p>
-        <h4 class="how-p">100% of revenue earned from the project is split between the artist and investors. Since the success of their investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn.</h4>
+        <h3>">GIVE PEOPLE AN INCENTIVE TO FUND AND PROMOTE YOUR MUSIC</h3>
+        <p>Since the success of the fans investment is tied to the success of the artist, fans have an incentive to promote the music they have invested in. The more music the artist sells, the more money they can earn. It's a win-win for everyone.</p>
         <br />
-        <br />
-        <br />
-
-        <p class="how-copy">WANT TO LEARN EVEN MORE?</p>
-        <p class="how-p">CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a>
-        <br />JOIN OUR VIP LIST </p>
-        <br />
-        <!-- How it works end -->
+        <h5>Interested in being on PerDiem?</h5>
+        <div class="apply-button">
+            <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
+        </div>
+    </div>
+        <div class="break">
+            <hr>
+        </div>
+        <h4>WANT TO LEARN EVEN MORE?</h4>
+        <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
     </div>
 {% endblock %}
 
