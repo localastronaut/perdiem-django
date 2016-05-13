@@ -22,8 +22,8 @@
             <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
         {% else %}
             <div class="home-boxes">
-            <button> <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a></button>
-            <button> <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a></button>
+            <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
+            <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
             </div>
         {% endif %}
     </div>
@@ -67,7 +67,7 @@
             <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
         </div>
     </div>
-            <!-- How it works for fans -->
+    <!-- How it works for fans -->
     <div id="fan-page" class="page">
         <a id="fan" class="smooth"></a>
         <h2 class="how-title">HOW IT WORKS FOR FANS</h2>
