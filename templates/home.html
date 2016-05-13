@@ -61,6 +61,7 @@
                 <a href="{% url 'artists' %}" class="button">Discover Artists</a>
             </div>
         </div>
+    </div>
     <!-- How it works for artists -->
     <div id="how-page" class="page">
         <a id="how" class="smooth"></a>
@@ -101,12 +102,11 @@
             <a href="{% url 'artist_application' %}" class="button">Apply Here</a>
         </div>
     </div>
-        <div class="break">
-            <hr>
-        </div>
-        <h4>WANT TO LEARN EVEN MORE?</h4>
-        <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
+    <div class="break">
+        <hr>
     </div>
+    <h4>WANT TO LEARN EVEN MORE?</h4>
+    <h5>CHECK OUT <a href="{% url 'faq' %}">OUR FAQ</a> AND <a href="{% url 'trust' %}">TRUST &amp; SAFETY</a></h5>
 {% endblock %}
 
 {% block extrajs %}
