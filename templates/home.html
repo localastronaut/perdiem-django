@@ -21,8 +21,8 @@
         {% if user.is_authenticated %}
             <p class="welcome-text">Welcome {% firstof user.get_full_name user.get_username %}!</p>
             <div class="home-boxes">
-                <a class="button text-center box-margin" href={% url 'home' %}#how>I'm an artist</a>
-                <a class="button text-center box-margin" href={% url 'home' %}#fan>I'm a fan</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#how>Artist Details</a>
+                <a class="button text-center box-margin" href={% url 'home' %}#fan>Fan Details</a>
             </div>
         {% else %}
             <div class="home-boxes">
