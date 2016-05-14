@@ -11,9 +11,52 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 
+class UserAvatar(models.Model):
+
+    PROVIDER_PERDIEM = 'perdiem'
+    PROVIDER_GOOGLE = 'google-oauth2'
+    PROVIDER_FACEBOOK = 'facebook'
+    PROVIDER_CHOICES = (
+        (PROVIDER_PERDIEM, 'PerDiem'),
+        (PROVIDER_GOOGLE, 'Google'),
+        (PROVIDER_FACEBOOK, 'Facebook'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    provider = models.CharField(choices=PROVIDER_CHOICES, max_length=15)
+
+    class Meta:
+        unique_together = (('user', 'provider',),)
+
+    def __unicode__(self):
+        return u'{user}: {provider}'.format(
+            user=unicode(self.user),
+            provider=self.get_provider_display()
+        )
+
+
+class UserAvatarURL(models.Model):
+
+    avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
+    url = models.URLField()
+
+    def __unicode__(self):
+        return unicode(self.avatar)
+
+
+class UserAvatarImage(models.Model):
+
+    avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
+    img = models.ImageField()
+
+    def __unicode__(self):
+        return unicode(self.avatar)
+
+
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ForeignKey(UserAvatar, null=True, blank=True)
     invest_anonymously = models.BooleanField(default=False)
 
     def __unicode__(self):

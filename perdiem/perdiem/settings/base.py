@@ -118,13 +118,14 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.social_auth.associate_by_email',
         'accounts.pipeline.require_email',
         'social.pipeline.user.create_user',
+        'accounts.pipeline.save_avatar',
         'social.pipeline.social_auth.associate_user',
         'social.pipeline.social_auth.load_extra_data',
         'social.pipeline.user.user_details',
     )
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
     SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-        'fields': ', '.join(['id', 'name', 'email',]),
+        'fields': ', '.join(['id', 'name', 'email', 'picture',]),
     }
     LOGIN_URL = '/'
 
