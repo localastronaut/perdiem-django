@@ -13,6 +13,7 @@
     <ul class="tabs" data-tabs id="profile-tabs">
         <li class="tabs-title {% if not forms_with_errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
         <li class="tabs-title {% if 'edit_name_form' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
+        <li class="tabs-title {% if 'edit_avatar_form' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
         <li class="tabs-title {% if 'change_password_form' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
         <li class="tabs-title {% if 'email_preferences_form' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
     </ul>
@@ -63,6 +64,28 @@
                 {% csrf_token %}
                 <input type="hidden" name="action" value="edit_name" />
                 {{ edit_name_form.as_p }}
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+        <div class="tabs-panel {% if 'edit_avatar_form' in forms_with_errors %}is-active{% endif %}" id="avatar">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="edit_avatar" />
+                {{ edit_avatar_form.non_field_errors }}
+                {{ edit_avatar_form.avatar_errors }}
+                {% for radio in edit_avatar_form.avatar %}
+                    <label for="{{ radio.id_for_label }}">
+                        {% with label=radio.choice_label %}
+                            {% for k, avatar in avatars.items %}
+                                {% if k == label %}
+                                    <img src="{{ avatar }}" alt="{{ label }}" />
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                        {{ radio.choice_label }}
+                        <span class="radio">{{ radio.tag }}</span>
+                    </label>
+                {% endfor %}
                 <input type="submit" value="Update" />
             </form>
         </div>

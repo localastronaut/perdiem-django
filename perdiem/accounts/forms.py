@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core import validators
 
+from accounts.models import UserAvatar
+
 
 class RegisterAccountForm(UserCreationForm):
 
@@ -51,6 +53,22 @@ class EditNameForm(forms.Form):
         if User.objects.exclude(id=self.user.id).filter(username=username).exists():
             raise forms.ValidationError("A user with that username already exists.")
         return username
+
+
+class EditAvatarForm(forms.Form):
+
+    def __init__(self, user, *args, **kwargs):
+        super(EditAvatarForm, self).__init__(*args, **kwargs)
+        self.fields['avatar'] = forms.ChoiceField(choices=self.get_avatar_choices(user), required=False, widget=forms.RadioSelect)
+
+    def get_avatar_choices(self, user):
+        user_avatars = UserAvatar.objects.filter(user=user)
+        return [('', 'Default',)] + [(avatar.id, avatar.get_provider_display(),) for avatar in user_avatars]
+
+    def clean_avatar(self):
+        avatar_id = self.cleaned_data['avatar']
+        if avatar_id:
+            return UserAvatar.objects.get(id=avatar_id)
 
 
 class EmailPreferencesForm(forms.Form):

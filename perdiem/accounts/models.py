@@ -29,11 +29,23 @@ class UserAvatar(models.Model):
     class Meta:
         unique_together = (('user', 'provider',),)
 
+    @staticmethod
+    def default_avatar_url():
+        return "{static_url}img/avatar.jpg".format(static_url=settings.STATIC_URL)
+
     def __unicode__(self):
         return u'{user}: {provider}'.format(
             user=unicode(self.user),
             provider=self.get_provider_display()
         )
+
+    def avatar_url(self):
+        if self.provider in [self.PROVIDER_GOOGLE, self.PROVIDER_FACEBOOK]:
+            return self.useravatarurl.url
+        elif self.provider == self.PROVIDER_PERDIEM:
+            return self.useravatarimage.img.url
+        else:
+            return self.default_avatar_url()
 
 
 class UserAvatarURL(models.Model):
@@ -73,20 +85,12 @@ class UserProfile(models.Model):
         if not self.invest_anonymously:
             return reverse('public_profile', args=(self.user.username,))
 
-    def default_avatar_url(self):
-        return "{static_url}img/avatar.jpg".format(static_url=settings.STATIC_URL)
-
     def avatar_url(self):
         if not self.avatar:
-            return self.default_avatar_url()
-        elif self.avatar.provider in [UserAvatar.PROVIDER_GOOGLE, UserAvatar.PROVIDER_FACEBOOK]:
-            return self.avatar.useravatarurl.url
-        elif self.avatar.provider == UserAvatar.PROVIDER_PERDIEM:
-            return self.avatar.useravatarimage.img.url
-        else:
-            return self.default_avatar_url()
+            return UserAvatar.default_avatar_url()
+        return self.avatar.avatar_url()
 
     def display_avatar_url(self):
         if self.invest_anonymously:
-            return self.default_avatar_url()
+            return UserAvatar.default_avatar_url()
         return self.avatar_url()
