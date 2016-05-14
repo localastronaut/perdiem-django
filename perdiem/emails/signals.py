@@ -15,6 +15,13 @@ from emails.messages import InvestSuccessEmail
 from emails.models import EmailSubscription
 
 
+@receiver(models.signals.pre_save, sender=EmailSubscription, dispatch_uid="unsubscribe_from_all_handler")
+def unsubscribe_from_all_handler(sender, instance, **kwargs):
+    if instance.subscription == EmailSubscription.SUBSCRIPTION_ALL and not instance.subscribed:
+        for email_subscription in EmailSubscription.objects.filter(user=instance.user).exclude(id=instance.id):
+            email_subscription.subscribed = False
+            email_subscription.save()
+
 @receiver(models.signals.pre_save, sender=EmailSubscription, dispatch_uid="sync_to_mailchimp_handler")
 def sync_to_mailchimp_handler(sender, instance, **kwargs):
     if instance.subscription == EmailSubscription.SUBSCRIPTION_NEWS and instance.subscribed != EmailSubscription.objects.get(id=instance.id).subscribed:
