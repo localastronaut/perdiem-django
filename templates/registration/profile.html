@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load humanize %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/artist_preview.css" %}" type="text/css" charset="utf-8" />
@@ -21,89 +20,10 @@
         <hr>
     </div>
     <div class="tabs-content" data-tabs-content="profile-tabs">
-        <div class="tabs-panel {% if not forms_with_errors %}is-active{% endif %}" id="overview">
-            {% if artists %}
-                <div class="investments">
-                    <h2>Portfolio</h2>
-                    <p>Here are the artists that you have invested in:</p>
-                    <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
-                        {% for artist in artists %}
-                            <div class="column">
-                                {% include "artist/includes/artist_preview.html" with artist=artist %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="break">
-                        <hr>
-                    </div>
-                    <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
-                    {% if total_earned %}
-                        <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
-                    {% else %}
-                        <p class="profile-total">Your money is going towards making some sweet music!</p>
-                    {% endif %}
-                    {% if updates %}
-                        <div class="break">
-                            <hr>
-                        </div>
-                        <!-- Updates -->
-                        <h2>Updates</h2>
-                        <ul>
-                            {% for update in updates %}
-                                <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            {% else %}
-                <p>You haven't invested in anything yet!</p>
-            {% endif %}
-        </div>
-        <div class="tabs-panel {% if 'edit_name_form' in forms_with_errors %}is-active{% endif %}" id="name">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="edit_name" />
-                {{ edit_name_form.as_p }}
-                <input type="submit" value="Update" />
-            </form>
-        </div>
-        <div class="tabs-panel {% if 'edit_avatar_form' in forms_with_errors %}is-active{% endif %}" id="avatar">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="edit_avatar" />
-                {{ edit_avatar_form.non_field_errors }}
-                {{ edit_avatar_form.avatar_errors }}
-                {% for radio in edit_avatar_form.avatar %}
-                    <label for="{{ radio.id_for_label }}">
-                        {% with label=radio.choice_label %}
-                            {% for k, avatar in avatars.items %}
-                                {% if k == label %}
-                                    <img src="{{ avatar }}" alt="{{ label }}" />
-                                {% endif %}
-                            {% endfor %}
-                        {% endwith %}
-                        {{ radio.choice_label }}
-                        <span class="radio">{{ radio.tag }}</span>
-                    </label>
-                {% endfor %}
-                <input type="submit" value="Update" />
-            </form>
-        </div>
-        <div class="tabs-panel {% if 'change_password_form' in forms_with_errors %}is-active{% endif %}" id="password">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="change_password" />
-                {{ change_password_form.as_p }}
-                <input type="submit" value="Update" />
-            </form>
-        </div>
-        <div class="tabs-panel {% if 'email_preferences_form' in forms_with_errors %}is-active{% endif %}" id="email-preferences">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="email_preferences" />
-                {{ email_preferences_form.as_p }}
-                <input type="submit" value="Update" />
-            </form>
-        </div>
+        {% include "registration/includes/profile_portfolio.html" with forms_with_errors=forms_with_errors artists=artists total_investments=total_investments total_earned=total_earned updates=updates %}
+        {% include "registration/includes/profile_form.html" with form_name='edit_name' tab_name='name' form=edit_name_form %}
+        {% include "registration/includes/profile_avatar_form.html" with form_name='edit_avatar' tab_name='avatar' form=edit_avatar_form %}
+        {% include "registration/includes/profile_form.html" with form_name='change_password' tab_name='password' form=change_password_form %}
+        {% include "registration/includes/profile_form.html" with form_name='email_preferences' tab_name='email-preferences' form=email_preferences_form %}
     </div>
 {% endblock %}

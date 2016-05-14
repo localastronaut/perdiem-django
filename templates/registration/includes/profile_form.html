@@ -1,0 +1,8 @@
+<div class="tabs-panel {% if form_name in forms_with_errors %}is-active{% endif %}" id="{{ tab_name }}">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="{{ form_name }}" />
+        {% block form_html %}{{ form.as_p }}{% endblock %}
+        <input type="submit" value="Update" />
+    </form>
+</div>
