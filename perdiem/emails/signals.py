@@ -4,12 +4,21 @@
 
 """
 
+from django.db import models
 from django.dispatch import receiver
 
 from pinax.stripe.models import Charge
 from pinax.stripe.webhooks import registry
 
+from emails.mailchimp import update_user_subscription
 from emails.messages import InvestSuccessEmail
+from emails.models import EmailSubscription
+
+
+@receiver(models.signals.pre_save, sender=EmailSubscription, dispatch_uid="sync_to_mailchimp_handler")
+def sync_to_mailchimp_handler(sender, instance, **kwargs):
+    if instance.subscription == EmailSubscription.SUBSCRIPTION_NEWS and instance.subscribed != EmailSubscription.objects.get(id=instance.id).subscribed:
+        update_user_subscription(instance.user.email, instance.subscribed)
 
 
 @receiver(registry.get_signal("charge.succeeded"))

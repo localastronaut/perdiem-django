@@ -33,7 +33,7 @@ Then in your virtual environment, you will need to install Python dependencies s
 
 ### Configuration
 
-Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. You will also need to define your development keys and secrets from Google, Facebook, and Stripe. Your `dev.py` file might look something like:
+Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. You will also need to define your development keys and secrets from Google, Facebook, Stripe, and MailChimp. Your `dev.py` file might look something like:
 
     from perdiem.settings.base import BaseSettings
 
@@ -55,6 +55,8 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
         SOCIAL_AUTH_FACEBOOK_SECRET = 'abc123'
         PINAX_STRIPE_PUBLIC_KEY = 'pk_test_abc123'
         PINAX_STRIPE_SECRET_KEY = 'sk_test_abc123'
+        MAILCHIMP_API_KEY = 'abc123-usX'
+        MAILCHIMP_LIST_ID = '1234'
 
 Of course you should [generate your own secret key](http://stackoverflow.com/a/16630719) and use a more secure password for your database. If you like, you can override more of Django settings here. If you do not create this file, you will get a `cbsettings.exceptions.NoMatchingSettings` exception when starting the server.
 
