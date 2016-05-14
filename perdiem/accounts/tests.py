@@ -68,6 +68,16 @@ class PerDiemHomeWebTestCase(PerDiemTestCase):
             }
         )
 
+    def testEditAvatar(self):
+        self.assertResponseRenders(
+            '/accounts/profile/',
+            method='POST',
+            data={
+                'action': 'edit_avatar',
+                'avatar': self.user.userprofile.avatar,
+            }
+        )
+
     def testChangePassword(self):
         self.assertResponseRenders(
             '/accounts/profile/',
