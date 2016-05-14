@@ -170,7 +170,7 @@
         <h2>Current Investors</h2>
         <ul>
             {% for investor in investors %}
-                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}">{{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li>
+                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}"><img src="{{ investor.avatar_url }}" alt="{{ investor.name }}" /> {{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li>
             {% endfor %}
         </ul>
     {% endif %}

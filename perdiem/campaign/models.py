@@ -94,6 +94,7 @@ class Campaign(models.Model):
             if investor.id not in investors:
                 investors[investor.id] = {
                     'name': investor.userprofile.get_display_name(),
+                    'avatar_url': investor.userprofile.display_avatar_url(),
                     'public_profile_url': investor.userprofile.public_profile_url(),
                     'total_investment': 0,
                 }

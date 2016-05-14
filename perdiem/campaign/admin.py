@@ -5,20 +5,19 @@
 """
 
 from django.contrib import admin
-from django.contrib.sites.models import Site
 
-from pinax.stripe.models import Charge, Customer, EventProcessingException, \
-    Event, Invoice, Plan, Transfer
+from pinax.stripe.models import (
+    Charge, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
+)
 
 from campaign.models import Campaign, Expense, Investment, RevenueReport
 
 
-# Unregister Pinax Stripe models (and Site) from admin
+# Unregister Pinax Stripe models from admin
 for pinax_stripe_model in [
     Charge, Customer, EventProcessingException, Event, Invoice, Plan, Transfer
 ]:
     admin.site.unregister(pinax_stripe_model)
-admin.site.unregister(Site)
 
 
 class ExpenseInline(admin.TabularInline):

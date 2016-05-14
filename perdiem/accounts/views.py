@@ -14,8 +14,10 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from accounts.forms import (
-    RegisterAccountForm, EditNameForm, EmailPreferencesForm, ContactForm
+    RegisterAccountForm, EditNameForm, EditAvatarForm, EmailPreferencesForm,
+    ContactForm
 )
+from accounts.models import UserAvatar
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
@@ -80,6 +82,25 @@ class EditNameFormView(ConstituentFormView):
         user.userprofile.save()
 
 
+class EditAvatarFormView(ConstituentFormView):
+
+    form_class = EditAvatarForm
+    provide_user = True
+
+    def get_initial(self):
+        return {
+            'avatar': self.request.user.userprofile.avatar,
+        }
+
+    def form_valid(self, form):
+        user = self.request.user
+        d = form.cleaned_data
+
+        # Update user's avatar
+        user.userprofile.avatar = d['avatar']
+        user.userprofile.save()
+
+
 class ChangePasswordFormView(ConstituentFormView):
 
     form_class = PasswordChangeForm
@@ -123,6 +144,7 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
     template_name = 'registration/profile.html'
     constituent_form_views = {
         'edit_name': EditNameFormView,
+        'edit_avatar': EditAvatarFormView,
         'change_password': ChangePasswordFormView,
         'email_preferences': EmailPreferencesFormView,
     }
@@ -154,6 +176,14 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
             num_shares_this_campaign = investments.filter(campaign=campaign).aggregate(ns=models.Sum('num_shares'))['ns']
             total_earned += campaign.generated_revenue_fans_per_share() * num_shares_this_campaign
         context['total_earned'] = total_earned
+
+        # Update context with available avatars
+        user_avatars = UserAvatar.objects.filter(user=self.request.user)
+        avatars = {
+            'Default': UserAvatar.default_avatar_url(),
+        }
+        avatars.update({avatar.get_provider_display(): avatar.avatar_url() for avatar in user_avatars})
+        context['avatars'] = avatars
 
         return context
 

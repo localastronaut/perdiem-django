@@ -54,7 +54,7 @@
                                 <li><a href="{% url 'artists' %}">ARTISTS</a></li>
                                 {% if user.is_authenticated %}
                                     <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                                    <li style="float: right;"><a href="{% url 'profile' %}">PROFILE</a></li>
+                                    <li style="float: right;"><a href="{% url 'profile' %}"><img src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a></li>
                                 {% else %}
                                     <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
                                     <li style="float: right;"><a href="{% url 'register' %}">SIGN UP</a></li>
@@ -109,20 +109,19 @@
 
         <!-- Login Modal -->
         <div class="reveal" id="login-modal" data-reveal>
-            <div class="register-box">
-                <h2 class="white-color">Login</h2>
-                <a href="{% url 'social:begin' backend='google-oauth2' %}"><img src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-                    {{ request.login_form.as_p }}
-                    <input type="submit" value="Login" />
-                </form>
-                <p><a "class="white-color" href="{% url 'password_reset' %}">Forgot password?</a></p>
-                <button class="close-button" data-close aria-label="Close modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            <h1>Login</h1>
+            <a href="{% url 'social:begin' backend='google-oauth2' %}"><img src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
+            <a href="{% url 'social:begin' backend='facebook' %}"><img src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                {{ request.login_form.as_p }}
+                <input type="submit" value="Login" />
+            </form>
+            <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
 
         <!-- JS -->
