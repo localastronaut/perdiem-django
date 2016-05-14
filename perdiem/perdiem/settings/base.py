@@ -106,6 +106,7 @@ class BaseSettings(DjangoDefaults):
     # Authentication
     AUTHENTICATION_BACKENDS = (
         'social.backends.google.GoogleOAuth2',
+        'social.backends.facebook.FacebookOAuth2',
         'django.contrib.auth.backends.ModelBackend',
     )
     SOCIAL_AUTH_PIPELINE = (
@@ -115,11 +116,16 @@ class BaseSettings(DjangoDefaults):
         'social.pipeline.social_auth.social_user',
         'social.pipeline.user.get_username',
         'social.pipeline.social_auth.associate_by_email',
+        'accounts.pipeline.require_email',
         'social.pipeline.user.create_user',
         'social.pipeline.social_auth.associate_user',
         'social.pipeline.social_auth.load_extra_data',
         'social.pipeline.user.user_details',
     )
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
+    SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+        'fields': ', '.join(['id', 'name', 'email',]),
+    }
     LOGIN_URL = '/'
 
     # Email

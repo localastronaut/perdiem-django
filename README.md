@@ -33,7 +33,7 @@ Then in your virtual environment, you will need to install Python dependencies s
 
 ### Configuration
 
-Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. You will also need to define your Stripe test keys. Your `dev.py` file might look something like:
+Next we will need to create a file in the settings directory called `dev.py`. This is where we will store all of the settings that are specific to your instance of PerDiem. Most of these settings should be only known to you. Your file should subclass BaseSettings from `base.py` and then define a secret key and the database credentials. You will also need to define your development keys and secrets from Google, Facebook, and Stripe. Your `dev.py` file might look something like:
 
     from perdiem.settings.base import BaseSettings
 
@@ -51,6 +51,8 @@ Next we will need to create a file in the settings directory called `dev.py`. Th
         }
         SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1234-abc123.apps.googleusercontent.com'
         SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'abc123'
+        SOCIAL_AUTH_FACEBOOK_KEY = '1234'
+        SOCIAL_AUTH_FACEBOOK_SECRET = 'abc123'
         PINAX_STRIPE_PUBLIC_KEY = 'pk_test_abc123'
         PINAX_STRIPE_SECRET_KEY = 'sk_test_abc123'
 

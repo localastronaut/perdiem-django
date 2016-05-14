@@ -111,6 +111,7 @@
         <div class="reveal" id="login-modal" data-reveal>
             <h1>Login</h1>
             <a href="{% url 'social:begin' backend='google-oauth2' %}"><img src="{% static "img/google-signin.png" %}" alt="Sign in with Google" /></a>
+            <a href="{% url 'social:begin' backend='facebook' %}"><img src="{% static "img/facebook-signin.png" %}" alt="Sign in with Facebook" /></a>
             <form action="" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
