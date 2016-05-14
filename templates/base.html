@@ -54,7 +54,7 @@
                                 <li><a href="{% url 'artists' %}">ARTISTS</a></li>
                                 {% if user.is_authenticated %}
                                     <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                                    <li style="float: right;"><a href="{% url 'profile' %}">PROFILE</a></li>
+                                    <li style="float: right;"><a href="{% url 'profile' %}"><img src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a></li>
                                 {% else %}
                                     <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
                                     <li style="float: right;"><a href="{% url 'register' %}">SIGN UP</a></li>

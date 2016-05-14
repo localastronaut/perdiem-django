@@ -6,6 +6,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -71,3 +72,21 @@ class UserProfile(models.Model):
     def public_profile_url(self):
         if not self.invest_anonymously:
             return reverse('public_profile', args=(self.user.username,))
+
+    def default_avatar_url(self):
+        return "{static_url}img/avatar.jpg".format(static_url=settings.STATIC_URL)
+
+    def avatar_url(self):
+        if not self.avatar:
+            return self.default_avatar_url()
+        elif self.avatar.provider in [UserAvatar.PROVIDER_GOOGLE, UserAvatar.PROVIDER_FACEBOOK]:
+            return self.avatar.useravatarurl.url
+        elif self.avatar.provider == UserAvatar.PROVIDER_PERDIEM:
+            return self.avatar.useravatarimage.img.url
+        else:
+            return self.default_avatar_url()
+
+    def display_avatar_url(self):
+        if self.invest_anonymously:
+            return self.default_avatar_url()
+        return self.avatar_url()
