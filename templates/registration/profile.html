@@ -22,7 +22,7 @@
     <div class="tabs-content" data-tabs-content="profile-tabs">
         {% include "registration/includes/profile_portfolio.html" with forms_with_errors=forms_with_errors artists=artists total_investments=total_investments total_earned=total_earned updates=updates %}
         {% include "registration/includes/profile_form.html" with form_name='edit_name' tab_name='name' form=edit_name_form %}
-        {% include "registration/includes/profile_avatar_form.html" with form_name='edit_avatar' tab_name='avatar' form=edit_avatar_form %}
+        {% include "registration/includes/profile_avatar_form.html" with form_name='edit_avatar' tab_name='avatar' includes_files=True form=edit_avatar_form %}
         {% include "registration/includes/profile_form.html" with form_name='change_password' tab_name='password' form=change_password_form %}
         {% include "registration/includes/profile_form.html" with form_name='email_preferences' tab_name='email-preferences' form=email_preferences_form %}
     </div>

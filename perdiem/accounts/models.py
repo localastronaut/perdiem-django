@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from sorl.thumbnail import get_thumbnail
+
 
 class UserAvatar(models.Model):
 
@@ -18,7 +20,7 @@ class UserAvatar(models.Model):
     PROVIDER_GOOGLE = 'google-oauth2'
     PROVIDER_FACEBOOK = 'facebook'
     PROVIDER_CHOICES = (
-        (PROVIDER_PERDIEM, 'PerDiem'),
+        (PROVIDER_PERDIEM, 'Custom'),
         (PROVIDER_GOOGLE, 'Google'),
         (PROVIDER_FACEBOOK, 'Facebook'),
     )
@@ -43,7 +45,8 @@ class UserAvatar(models.Model):
         if self.provider in [self.PROVIDER_GOOGLE, self.PROVIDER_FACEBOOK]:
             return self.useravatarurl.url
         elif self.provider == self.PROVIDER_PERDIEM:
-            return self.useravatarimage.img.url
+            original = self.useravatarimage.img
+            return get_thumbnail(original, '50x50', crop='center').url
         else:
             return self.default_avatar_url()
 
@@ -59,8 +62,16 @@ class UserAvatarURL(models.Model):
 
 class UserAvatarImage(models.Model):
 
+    def user_avatar_filename(instance, filename):
+        extension = filename.split('.')[-1]
+        new_filename = '{user_id}.{extension}'.format(
+            user_id=instance.avatar.user.id,
+            extension=extension
+        )
+        return '/'.join(['avatars', new_filename,])
+
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
-    img = models.ImageField()
+    img = models.ImageField(upload_to=user_avatar_filename)
 
     def __unicode__(self):
         return unicode(self.avatar)

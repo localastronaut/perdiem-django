@@ -5,6 +5,7 @@
 """
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core import validators
@@ -57,6 +58,8 @@ class EditNameForm(forms.Form):
 
 class EditAvatarForm(forms.Form):
 
+    custom_avatar = forms.ImageField(required=False)
+
     def __init__(self, user, *args, **kwargs):
         super(EditAvatarForm, self).__init__(*args, **kwargs)
         self.fields['avatar'] = forms.ChoiceField(choices=self.get_avatar_choices(user), required=False, widget=forms.RadioSelect)
@@ -69,6 +72,12 @@ class EditAvatarForm(forms.Form):
         avatar_id = self.cleaned_data['avatar']
         if avatar_id:
             return UserAvatar.objects.get(id=avatar_id)
+
+    def clean_custom_avatar(self):
+        custom_avatar = self.cleaned_data['custom_avatar']
+        if custom_avatar and custom_avatar._size > settings.MAXIMUM_AVATAR_SIZE:
+            raise forms.ValidationError("Image file too large (2MB maximum).")
+        return custom_avatar
 
 
 class EmailPreferencesForm(forms.Form):

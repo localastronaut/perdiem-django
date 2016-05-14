@@ -1,8 +1,9 @@
 {% extends "registration/includes/profile_form.html" %}
 
-{% block form_html %}
+{% block form_inner_html %}
     {{ form.non_field_errors }}
-    {{ form.avatar_errors }}
+    <p>Select one of your existing avatars:</p>
+    {{ form.avatar.errors }}
     {% for radio in form.avatar %}
         <label for="{{ radio.id_for_label }}">
             {% with label=radio.choice_label %}
@@ -16,4 +17,7 @@
             <span class="radio">{{ radio.tag }}</span>
         </label>
     {% endfor %}
+    <p>Or upload a new one <small>(2MB maximum size)</small>:</p>
+    {{ form.custom_avatar.errors }}
+    {{ form.custom_avatar }}
 {% endblock %}

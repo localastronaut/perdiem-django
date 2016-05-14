@@ -102,6 +102,7 @@ class BaseSettings(DjangoDefaults):
         os.path.join(TOP_DIR, 'static'),
     )
     STATIC_URL = '/static/'
+    MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024 # 2MB
 
     # Authentication
     AUTHENTICATION_BACKENDS = (

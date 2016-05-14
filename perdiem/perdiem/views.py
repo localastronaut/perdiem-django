@@ -11,6 +11,7 @@ from django.views.generic import TemplateView
 class ConstituentFormView(object):
 
     provide_user = False
+    includes_files = False
 
     def __init__(self, request):
         self.request = request
@@ -59,6 +60,8 @@ class MultipleFormView(TemplateView):
         form_args = [request.POST]
         if form_view.provide_user:
             form_args = [request.user] + form_args
+        if form_view.includes_files:
+            form_args.append(request.FILES)
         form = form_view.form_class(*form_args)
         if form.is_valid():
             form_view.form_valid(form)

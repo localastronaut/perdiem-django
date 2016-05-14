@@ -17,7 +17,7 @@ from accounts.forms import (
     RegisterAccountForm, EditNameForm, EditAvatarForm, EmailPreferencesForm,
     ContactForm
 )
-from accounts.models import UserAvatar
+from accounts.models import UserAvatar, UserAvatarImage
 from artist.models import Artist, Update
 from campaign.models import Campaign, Investment
 from emails.messages import WelcomeEmail, ContactEmail
@@ -86,6 +86,7 @@ class EditAvatarFormView(ConstituentFormView):
 
     form_class = EditAvatarForm
     provide_user = True
+    includes_files = True
 
     def get_initial(self):
         user_profile = self.request.user.userprofile
@@ -97,8 +98,15 @@ class EditAvatarFormView(ConstituentFormView):
         user = self.request.user
         d = form.cleaned_data
 
+        # Upload a custom avatar, if provided
+        user_avatar = d['avatar']
+        custom_avatar = d['custom_avatar']
+        if custom_avatar:
+            user_avatar, _ = UserAvatar.objects.get_or_create(user=user, provider=UserAvatar.PROVIDER_PERDIEM)
+            UserAvatarImage.objects.update_or_create(avatar=user_avatar, defaults={'img': custom_avatar,})
+
         # Update user's avatar
-        user.userprofile.avatar = d['avatar']
+        user.userprofile.avatar = user_avatar
         user.userprofile.save()
 
 
