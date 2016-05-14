@@ -88,8 +88,9 @@ class EditAvatarFormView(ConstituentFormView):
     provide_user = True
 
     def get_initial(self):
+        user_profile = self.request.user.userprofile
         return {
-            'avatar': self.request.user.userprofile.avatar,
+            'avatar': user_profile.avatar.id if user_profile.avatar else '',
         }
 
     def form_valid(self, form):
