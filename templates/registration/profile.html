@@ -11,10 +11,10 @@
     {% if user.userprofile.invest_anonymously %}<p><small>(displays publicly as Anonymous)</small></p>{% endif %}
     <ul class="tabs" data-tabs id="profile-tabs">
         <li class="tabs-title {% if not forms_with_errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
-        <li class="tabs-title {% if 'edit_name_form' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
-        <li class="tabs-title {% if 'edit_avatar_form' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
-        <li class="tabs-title {% if 'change_password_form' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
-        <li class="tabs-title {% if 'email_preferences_form' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
+        <li class="tabs-title {% if 'edit_name' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
+        <li class="tabs-title {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
+        <li class="tabs-title {% if 'change_password' in forms_with_errors %}is-active{% endif %}"><a href="#password">Password</a></li>
+        <li class="tabs-title {% if 'email_preferences' in forms_with_errors %}is-active{% endif %}"><a href="#email-preferences">Email Preferences</a></li>
     </ul>
     <div class="break">
         <hr>
