@@ -58,9 +58,9 @@
                             <div class="top-bar-right">
                                 <ul class="dropdown menu" data-dropdown-menu>
                                     {% if user.is_authenticated %}
-                                        <li class="nav">
+                                        <li class="nav is-dropdown-submenu-parent">
                                             <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
-                                            <ul class="menu vertical">
+                                            <ul class="menu vertical is-dropdown-submenu">
                                                 <li class="nav"><a href="{% url 'profile' %}">PROFILE</a></li>
                                                 <li class="nav"><a href="{% url 'logout' %}">LOGOUT</a></li>
                                             </ul>
