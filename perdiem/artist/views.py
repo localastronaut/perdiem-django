@@ -52,13 +52,6 @@ class ArtistListView(ListView):
         'funded': '% Funded',
     }
 
-    def percentage_funded(self, artist):
-        campaign = artist.latest_campaign()
-        if campaign:
-            funded = campaign.percentage_funded()
-            artist.funded = funded
-            return funded
-
     def dispatch(self, request, *args, **kwargs):
         # Filtering
         self.active_genre = request.GET.get('genre', 'All')
@@ -110,7 +103,7 @@ class ArtistListView(ListView):
         # Sorting
         order_by_name = self.order_by['slug']
         if order_by_name == 'funded':
-            ordered_artists = sorted(artists, key=self.percentage_funded, reverse=True)
+            ordered_artists = artists.order_by_percentage_funded()
         else:
             ordered_artists = artists.order_by('-id')
 

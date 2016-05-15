@@ -22,6 +22,14 @@ class ArtistQuerySet(models.QuerySet):
         max_lon = geopy_distance.destination(origin, 90).longitude
         return min_lat, max_lat, min_lon, max_lon
 
+    @staticmethod
+    def percentage_funded(artist):
+        campaign = artist.latest_campaign()
+        if campaign:
+            funded = campaign.percentage_funded()
+            artist.funded = funded
+            return funded
+
     def filter_by_location(self, distance, lat, lon):
         min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(distance, lat, lon)
         artists_within_bounds = self.filter(
@@ -36,3 +44,7 @@ class ArtistQuerySet(models.QuerySet):
             if calc_distance((lat, lon,), (artist.lat, artist.lon,)).miles <= distance:
                 nearby_artist_ids.append(artist.id)
         return self.filter(id__in=nearby_artist_ids)
+
+    # TODO(lucas): Use annotations as much as possible to improve performance
+    def order_by_percentage_funded(self):
+        return sorted(self, key=self.percentage_funded, reverse=True)
