@@ -89,3 +89,42 @@ For reference, the format of the Sentry DSN is as follows:
      {PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}/{PATH}{PROJECT_ID}
 
 Alternatively, you may choose to merge your production `dev.py` file into `prod.py`. In that case, be sure to subclass `BaseSettings` instead of `DevSettings` and make sure all definitions from `dev.py` are in `prod.py`.
+
+PerDiem uses Gunicorn with [runit](http://smarden.org/runit/) and [Nginx](http://nginx.org/). You can install them with the following:
+
+    sudo apt-get install runit nginx
+
+The rest of the README assumes that the PerDiem repo was checked out in `/home/perdiem/`. Please replace this path as necessary.
+
+We need to copy the Nginx configuration:
+
+    cd /etc/nginx/sites-enabled
+    sudo ln -s /home/perdiem/perdiem-django/perdiem/perdiem/nginx/investperdiem.com investperdiem.com
+
+Then we need to create a script to run PerDiem on boot with runit:
+
+    sudo mkdir /etc/sv/perdiem
+    cd /etc/sv/perdiem
+    sudo nano run
+
+In this file, create a script similar to the following:
+
+    #!/bin/sh
+
+    GUNICORN=/home/perdiem/.virtualenvs/perdiem/bin/gunicorn
+    ROOT=/home/perdiem/perdiem-django/perdiem
+    PID=/var/run/gunicorn.pid
+
+    APP=perdiem.wsgi:application
+
+    if [ -f $PID ]; then rm $PID; fi
+
+    cd $ROOT
+    exec $GUNICORN -c $ROOT/perdiem/gunicorn.py --pid=$PID $APP
+
+Then change the permissions on the file to be executable and symlink the project to /etc/service:
+
+    sudo chmod u+x run
+    sudo ln -s /etc/sv/perdiem /etc/service/perdiem
+
+PerDiem should now automatically be running on the local machine.

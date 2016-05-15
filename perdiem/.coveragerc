@@ -3,5 +3,6 @@ source = ./
 
 # Omit files from coverage that only run on prod
 omit =
+    perdiem/gunicorn.py
     perdiem/settings/__init__.py
     perdiem/wsgi.py
