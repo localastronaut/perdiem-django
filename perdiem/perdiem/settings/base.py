@@ -31,6 +31,7 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.humanize',
         'raven.contrib.django.raven_compat',
         'sorl.thumbnail',
+        'storages',
         'social.apps.django_app.default',
         'pinax.stripe',
         'accounts.apps.AccountsConfig',
@@ -97,14 +98,36 @@ class BaseSettings(DjangoDefaults):
 
     # Static files (CSS, JavaScript, Images)
     MEDIA_ROOT = os.path.join(TOP_DIR, 'media')
-    MEDIA_URL = '/media/'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     STATIC_ROOT = os.path.join(TOP_DIR, 'staticfiles')
     STATICFILES_DIRS = (
         os.path.join(TOP_DIR, 'static'),
     )
-    STATIC_URL = '/static/'
+    MEDIAFILES_LOCATION = 'media'
+    STATICFILES_LOCATION = 'static'
+    AWS_HEADERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'Cache-Control': 'max-age=94608000',
+    }
     MAXIMUM_AVATAR_SIZE = 2 * 1024 * 1024 # 2MB
+
+    @property
+    def MEDIA_URL(self):
+        if not hasattr(self, 'AWS_S3_CUSTOM_URL'):
+            return '/media/'
+        return '{aws_s3}/{media}/'.format(
+            aws_s3=self.AWS_S3_CUSTOM_URL,
+            media=self.MEDIAFILES_LOCATION
+        )
+
+    @property
+    def STATIC_URL(self):
+        if not hasattr(self, 'AWS_S3_CUSTOM_URL'):
+            return '/static/'
+        return '{aws_s3}/{static}/'.format(
+            aws_s3=self.AWS_S3_CUSTOM_URL,
+            static=self.STATICFILES_LOCATION
+        )
 
     # Authentication
     AUTHENTICATION_BACKENDS = (
