@@ -44,13 +44,13 @@
                     <div class="full-page">
                         <!-- Nav -->
                         <div class="show-for-small-only">
-                            <ul class="nav">
+                            <ul class="nav-small">
                                 <li class="small-menu"><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
                             </ul>
                         </div>
-                        <div class="hide-for-small-only top-bar">
+                        <div class="hide-for-small-only top-bar nav">
                             <div class="top-bar-left">
-                                <ul class="dropdown menu" data-dropdown-menu>
+                                <ul class="dropdown menu nav" data-dropdown-menu>
                                     <li><a class="active" href="{% url 'home' %}">HOME</a></li>
                                     <li><a href="{% url 'artists' %}">ARTISTS</a></li>
                                 </ul>
@@ -58,16 +58,18 @@
                             <div class="top-bar-right">
                                 <ul class="dropdown menu" data-dropdown-menu>
                                     {% if user.is_authenticated %}
-                                        <li>
-                                            <a href="{% url 'profile' %}"><img src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                        <li class="nav">
+                                            <a href="{% url 'profile' %}"><img class="profile-crop" src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
                                             <ul class="menu vertical">
-                                                <li><a href="{% url 'profile' %}">PROFILE</a></li>
-                                                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                                                <li class="nav"><a href="{% url 'profile' %}">PROFILE</a></li>
+                                                <li class="nav"><a href="{% url 'logout' %}">LOGOUT</a></li>
                                             </ul>
                                         </li>
                                     {% else %}
-                                        <li><a href="{% url 'register' %}">SIGN UP</a></li>
-                                        <li><a data-open="login-modal">LOGIN</a></li>
+                                    <ul class="menu nav">
+                                        <li class="nav-color"><a href="{% url 'register' %}">SIGN UP</a></li>
+                                        <li class="nav-color"><a data-open="login-modal">LOGIN</a></li>
+                                    </ul>
                                     {% endif %}
                                 </ul>
                             </div>
