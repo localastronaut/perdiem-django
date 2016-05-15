@@ -11,25 +11,25 @@
 
 PerDiem requires [memcached](http://memcached.org/), [PostgreSQL](http://www.postgresql.org/), pip and libjpeg-dev, which you can install on debian with:
 
-    sudo apt-get install memcached postgresql postgresql-contrib python-pip python-dev libpq-dev libjpeg-dev
+    $ sudo apt-get install memcached postgresql postgresql-contrib python-pip python-dev libpq-dev libjpeg-dev
 
 I recommend using a virtual environment for PerDiem. If you don't have it already, you can install [virtualenv](http://virtualenv.readthedocs.org/en/latest/virtualenv.html) and virtualenvwrapper globally with pip:
 
-    sudo pip install virtualenv virtualenvwrapper
+    $ sudo pip install virtualenv virtualenvwrapper
 
 [Update your .profile or .bashrc file](http://virtualenvwrapper.readthedocs.org/en/latest/install.html#shell-startup-file) to create new environment variables for virtualenvwrapper and then create and activate your virtual environment with:
 
-    mkvirtualenv perdiem
+    $ mkvirtualenv perdiem
 
 In the future you can reactivate the virtual environment with:
 
-    workon perdiem
+    $ workon perdiem
 
 ### Installation
 
 Then in your virtual environment, you will need to install Python dependencies such as [Gunicorn](http://gunicorn.org/), [django](https://www.djangoproject.com/), python-memcached, psycopg2, [pillow](https://pillow.readthedocs.org/), django-classbasedsettings, django-templated-email, [geopy](http://geopy.readthedocs.org/), and [Pinax Stripe](https://pinax-stripe.readthedocs.org/). You can do this simply with the command:
 
-    pip install -r requirements.txt
+    $ pip install -r requirements.txt
 
 ### Configuration
 
@@ -62,8 +62,8 @@ Of course you should [generate your own secret key](http://stackoverflow.com/a/1
 
 With everything installed and all files in place, you may now create the database tables and collect static files. You can do this with:
 
-    python manage.py migrate
-    python manage.py collectstatic
+    $ python manage.py migrate
+    $ python manage.py collectstatic
 
 ### Deployment
 
@@ -92,20 +92,20 @@ Alternatively, you may choose to merge your production `dev.py` file into `prod.
 
 PerDiem uses Gunicorn with [runit](http://smarden.org/runit/) and [Nginx](http://nginx.org/). You can install them with the following:
 
-    sudo apt-get install runit nginx
+    $ sudo apt-get install runit nginx
 
 The rest of the README assumes that the PerDiem repo was checked out in `/home/perdiem/`. Please replace this path as necessary.
 
 We need to copy the Nginx configuration:
 
-    cd /etc/nginx/sites-enabled
-    sudo ln -s /home/perdiem/perdiem-django/perdiem/perdiem/nginx/investperdiem.com investperdiem.com
+    $ cd /etc/nginx/sites-enabled
+    $ sudo ln -s /home/perdiem/perdiem-django/perdiem/perdiem/nginx/investperdiem.com investperdiem.com
 
 Then we need to create a script to run PerDiem on boot with runit:
 
-    sudo mkdir /etc/sv/perdiem
-    cd /etc/sv/perdiem
-    sudo nano run
+    $ sudo mkdir /etc/sv/perdiem
+    $ cd /etc/sv/perdiem
+    $ sudo nano run
 
 In this file, create a script similar to the following:
 
@@ -124,7 +124,7 @@ In this file, create a script similar to the following:
 
 Then change the permissions on the file to be executable and symlink the project to /etc/service:
 
-    sudo chmod u+x run
-    sudo ln -s /etc/sv/perdiem /etc/service/perdiem
+    $ sudo chmod u+x run
+    $ sudo ln -s /etc/sv/perdiem /etc/service/perdiem
 
 PerDiem should now automatically be running on the local machine.
