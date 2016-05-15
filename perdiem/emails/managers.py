@@ -20,5 +20,7 @@ class EmailSubscriptionManager(models.Manager):
         else:
             return subscription.subscribed
 
-    def unsubscribe_user(self, user):
-        self.update_or_create(user=user, subscription=self.model.SUBSCRIPTION_ALL, defaults={'subscribed': False,})
+    def unsubscribe_user(self, user, subscription_type=None):
+        if not subscription_type:
+            subscription_type = self.models.SUBSCRIPTION_ALL
+        self.update_or_create(user=user, subscription=subscription_type, defaults={'subscribed': False,})

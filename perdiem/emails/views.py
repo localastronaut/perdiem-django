@@ -4,8 +4,11 @@
 
 """
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from emails.models import EmailSubscription
@@ -29,3 +32,16 @@ class UnsubscribeView(TemplateView):
         else:
             context['success'] = False
         return context
+
+
+@csrf_exempt
+def unsubscribe_from_mailchimp(request):
+    if request.POST['data[list_id]'] == settings.MAILCHIMP_LIST_ID:
+        email = request.POST['data[email]']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            pass
+        else:
+            EmailSubscription.objects.unsubscribe_user(user, subscription_type=EmailSubscription.SUBSCRIPTION_NEWS)
+    return HttpResponse("")
