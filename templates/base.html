@@ -48,18 +48,29 @@
                                 <li class="small-menu"><button type="button" class="menu-icon" data-toggle="offCanvas"></button></li>
                             </ul>
                         </div>
-                        <div class="hide-for-small-only">
-                            <ul class="nav">
-                                <li><a class="active" href="{% url 'home' %}">HOME</a></li>
-                                <li><a href="{% url 'artists' %}">ARTISTS</a></li>
-                                {% if user.is_authenticated %}
-                                    <li style="float: right;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                                    <li style="float: right;"><a href="{% url 'profile' %}"><img src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a></li>
-                                {% else %}
-                                    <li style="float: right;"><a data-open="login-modal">LOGIN</a></li>
-                                    <li style="float: right;"><a href="{% url 'register' %}">SIGN UP</a></li>
-                                {% endif %}
-                            </ul>
+                        <div class="hide-for-small-only top-bar">
+                            <div class="top-bar-left">
+                                <ul class="dropdown menu" data-dropdown-menu>
+                                    <li><a class="active" href="{% url 'home' %}">HOME</a></li>
+                                    <li><a href="{% url 'artists' %}">ARTISTS</a></li>
+                                </ul>
+                            </div>
+                            <div class="top-bar-right">
+                                <ul class="dropdown menu" data-dropdown-menu>
+                                    {% if user.is_authenticated %}
+                                        <li>
+                                            <a href="{% url 'profile' %}"><img src="{{ user.userprofile.avatar_url }}" alt="Profile" /></a>
+                                            <ul class="menu vertical">
+                                                <li><a href="{% url 'profile' %}">PROFILE</a></li>
+                                                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="{% url 'register' %}">SIGN UP</a></li>
+                                        <li><a data-open="login-modal">LOGIN</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
                         </div>
                         <!-- Content -->
                         <div class="container">
