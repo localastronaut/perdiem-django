@@ -83,7 +83,13 @@
             <div class="column">
                 {% include "artist/includes/artist_preview.html" with artist=artist %}
                 {% if order_by.slug == 'funded' %}
-                    <p>% Funded: {{ artist.funded }}</p>
+                    <p>
+                        {% if artist.funded %}
+                            % Funded: {{ artist.funded }}
+                        {% else %}
+                            No campaigns yet
+                        {% endif %}
+                    </p>
                 {% endif %}
                 <p>Location: {{ artist.location }}</p>
             </div>
