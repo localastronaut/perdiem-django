@@ -7,6 +7,7 @@
 import os
 
 from cbsettings import DjangoDefaults
+import raven
 
 
 class BaseSettings(DjangoDefaults):
@@ -28,6 +29,7 @@ class BaseSettings(DjangoDefaults):
         'django.contrib.staticfiles',
         'django.contrib.sites',
         'django.contrib.humanize',
+        'raven.contrib.django.raven_compat',
         'sorl.thumbnail',
         'social.apps.django_app.default',
         'pinax.stripe',
@@ -129,6 +131,20 @@ class BaseSettings(DjangoDefaults):
         'fields': ', '.join(['id', 'name', 'email', 'picture',]),
     }
     LOGIN_URL = '/'
+
+    # Sentry
+    @property
+    def RAVEN_CONFIG(self):
+        if not hasattr(self, 'RAVEN_SECRET_KEY'):
+            return {}
+        return {
+            'dsn': 'https://{public_key}:{secret_key}@app.getsentry.com/{project_id}'.format(
+                public_key=self.RAVEN_PUBLIC_KEY,
+                secret_key=self.RAVEN_SECRET_KEY,
+                project_id=self.RAVEN_PROJECT_ID
+            ),
+            'release': raven.fetch_git_sha(self.TOP_DIR),
+        }
 
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

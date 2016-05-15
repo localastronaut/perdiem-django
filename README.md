@@ -64,3 +64,16 @@ With everything installed and all files in place, you may now create the databas
 
     python manage.py migrate
     python manage.py collectstatic
+
+### Deployment
+
+In the production environment, you'll need to create a different dev settings configuration file. It will be similar to the one above, except that you will be using production keys and secrets instead of development keys. In addition, you will need to create a `prod.py` file, similar to your `dev.py` file, but this one will contain settings only relevant to production. This file is a good place to put keys and secrets for services that are only used in the production environment, such as Sentry. It may be best to subclass the `DevSettings` class you created, in order to get something like this:
+
+    from perdiem.settings.dev import DevSettings
+
+    class ProdSettings(DevSettings):
+        DEBUG = False
+        ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
+        RAVEN_PUBLIC_KEY = 'xyz'
+        RAVEN_SECRET_KEY = 'abc123'
+        RAVEN_PROJECT_ID = '1234'
