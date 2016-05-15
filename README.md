@@ -77,3 +77,7 @@ In the production environment, you'll need to create a different dev settings co
         RAVEN_PUBLIC_KEY = 'xyz'
         RAVEN_SECRET_KEY = 'abc123'
         RAVEN_PROJECT_ID = '1234'
+
+For reference, the format of the Sentry DSN is as follows:
+
+     {PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}/{PATH}{PROJECT_ID}
