@@ -81,3 +81,5 @@ In the production environment, you'll need to create a different dev settings co
 For reference, the format of the Sentry DSN is as follows:
 
      {PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}/{PATH}{PROJECT_ID}
+
+Alternatively, you may choose to merge your production `dev.py` file into `prod.py`. In that case, be sure to subclass `BaseSettings` instead of `DevSettings` and make sure all definitions from `dev.py` are in `prod.py`.
