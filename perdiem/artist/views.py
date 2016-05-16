@@ -4,11 +4,12 @@
 
 """
 
+import datetime
+
 from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.db.models import Sum
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
 from django.views.generic.edit import FormView
@@ -50,6 +51,7 @@ class ArtistListView(ListView):
     ORDER_BY_NAME = {
         'recent': 'Recently Added',
         'funded': '% Funded',
+        'time-remaining': 'Time to Go',
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -74,6 +76,7 @@ class ArtistListView(ListView):
         context = super(ArtistListView, self).get_context_data(**kwargs)
         sort_options = [{'slug': s, 'name': n,} for s, n in self.ORDER_BY_NAME.iteritems()]
         context.update({
+            'now': datetime.datetime.now(),
             'genres': Genre.objects.all().order_by('name').values_list('name', flat=True),
             'active_genre': self.active_genre,
             'distance': self.distance if (self.lat and self.lon) or self.location else None,
@@ -104,6 +107,8 @@ class ArtistListView(ListView):
         order_by_name = self.order_by['slug']
         if order_by_name == 'funded':
             ordered_artists = artists.order_by_percentage_funded()
+        elif order_by_name == 'time-remaining':
+            ordered_artists = artists.order_by_time_remaining()
         else:
             ordered_artists = artists.order_by('-id')
 
