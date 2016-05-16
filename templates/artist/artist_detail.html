@@ -69,6 +69,9 @@
         {% if campaign.days_remaining == 0 %}
             <p><em>Campaign ended {{ campaign.end_datetime|date:'m/d' }}</em></p>
         {% endif %}
+        {% if campaign.generated_revenue %}
+            <p>${{ campaign.generated_revenue|intcomma|floatformat:0 }} generated so far from this campaign (${{ campaign.generated_revenue_fans|intcomma|floatformat:0 }} for fans).</p>
+        {% endif %}
         <!-- Countdown Widget -->
         </ul>
         <!-- Buy Shares -->
