@@ -34,20 +34,16 @@
     <div class="break">
         <hr>
     </div>
-    <div class="uppercase">
-        <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
+    <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
     {% endwith %}
     <h4>Location: {{ artist.location }}</h4>
     <div class="break">
         <hr>
     </div>
-    </div>
     {% if campaign %}
         <!-- Goal -->
         <h2>GOAL</h2>
-        <div class="uppercase">
-            <h4>${{ campaign.amount|intcomma }} for {{ campaign.reason }}</h4>
-        </div>
+        <h4>${{ campaign.amount|intcomma }} for {{ campaign.reason }}</h4>
         <!-- Countdown Widget -->
         <div id="countdown-wrap">
             <div id="glass">
@@ -121,8 +117,8 @@
         <div class="extra-padding">
             {% for playlist in artist.soundcloudplaylist_set.all %}
                 <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
-        </div>
         {% endfor %}
+        </div>
     {% endif %}
 
     {% if campaign %}
@@ -162,12 +158,12 @@
         </div>
         <!-- Return on Investment -->
         <h2>RETURN ON INVESTMENT</h2>
-            <div class="canvas-profile">
-                <canvas id="canvas"></canvas>
-            </div>
-            <div class="profile-padding">
-                <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
-            </div>
+        <div class="canvas-profile">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="profile-padding">
+            <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+        </div>
     {% endif %}
 
     {% if artist.social_set.exists %}
@@ -188,13 +184,15 @@
             <hr>
         </div>
         <!-- Current Investors -->
-
         <ul class="vertical menu" data-accordion-menu>
           <li>
         <a href= "#"><h2>CURRENT INVESTORS</h2></a>
             <ul class="menu vertical nested is-active">
             {% for investor in investors %}
-                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}"><img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" /><p>{{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li></p>
+                <li>{% if investor.public_profile_url %}
+                <a href="{{ investor.public_profile_url }}">
+                <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
+                <p>{{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li></p>
             {% endfor %}
             </li>
             </ul>
@@ -225,13 +223,8 @@
 
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
-    <script type="text/javascript">
-
     <script type="text/javascript" src="{% static "js/vendor/smooth-scroll.js" %}"></script>
     <script type="text/javascript">
-
-
-
         var doughnutData = [
                 {
                     value: {{ campaign.fans_percentage }},
@@ -319,4 +312,3 @@
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-detail.js" %}"></script>
 {% endblock %}
-
