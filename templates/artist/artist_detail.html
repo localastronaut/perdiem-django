@@ -231,8 +231,8 @@
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
-        {% if campaign %}
 
+        {% if campaign %}
             var doughnutData = [
                     {
                         value: {{ campaign.fans_percentage }},
