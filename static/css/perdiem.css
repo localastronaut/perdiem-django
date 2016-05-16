@@ -110,7 +110,7 @@ body {
 
 canvas {
     max-width: 800px;
-    max-height: 400px;
+    max-height: 640px;
 }
 
 #canvas-box {   
@@ -213,4 +213,9 @@ a.nav-color {
     height: 30px;
     width: 30px;
     border-radius: 15px;
+}
+
+.canvas-profile {
+    text-align: center;
+    padding: 3em;
 }

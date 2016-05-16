@@ -139,6 +139,9 @@
         </div>
         <!-- Percentage -->
         <h3>Percentage</h3>
+        <div id="canvas-holder">
+            <canvas id="chart-area" width="500" height="500"></canvas>
+        </div>
         <ul>
             <li>{{ artist.name }}: {{ campaign.artist_percentage }}%</li>
             <li>Investors: {{ campaign.fans_percentage }}%</li>
@@ -149,6 +152,9 @@
         </div>
         <!-- Return on Investment -->
         <h3>Return on Investment</h3>
+            <div class="canvas-profile">
+                <canvas id="canvas"></canvas>
+            </div>
         <p>For example: If this project earns ${{ campaign.revenue_to_2x|intcomma }} in revenue, every investor will 2x their investment.</p>
     {% endif %}
 
@@ -199,6 +205,69 @@
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script type="text/javascript">
+
+    <script type="text/javascript" src="{% static "js/vendor/smooth-scroll.js" %}"></script>
+    <script type="text/javascript">
+
+
+
+        var doughnutData = [
+                {
+                    value: {{ campaign.fans_percentage }},
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "Fan %"
+                },
+                {
+                    value: {{ campaign.artist_percentage }},
+                    color:"#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Artist %"
+                }
+
+            ];
+
+        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+        var lineChartData = {
+            labels : ["1x","2x","3x","4x","5x"],
+            datasets : [
+                {
+                    label: "Artist Revenue",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [{{ campaign.revenue_to_2x|intcomma }}]
+                },
+                {
+                    label: "Investor income",
+                    fillColor : "rgba(151,187,205,0.2)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(151,187,205,1)",
+                    data : [1,2,3,4,5,{{ campaign.revenue_to_2x|intcomma }}]
+                }
+            ]
+
+        }
+
+
+        window.onload = function(){
+            var ctxchart = document.getElementById("chart-area").getContext("2d");
+            window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
+                responsive : true
+            });
+            var ctxline = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctxline).Line(lineChartData, {
+                responsive: true
+            });
+        }
+
+
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
         {% if campaign %}
@@ -229,3 +298,4 @@
     </script>
     <script type="text/javascript" src="{% static "js/artist/artist-detail.js" %}"></script>
 {% endblock %}
+
