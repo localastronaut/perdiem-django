@@ -10,7 +10,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db import models
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.generic import View, DetailView
 from django.views.generic.edit import FormView
@@ -113,7 +113,15 @@ class ArtistListView(ListView):
             ordered_artists = artists.order_by_time_remaining()
         elif order_by_name == 'investors':
             ordered_artists = artists.annotate(
-                num_investors=Count('campaign__investment__charge__customer__user', distinct=True)
+                num_investors=models.Count(
+                    models.Case(
+                        models.When(
+                            campaign__investment__charge__paid=True,
+                            then='campaign__investment__charge__customer__user'
+                        )
+                    ),
+                    distinct=True
+                )
             ).order_by('-num_investors')
         else:
             ordered_artists = artists.order_by('-id')
