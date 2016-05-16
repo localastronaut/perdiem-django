@@ -73,9 +73,6 @@ class Campaign(models.Model):
     def artist_percentage(self):
         return 100 - self.fans_percentage
 
-    def revenue_to_2x(self):
-        return self.amount * (100/self.fans_percentage) * 2
-
     def generated_revenue(self):
         return self.revenuereport_set.all().aggregate(gr=models.Sum('amount'))['gr'] or 0
 

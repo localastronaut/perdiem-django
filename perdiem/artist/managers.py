@@ -5,6 +5,8 @@
 """
 
 from django.db import models
+from django.db.models import Max
+from django.utils import timezone
 
 import geopy
 from geopy.distance import distance as calc_distance
@@ -48,3 +50,10 @@ class ArtistQuerySet(models.QuerySet):
     # TODO(lucas): Use annotations as much as possible to improve performance
     def order_by_percentage_funded(self):
         return sorted(self, key=self.percentage_funded, reverse=True)
+
+    def order_by_time_remaining(self):
+        artists = self.annotate(campaign_end_datetime=Max('campaign__end_datetime'))
+        artists_current_campaign = artists.filter(campaign_end_datetime__gte=timezone.now()).order_by('campaign_end_datetime')
+        artists_past_campaign = artists.filter(campaign_end_datetime__lt=timezone.now()).order_by('-campaign_end_datetime')
+        artists_no_campaign = artists.filter(campaign_end_datetime__isnull=True)
+        return list(artists_current_campaign) + list(artists_past_campaign) + list(artists_no_campaign)

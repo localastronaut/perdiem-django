@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load staticfiles %}
 {% load thumbnail %}
+{% load campaign %}
 
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static "css/artist/countdown.css" %}" type="text/css" charset="utf-8" />
@@ -155,7 +156,7 @@
             <div class="canvas-profile">
                 <canvas id="canvas"></canvas>
             </div>
-        <p>For example: If this project earns ${{ campaign.revenue_to_2x|intcomma }} in revenue, every investor will 2x their investment.</p>
+        <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
     {% endif %}
 
     {% if artist.social_set.exists %}

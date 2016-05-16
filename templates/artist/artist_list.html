@@ -82,6 +82,7 @@
         {% for artist in artists %}
             <div class="column">
                 {% include "artist/includes/artist_preview.html" with artist=artist %}
+                <p>Location: {{ artist.location }}</p>
                 {% if order_by.slug == 'funded' %}
                     <p>
                         {% if artist.funded %}
@@ -91,7 +92,17 @@
                         {% endif %}
                     </p>
                 {% endif %}
-                <p>Location: {{ artist.location }}</p>
+                {% if order_by.slug == 'time-remaining' %}
+                    <p>
+                        {% if artist.campaign_end_datetime|timesince >= "1 min" %}
+                            Time since: {{ artist.campaign_end_datetime|timesince }}
+                        {% elif artist.campaign_end_datetime|timeuntil >= "1 min" %}
+                            Time to go: {{ artist.campaign_end_datetime|timeuntil }}
+                        {% else %}
+                            No campaigns yet
+                        {% endif %}
+                    </p>
+                {% endif %}
             </div>
         {% empty %}
             <p>No results. Try expanding your search criteria.</p>
