@@ -24,20 +24,20 @@
     <div class="break">
         <hr>
     </div>
-        {% thumbnail artist.photo.img "500" as thumb %}
-            <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
-        {% endthumbnail %}
+    {% thumbnail artist.photo.img "500" as thumb %}
+        <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+    {% endthumbnail %}
     <!-- Genre -->
     {% with genres=artist.genres.all %}
         <div class="break">
             <hr>
         </div>
         <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
-        {% endwith %}
-        <h4>Location: {{ artist.location }}</h4>
-        <div class="break">
-            <hr>
-        </div>
+    {% endwith %}
+    <h4>Location: {{ artist.location }}</h4>
+    <div class="break">
+        <hr>
+    </div>
     {% if campaign %}
         <!-- Goal -->
         <h2>GOAL</h2>
@@ -187,7 +187,7 @@
                 <a href="#"><h2>CURRENT INVESTORS</h2></a>
                 <ul class="menu vertical nested is-active">
                     {% for investor in investors %}
-                        <li>
+                        <li class="display-block">
                             {% if investor.public_profile_url %}
                                 <a href="{{ investor.public_profile_url }}">
                                     <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
@@ -211,12 +211,12 @@
         <!-- Updates -->
         <ul class="vertical menu" data-accordion-menu>
             <li>
-            <a href= "#"><h2>UPDATES</h2></a>
-            <ul class="menu vertical nested is-active">
-                {% for update in updates %}
-                    <li>{{ update.created_datetime }}: {{ update.text }}</li>
-                {% endfor %}
-            </ul>
+                <a href= "#"><h2>UPDATES</h2></a>
+                <ul class="menu vertical nested is-active">
+                    {% for update in updates %}
+                        <li>{{ update.created_datetime }}: {{ update.text }}</li>
+                    {% endfor %}
+                </ul>
             </li>
         </ul>
     {% endif %}
@@ -233,50 +233,50 @@
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
         {% if campaign %}
-        var doughnutData = [
-                {
-                    value: {{ campaign.fans_percentage }},
-                    color: "#46BFBD",
-                    highlight: "#5AD3D1",
-                    label: "Investors %"
-                },
-                {
-                    value: {{ campaign.artist_percentage }},
-                    color:"#F7464A",
-                    highlight: "#FF5A5E",
-                    label: "{{ artist.name|escapejs }} %"
-                }
+            var doughnutData = [
+                    {
+                        value: {{ campaign.fans_percentage }},
+                        color: "#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "Investors %"
+                    },
+                    {
+                        value: {{ campaign.artist_percentage }},
+                        color:"#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "{{ artist.name|escapejs }} %"
+                    }
 
-            ];
+                ];
 
-        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-        var lineChartData = {
-            labels : [".5","1x","2x","5x","10x"],
-            datasets : [
-                {
-                    label: "Artist Revenue",
-                    fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(220,220,220,1)",
-                    data : [{{ campaign|percentage_roi:50 }},{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:500 }},{{ campaign|percentage_roi:1000 }}]
-                },
-            ]
+            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+            var lineChartData = {
+                labels : [".5x","1x","2x","5x","10x"],
+                datasets : [
+                    {
+                        label: "Artist Revenue",
+                        fillColor : "rgba(220,220,220,0.2)",
+                        strokeColor : "rgba(220,220,220,1)",
+                        pointColor : "rgba(220,220,220,1)",
+                        pointStrokeColor : "#fff",
+                        pointHighlightFill : "#fff",
+                        pointHighlightStroke : "rgba(220,220,220,1)",
+                        data : [{{ campaign|percentage_roi:50 }},{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:500 }},{{ campaign|percentage_roi:1000 }}]
+                    },
+                ]
 
-        }
+            }
 
-        window.onload = function(){
-            var ctxchart = document.getElementById("chart-area").getContext("2d");
-            window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
-                responsive : true
-            });
-            var ctxline = document.getElementById("canvas").getContext("2d");
-            window.myLine = new Chart(ctxline).Line(lineChartData, {
-                responsive: true
-            });
-        }
+            window.onload = function(){
+                var ctxchart = document.getElementById("chart-area").getContext("2d");
+                window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
+                    responsive : true
+                });
+                var ctxline = document.getElementById("canvas").getContext("2d");
+                window.myLine = new Chart(ctxline).Line(lineChartData, {
+                    responsive: true
+                });
+            }
 
             var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
             var num_shares_remaining = {{ campaign.num_shares_remaining }};
