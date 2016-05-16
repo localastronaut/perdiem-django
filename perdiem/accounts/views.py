@@ -158,6 +158,12 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         'email_preferences': EmailPreferencesFormView,
     }
 
+    @staticmethod
+    def prepare_artist_for_context(artist):
+        artist.total_invested = 0
+        artist.total_earned = 0
+        return artist.id, artist
+
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
 
@@ -167,7 +173,7 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         campaigns = Campaign.objects.filter(id__in=campaign_ids)
         artist_ids = campaigns.values_list('artist', flat=True).distinct()
         artists = Artist.objects.filter(id__in=artist_ids)
-        context['artists'] = artists
+        context['artists'] = dict(map(self.prepare_artist_for_context, artists))
         context['updates'] = Update.objects.filter(artist__in=artists).order_by('-created_datetime')
 
         # Update context with total investments
@@ -182,8 +188,12 @@ class ProfileView(LoginRequiredMixin, MultipleFormView):
         # Update context with total earned
         total_earned = 0
         for campaign in campaigns:
+            artist = campaign.artist
             num_shares_this_campaign = investments.filter(campaign=campaign).aggregate(ns=models.Sum('num_shares'))['ns']
-            total_earned += campaign.generated_revenue_fans_per_share() * num_shares_this_campaign
+            generated_revenue_user = campaign.generated_revenue_fans_per_share() * num_shares_this_campaign
+            context['artists'][artist.id].total_invested += num_shares_this_campaign * campaign.value_per_share
+            context['artists'][artist.id].total_earned += generated_revenue_user
+            total_earned += generated_revenue_user
         context['total_earned'] = total_earned
 
         # Update context with available avatars
