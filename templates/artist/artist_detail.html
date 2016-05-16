@@ -24,9 +24,11 @@
     <div class="break">
         <hr>
     </div>
-    {% thumbnail artist.photo.img "500" as thumb %}
-        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
-    {% endthumbnail %}
+    <div class="extra-padding">
+        {% thumbnail artist.photo.img "500" as thumb %}
+            <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+        {% endthumbnail %}
+    </div>
     <!-- Genre -->
     {% with genres=artist.genres.all %}
     <div class="break">
@@ -43,7 +45,9 @@
     {% if campaign %}
         <!-- Goal -->
         <h2>GOAL</h2>
-        <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
+        <div class="uppercase">
+            <h4>${{ campaign.amount|intcomma }} for {{ campaign.reason }}</h4>
+        </div>
         <!-- Countdown Widget -->
         <div id="countdown-wrap">
             <div id="glass">
@@ -60,7 +64,7 @@
                 </div>
                 <div class="goal-stat">
                     <span class="goal-number">{{ campaign.days_remaining }}</span>
-                    <span class="goal-label">Days to Go</span>
+                    <span class="goal-label">Days Remaining</span>
                 </div>
                 <div class="goal-stat">
                     {% with num_investors=investors|length %}
