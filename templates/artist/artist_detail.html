@@ -228,11 +228,11 @@
 
 {% block extrajs %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
-    <script type="text/javascript" src="{% static "js/vendor/smooth-scroll.js" %}"></script>
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
         {% if campaign %}
+
             var doughnutData = [
                     {
                         value: {{ campaign.fans_percentage }},
