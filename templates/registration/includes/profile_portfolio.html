@@ -9,9 +9,9 @@
                 {% for artist in artists.values %}
                     <div class="column">
                         {% include "artist/includes/artist_preview.html" with artist=artist %}
-                        <p>Total invested: ${{ artist.total_invested|intcomma|floatformat:2 }}</p>
+                        <p>Total invested: ${{ artist.total_invested|floatformat:2|intcomma }}</p>
                         {% if artist.total_earned %}
-                            <p>Total earned: ${{ artist.total_earned|intcomma|floatformat:2 }}</p>
+                            <p>Total earned: ${{ artist.total_earned|floatformat:2|intcomma }}</p>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -19,9 +19,9 @@
             <div class="break">
                 <hr>
             </div>
-            <p class="profile-total">Total invested: ${{ total_investments|intcomma|floatformat:2 }}</p>
+            <p class="profile-total">Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
             {% if total_earned %}
-                <p>Total earned: ${{ total_earned|intcomma|floatformat:2 }}</p>
+                <p>Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
             {% else %}
                 <p class="profile-total">Your money is going towards making some sweet music!</p>
             {% endif %}
