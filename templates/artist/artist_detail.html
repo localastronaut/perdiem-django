@@ -27,19 +27,22 @@
     {% thumbnail artist.photo.img "500" as thumb %}
         <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
+    <!-- Genre -->
     {% with genres=artist.genres.all %}
     <div class="break">
         <hr>
     </div>
-        <p>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</p>
+    <div class="uppercase">
+        <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
     {% endwith %}
-    <p>Location: {{ artist.location }}</p>
+    <h4>Location: {{ artist.location }}</h4>
     <div class="break">
         <hr>
     </div>
+    </div>
     {% if campaign %}
         <!-- Goal -->
-        <h2>Goal</h2>
+        <h2>GOAL</h2>
         <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
         <!-- Countdown Widget -->
         <div id="countdown-wrap">
@@ -101,7 +104,7 @@
             <hr>
         </div>
         <!-- Artist Bio -->
-        <h2>Our Story</h2>
+        <h2>OUR STORY</h2>
         {{ artist.bio.bio|safe }}
     {% endif %}
 
@@ -110,9 +113,11 @@
             <hr>
         </div>
         <!-- Music -->
-        <h2>Music</h2>
-        {% for playlist in artist.soundcloudplaylist_set.all %}
-            <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
+        <h2>MUSIC</h2>
+        <div class="extra-padding">
+            {% for playlist in artist.soundcloudplaylist_set.all %}
+                <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
+        </div>
         {% endfor %}
     {% endif %}
 
@@ -121,7 +126,7 @@
             <hr>
         </div>
         <!-- What is the money being used for? -->
-        <h2>What is the Money Being Used For?</h2>
+        <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
         <p>{{ campaign.use_of_funds }}</p>
         <ul>
             {% for expense in campaign.expense_set.all %}
@@ -133,13 +138,13 @@
             <hr>
         </div>
         <!-- What do you get for investing? -->
-        <h2>What Do You Get For Investing?</h2>
+        <h3>WHAT DO YOU GET FOR INVESTING?</h3>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <div class="break">
             <hr>
         </div>
         <!-- Percentage -->
-        <h3>Percentage</h3>
+        <h2>PERCENTAGE</h2>
         <div id="canvas-holder">
             <canvas id="chart-area" width="500" height="500"></canvas>
         </div>
@@ -152,7 +157,7 @@
             <hr>
         </div>
         <!-- Return on Investment -->
-        <h3>Return on Investment</h3>
+        <h2>RETURN ON INVESTMENT</h2>
             <div class="canvas-profile">
                 <canvas id="canvas"></canvas>
             </div>
@@ -166,7 +171,7 @@
             <hr>
         </div>
         <!-- Socials -->
-        <h2>Follow Us!</h2>
+        <h2>FOLLOW US!</h2>
         <ul>
             {% for social in artist.social_set.all %}
                 <li><a href="{{ social.url }}">{{ social.get_medium_display }}</a></li>
@@ -179,11 +184,16 @@
             <hr>
         </div>
         <!-- Current Investors -->
-        <h2>Current Investors</h2>
-        <ul>
+
+        <ul class="vertical menu" data-accordion-menu>
+          <li>
+        <a href= "#"><h2>CURRENT INVESTORS</h2></a>
+            <ul class="menu vertical nested is-active">
             {% for investor in investors %}
-                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}"><img src="{{ investor.avatar_url }}" alt="{{ investor.name }}" /> {{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li>
+                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}"><img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" /><p>{{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li></p>
             {% endfor %}
+            </li>
+            </ul>
         </ul>
     {% endif %}
 
@@ -192,11 +202,15 @@
             <hr>
         </div>
         <!-- Updates -->
-        <h2>Updates</h2>
-        <ul>
-            {% for update in updates %}
-                <li>{{ update.created_datetime }}: {{ update.text }}</li>
-            {% endfor %}
+        <ul class="vertical menu" data-accordion-menu>
+            <li>
+            <a href= "#"><h2>UPDATES</h2></a>
+            <ul class="menu vertical nested is-active">
+                {% for update in updates %}
+                    <li>{{ update.created_datetime }}: {{ update.text }}</li>
+                {% endfor %}
+            </li>
+            </ul>
         </ul>
     {% endif %}
 
