@@ -4,6 +4,7 @@
 
 """
 
+from django import forms
 from django.contrib import admin
 
 from pinax.stripe.models import (
@@ -20,6 +21,20 @@ for pinax_stripe_model in [
     admin.site.unregister(pinax_stripe_model)
 
 
+class CampaignAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Campaign
+        fields = ('artist', 'amount', 'reason', 'value_per_share', 'start_datetime', 'end_datetime', 'use_of_funds', 'fans_percentage',)
+
+    def clean(self):
+        cleaned_data = super(CampaignAdminForm, self).clean()
+        end_datetime = cleaned_data['end_datetime']
+        if end_datetime and end_datetime < cleaned_data['start_datetime']:
+            raise forms.ValidationError("Campaign cannot end before it begins.")
+        return cleaned_data
+
+
 class ExpenseInline(admin.TabularInline):
 
     model = Expense
@@ -27,6 +42,7 @@ class ExpenseInline(admin.TabularInline):
 
 class CampaignAdmin(admin.ModelAdmin):
 
+    form = CampaignAdminForm
     inlines = (ExpenseInline,)
 
 
