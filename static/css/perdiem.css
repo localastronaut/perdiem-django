@@ -219,3 +219,8 @@ a.nav-color {
     text-align: center;
     padding: 3em;
 }
+
+.profile-padding {
+    padding-left: 10px;
+    padding-right: 10px;
+}

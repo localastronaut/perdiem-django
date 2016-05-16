@@ -156,7 +156,9 @@
             <div class="canvas-profile">
                 <canvas id="canvas"></canvas>
             </div>
-        <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+            <div class="profile-padding">
+                <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+            </div>
     {% endif %}
 
     {% if artist.social_set.exists %}
@@ -240,7 +242,7 @@
                     pointStrokeColor : "#fff",
                     pointHighlightFill : "#fff",
                     pointHighlightStroke : "rgba(220,220,220,1)",
-                    data : [{{ campaign.revenue_to_2x|intcomma }}]
+                    data : [{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:400 }},{{ campaign|percentage_roi:1000 }},{{ campaign|percentage_roi:2000 }}]
                 },
                 {
                     label: "Investor income",
@@ -250,7 +252,7 @@
                     pointStrokeColor : "#fff",
                     pointHighlightFill : "#fff",
                     pointHighlightStroke : "rgba(151,187,205,1)",
-                    data : [1,2,3,4,5,{{ campaign.revenue_to_2x|intcomma }}]
+                    data : [{{ campaign|percentage_roi:50 }},{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:500 }},{{ campaign|percentage_roi:1000 }}]
                 }
             ]
 
