@@ -35,7 +35,7 @@
                             <li style="float: center;"><a class="nav-color" href="{% url 'profile' %}">PROFILE</a></li>
                             <li style="float: center;"><a class="nav-color" href="{% url 'logout' %}">LOGOUT</a></li>
                         {% else %}
-                            <li style="float: center;"><a class="nav-color" href="{% url 'register' %}">SIGN UP</a></li>
+                            <li style="float: center;"><a class="nav-color" href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
                             <li style="float: center;"><a class="nav-color" data-open="login-modal">LOGIN</a></li>
                         {% endif %}
                     </ul>
@@ -67,7 +67,7 @@
                                         </li>
                                     {% else %}
                                     <ul class="menu nav">
-                                        <li class="nav-color"><a href="{% url 'register' %}">SIGN UP</a></li>
+                                        <li class="nav-color"><a href="{% url 'register' %}?next={{ request.get_full_path }}">SIGN UP</a></li>
                                         <li class="nav-color"><a data-open="login-modal">LOGIN</a></li>
                                     </ul>
                                     {% endif %}

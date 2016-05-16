@@ -61,7 +61,7 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'artists' %}" class="button">Discover Artists</a>
                 {% else %}
-                    <a href="{% url 'register' %}" class="button">Sign Up</a>
+                    <a href="{% url 'register' %}?next={% url 'artists' %}" class="button">Sign Up</a>
                 {% endif %}
             </div>
         </div>
