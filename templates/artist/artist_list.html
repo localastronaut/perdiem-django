@@ -91,8 +91,7 @@
                             No campaigns yet
                         {% endif %}
                     </p>
-                {% endif %}
-                {% if order_by.slug == 'time-remaining' %}
+                {% elif order_by.slug == 'time-remaining' %}
                     <p>
                         {% if artist.campaign_end_datetime|timesince >= "1 min" %}
                             Time since: {{ artist.campaign_end_datetime|timesince }}
@@ -102,6 +101,8 @@
                             No campaigns yet
                         {% endif %}
                     </p>
+                {% elif order_by.slug == 'investors' %}
+                    <p># Investors: {{ artist.num_investors }}</p>
                 {% endif %}
             </div>
         {% empty %}
