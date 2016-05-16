@@ -61,6 +61,9 @@ class Campaign(models.Model):
         except ZeroDivisionError:
             return '100'
 
+    def percentage_roi(self, percentage):
+        return self.amount * (percentage / self.fans_percentage)
+
     def days_remaining(self):
         if self.end_datetime:
             return max(0, (self.end_datetime - timezone.now()).days)

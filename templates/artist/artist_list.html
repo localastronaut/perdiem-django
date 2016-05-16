@@ -106,6 +106,14 @@
                     <p># Investors: {{ artist.num_investors }}</p>
                 {% elif order_by.slug == 'raised' %}
                     <p>Amount raised: ${{ artist.amount_raised|intcomma }}</p>
+                {% elif order_by.slug == 'valuation' %}
+                    <p>
+                        {% if artist.valuation %}
+                            Valuation: ${{ artist.valuation|intcomma }}
+                        {% else %}
+                            No campaigns yet
+                        {% endif %}
+                    </p>
                 {% endif %}
             </div>
         {% empty %}

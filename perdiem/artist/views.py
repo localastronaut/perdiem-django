@@ -55,6 +55,7 @@ class ArtistListView(ListView):
         'time-remaining': 'Time to Go',
         'investors': '# Investors',
         'raised': 'Amount Raised',
+        'valuation': 'Valuation',
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -137,6 +138,8 @@ class ArtistListView(ListView):
                     )
                 )
             ).order_by('-amount_raised')
+        elif order_by_name == 'valuation':
+            ordered_artists = artists.order_by_valuation()
         else:
             ordered_artists = artists.order_by('-id')
 

@@ -32,6 +32,14 @@ class ArtistQuerySet(models.QuerySet):
             artist.funded = funded
             return funded
 
+    @staticmethod
+    def valuation(artist):
+        campaign = artist.latest_campaign()
+        if campaign:
+            valuation = campaign.percentage_roi(100)
+            artist.valuation = valuation
+            return valuation
+
     def filter_by_location(self, distance, lat, lon):
         min_lat, max_lat, min_lon, max_lon = self.bounding_coordinates(distance, lat, lon)
         artists_within_bounds = self.filter(
@@ -57,3 +65,6 @@ class ArtistQuerySet(models.QuerySet):
         artists_past_campaign = artists.filter(campaign_end_datetime__lt=timezone.now()).order_by('-campaign_end_datetime')
         artists_no_campaign = artists.filter(campaign_end_datetime__isnull=True)
         return list(artists_current_campaign) + list(artists_past_campaign) + list(artists_no_campaign)
+
+    def order_by_valuation(self):
+        return sorted(self, key=self.valuation, reverse=True)

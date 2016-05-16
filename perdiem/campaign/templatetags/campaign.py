@@ -12,4 +12,4 @@ register = template.Library()
 
 @register.filter
 def percentage_roi(campaign, percentage):
-    return campaign.amount * (percentage / campaign.fans_percentage)
+    return campaign.percentage_roi(percentage)
