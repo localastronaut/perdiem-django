@@ -14,9 +14,9 @@
     <div class="filter-sort-options">
         Show me
         <ul class="dropdown menu" id="genre" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
-            <li>
+            <li class="is-dropdown-submenu-parent opens-right">
                 <a href="#">{{ active_genre }}</a>
-                <ul class="menu">
+                <ul class="menu is-dropdown-submenu">
                     {% if active_genre != 'All' %}
                         <li><a href="?genre=All&sort={{ order_by.slug }}">All</a></li>
                     {% endif %}
@@ -65,9 +65,9 @@
         </div>
         sorted by
         <ul class="dropdown menu" id="order-by" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
-            <li>
+            <li class="is-dropdown-submenu-parent opens-right">
                 <a href="#">{{ order_by.name }}</a>
-                <ul class="menu">
+                <ul class="menu is-dropdown-submenu">
                     {% for option in sort_options %}
                         {% if option.slug != order_by.slug %}
                             <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}">{{ option.name }}</a></li>
