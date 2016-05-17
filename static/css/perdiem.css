@@ -214,3 +214,27 @@ a.nav-color {
     width: 30px;
     border-radius: 15px;
 }
+
+.nav-profile {
+    padding: 0px;
+}
+
+.nav-profile > li {
+    display: inline;
+    float: center;
+}
+
+.profile-padding {
+    padding: 10px;
+}
+
+.public-profile-crop {
+    height: 30px;
+    width: 30px;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}

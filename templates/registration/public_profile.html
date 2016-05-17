@@ -2,8 +2,10 @@
 {% load humanize %}
 
 {% block content %}
-    <h1>{{ profile_user.userprofile.get_display_name }}'s Profile</h1>
-    <img src="{{ profile_user.userprofile.display_avatar_url }}" alt="Profile" />
+    <h3 class="profile-padding">{{ profile_user.userprofile.get_display_name }}'s Profile</h3>
+    <div class="center">
+        <img class="public-profile-crop" src="{{ profile_user.userprofile.display_avatar_url }}" alt="Profile" />
+    </div>
     <div class="break">
         <hr>
     </div>
@@ -16,18 +18,6 @@
                     <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
                 {% endfor %}
             </ul>
-            {% if updates %}
-                <div class="break">
-                    <hr>
-                </div>
-                <!-- Updates -->
-                <h2>Updates</h2>
-                <ul>
-                    {% for update in updates %}
-                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
     {% else %}
         <p>{{ profile_user.userprofile.get_display_name }} hasn't invested in anything yet!</p>
