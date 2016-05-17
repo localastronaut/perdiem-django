@@ -25,3 +25,7 @@ h1, h2, li, p, a {
     width: 75px;
     text-align: right;
 }
+
+#investor-block {
+    display: inline-block;
+}
