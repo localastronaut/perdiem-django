@@ -238,18 +238,17 @@
                         value: {{ campaign.fans_percentage }},
                         color: "#46BFBD",
                         highlight: "#5AD3D1",
-                        label: "Investors %"
+                        label: "Investors"
                     },
                     {
                         value: {{ campaign.artist_percentage }},
                         color:"#F7464A",
                         highlight: "#FF5A5E",
-                        label: "{{ artist.name|escapejs }} %"
+                        label: "{{ artist.name|escapejs }}"
                     }
 
                 ];
 
-            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
             var lineChartData = {
                 labels : [".5x","1x","2x","5x","10x"],
                 datasets : [
@@ -270,7 +269,8 @@
             window.onload = function(){
                 var ctxchart = document.getElementById("chart-area").getContext("2d");
                 window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
-                    responsive : true
+                    responsive: true,
+                    tooltipTemplate: "<%= label %>: <%= value %>%"
                 });
                 var ctxline = document.getElementById("canvas").getContext("2d");
                 window.myLine = new Chart(ctxline).Line(lineChartData, {
