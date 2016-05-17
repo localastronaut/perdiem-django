@@ -25,22 +25,23 @@
         <hr>
     </div>
     {% thumbnail artist.photo.img "500" as thumb %}
-        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
+        <img class="extra-padding" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ artist.name }}" />
     {% endthumbnail %}
+    <!-- Genre -->
     {% with genres=artist.genres.all %}
-    <div class="break">
-        <hr>
-    </div>
-        <p>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</p>
+        <div class="break">
+            <hr>
+        </div>
+        <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
     {% endwith %}
-    <p>Location: {{ artist.location }}</p>
+    <h4>Location: {{ artist.location }}</h4>
     <div class="break">
         <hr>
     </div>
     {% if campaign %}
         <!-- Goal -->
-        <h2>Goal</h2>
-        <p>${{ campaign.amount|intcomma }} {{ campaign.reason }}</p>
+        <h2>GOAL</h2>
+        <h4>${{ campaign.amount|intcomma }} {{ campaign.reason }}</h4>
         <!-- Countdown Widget -->
         <div id="countdown-wrap">
             <div id="glass">
@@ -57,7 +58,7 @@
                 </div>
                 <div class="goal-stat">
                     <span class="goal-number">{{ campaign.days_remaining }}</span>
-                    <span class="goal-label">Days to Go</span>
+                    <span class="goal-label">Days Remaining</span>
                 </div>
                 <div class="goal-stat">
                     {% with num_investors=investors|length %}
@@ -101,7 +102,7 @@
             <hr>
         </div>
         <!-- Artist Bio -->
-        <h2>Our Story</h2>
+        <h2>OUR STORY</h2>
         {{ artist.bio.bio|safe }}
     {% endif %}
 
@@ -110,10 +111,12 @@
             <hr>
         </div>
         <!-- Music -->
-        <h2>Music</h2>
-        {% for playlist in artist.soundcloudplaylist_set.all %}
-            <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
-        {% endfor %}
+        <h2>MUSIC</h2>
+        <div class="extra-padding">
+            {% for playlist in artist.soundcloudplaylist_set.all %}
+                <iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url={{ playlist.playlist }}&color=ff5500"></iframe>
+            {% endfor %}
+        </div>
     {% endif %}
 
     {% if campaign %}
@@ -121,7 +124,7 @@
             <hr>
         </div>
         <!-- What is the money being used for? -->
-        <h2>What is the Money Being Used For?</h2>
+        <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
         <p>{{ campaign.use_of_funds }}</p>
         <ul>
             {% for expense in campaign.expense_set.all %}
@@ -133,13 +136,16 @@
             <hr>
         </div>
         <!-- What do you get for investing? -->
-        <h2>What Do You Get For Investing?</h2>
+        <h3>WHAT DO YOU GET FOR INVESTING?</h3>
         <p>We are raising ${{ campaign.amount|intcomma }} {{ campaign.reason }} and giving {{ campaign.fans_percentage }}% of the sales back to the people who invest in it.</p>
         <div class="break">
             <hr>
         </div>
         <!-- Percentage -->
-        <h3>Percentage</h3>
+        <h2>PERCENTAGE</h2>
+        <div id="canvas-holder">
+            <canvas id="chart-area" width="500" height="500"></canvas>
+        </div>
         <ul>
             <li>{{ artist.name }}: {{ campaign.artist_percentage }}%</li>
             <li>Investors: {{ campaign.fans_percentage }}%</li>
@@ -149,8 +155,13 @@
             <hr>
         </div>
         <!-- Return on Investment -->
-        <h3>Return on Investment</h3>
-        <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+        <h2>RETURN ON INVESTMENT</h2>
+        <div class="canvas-profile">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="profile-padding">
+            <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+        </div>
     {% endif %}
 
     {% if artist.social_set.exists %}
@@ -158,7 +169,7 @@
             <hr>
         </div>
         <!-- Socials -->
-        <h2>Follow Us!</h2>
+        <h2>FOLLOW US!</h2>
         <ul>
             {% for social in artist.social_set.all %}
                 <li><a href="{{ social.url }}">{{ social.get_medium_display }}</a></li>
@@ -171,11 +182,25 @@
             <hr>
         </div>
         <!-- Current Investors -->
-        <h2>Current Investors</h2>
-        <ul>
-            {% for investor in investors %}
-                <li>{% if investor.public_profile_url %}<a href="{{ investor.public_profile_url }}"><img src="{{ investor.avatar_url }}" alt="{{ investor.name }}" /> {{ investor.name }}</a>{% else %}{{ investor.name }}{% endif %}: ${{ investor.total_investment }}</li>
-            {% endfor %}
+        <ul class="vertical menu" data-accordion-menu>
+            <li>
+                <a href="#"><h2>CURRENT INVESTORS</h2></a>
+                <ul class="menu vertical nested is-active">
+                    {% for investor in investors %}
+                        <li id="investor-block">
+                            {% if investor.public_profile_url %}
+                                <a href="{{ investor.public_profile_url }}">
+                                    <img class="profile-crop" src="{{ investor.avatar_url }}" alt="{{ investor.name }}" />
+                                    {{ investor.name }}
+                                </a>
+                            {% else %}
+                                {{ investor.name }}
+                            {% endif %}
+                            ${{ investor.total_investment }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
         </ul>
     {% endif %}
 
@@ -184,11 +209,15 @@
             <hr>
         </div>
         <!-- Updates -->
-        <h2>Updates</h2>
-        <ul>
-            {% for update in updates %}
-                <li>{{ update.created_datetime }}: {{ update.text }}</li>
-            {% endfor %}
+        <ul class="vertical menu" data-accordion-menu>
+            <li>
+                <a href= "#"><h2>UPDATES</h2></a>
+                <ul class="menu vertical nested is-active">
+                    {% for update in updates %}
+                        <li>{{ update.created_datetime }}: {{ update.text }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
         </ul>
     {% endif %}
 
@@ -202,7 +231,53 @@
     <script type="text/javascript">
         var perdiem_fee = {{ PERDIEM_FEE }};
         var artist_name = '{{ artist.name|escapejs }}';
+
         {% if campaign %}
+            var doughnutData = [
+                    {
+                        value: {{ campaign.fans_percentage }},
+                        color: "#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "Investors %"
+                    },
+                    {
+                        value: {{ campaign.artist_percentage }},
+                        color:"#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "{{ artist.name|escapejs }} %"
+                    }
+
+                ];
+
+            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+            var lineChartData = {
+                labels : [".5x","1x","2x","5x","10x"],
+                datasets : [
+                    {
+                        label: "Artist Revenue",
+                        fillColor : "rgba(220,220,220,0.2)",
+                        strokeColor : "rgba(220,220,220,1)",
+                        pointColor : "rgba(220,220,220,1)",
+                        pointStrokeColor : "#fff",
+                        pointHighlightFill : "#fff",
+                        pointHighlightStroke : "rgba(220,220,220,1)",
+                        data : [{{ campaign|percentage_roi:50 }},{{ campaign|percentage_roi:100 }},{{ campaign|percentage_roi:200 }},{{ campaign|percentage_roi:500 }},{{ campaign|percentage_roi:1000 }}]
+                    },
+                ]
+
+            }
+
+            window.onload = function(){
+                var ctxchart = document.getElementById("chart-area").getContext("2d");
+                window.myDoughnut = new Chart(ctxchart).Doughnut(doughnutData, {
+                    responsive : true
+                });
+                var ctxline = document.getElementById("canvas").getContext("2d");
+                window.myLine = new Chart(ctxline).Line(lineChartData, {
+                    responsive: true
+                });
+            }
+
             var share_value_cents = {{ campaign.value_per_share_cents|escapejs }};
             var num_shares_remaining = {{ campaign.num_shares_remaining }};
             var stripe_handler = StripeCheckout.configure({

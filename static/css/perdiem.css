@@ -11,6 +11,7 @@ h1 {
     font-size: 6em;
     color: #000;
     font-weight: 200;
+    text-transform: uppercase;
 }
 
 h2 {
@@ -18,6 +19,7 @@ h2 {
     font-size: 4em;
     color: #000;
     font-weight: 400;
+    text-transform: uppercase;
 }
 
 h3 {
@@ -25,12 +27,14 @@ h3 {
     font-size: 3em;
     color: #000;
     font-weight: 200;
+    text-transform: uppercase;
 }
 
 h4 {
     text-align: center;
     font-weight: 400;
     font-size: 2em;
+    text-transform: uppercase;
 }
 
 h5 {
@@ -110,7 +114,7 @@ body {
 
 canvas {
     max-width: 800px;
-    max-height: 400px;
+    max-height: 640px;
 }
 
 #canvas-box {   
@@ -238,3 +242,13 @@ a.nav-color {
 .center {
     text-align: center;
 }
+
+.canvas-profile {
+    text-align: center;
+    padding: 3em;
+}
+
+.profile-padding {
+    padding-left: 10px;
+    padding-right: 10px;
+
