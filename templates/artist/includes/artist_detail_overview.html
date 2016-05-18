@@ -98,18 +98,20 @@
     {% endif %}
 
     {% if campaign %}
-        <div class="break">
-            <hr>
-        </div>
-        <!-- What is the money being used for? -->
-        <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
-        <p>{{ campaign.use_of_funds }}</p>
-        <ul>
-            {% for expense in campaign.expense_set.all %}
-                <li>{{ expense.expense }}</li>
-            {% endfor %}
-            <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
-        </ul>
+        {% if campaign.expense_set.all %}
+            <div class="break">
+                <hr>
+            </div>
+            <!-- What is the money being used for? -->
+            <h3>WHAT IS THE MONEY BEING USED FOR?</h3>
+            <p>{{ campaign.use_of_funds }}</p>
+            <ul>
+                {% for expense in campaign.expense_set.all %}
+                    <li>{{ expense.expense }}</li>
+                {% endfor %}
+                <li><strong>Total = ${{ campaign.amount|intcomma }}</strong></li>
+            </ul>
+        {% endif %}
         <div class="break">
             <hr>
         </div>
