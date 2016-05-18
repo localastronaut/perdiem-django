@@ -43,6 +43,10 @@ def save_avatar(strategy, details, user=None, is_new=False, *args, **kwargs):
     except KeyError:
         return
 
+    # For Google, use larger image than default
+    if provider == 'google-oauth2':
+        avatar_url = avatar_url.replace('?sz=50', '?sz=150')
+
     # Save avatar URL
     user_avatar, created = UserAvatar.objects.get_or_create(user=user, provider=provider)
     user_avatar_url, _ = UserAvatarURL.objects.update_or_create(avatar=user_avatar, defaults={'url': avatar_url,})

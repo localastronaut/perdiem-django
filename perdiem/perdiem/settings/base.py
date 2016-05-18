@@ -151,7 +151,7 @@ class BaseSettings(DjangoDefaults):
     )
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
     SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-        'fields': ', '.join(['id', 'name', 'email', 'picture',]),
+        'fields': ', '.join(['id', 'name', 'email', 'picture.width(150)',]),
     }
     LOGIN_URL = '/'
 

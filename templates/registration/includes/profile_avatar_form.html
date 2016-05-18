@@ -9,7 +9,7 @@
             {% with label=radio.choice_label %}
                 {% for k, avatar in avatars.items %}
                     {% if k == label %}
-                        <img src="{{ avatar }}" alt="{{ label }}" />
+                        <img src="{{ avatar }}" alt="{{ label }}" width="150" height="150" />
                     {% endif %}
                 {% endfor %}
             {% endwith %}
