@@ -96,10 +96,17 @@ class Campaign(models.Model):
                     'name': investor.userprofile.get_display_name(),
                     'avatar_url': investor.userprofile.display_avatar_url(),
                     'public_profile_url': investor.userprofile.public_profile_url(),
+                    'num_shares': 0,
                     'total_investment': 0,
                 }
+            investors[investor.id]['num_shares'] += investment.num_shares
             investors[investor.id]['total_investment'] += investment.num_shares * self.value_per_share
-        return investors.values()
+
+        # Calculate percentage ownership for each investor
+        for investor_id, investor in investors.iteritems():
+            investors[investor_id]['percentage'] = (float(investor['num_shares']) / self.num_shares()) * self.fans_percentage
+
+        return investors
 
 
 class Expense(models.Model):
