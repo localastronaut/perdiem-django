@@ -19,12 +19,13 @@
             <div class="break">
                 <hr>
             </div>
-            <p class="profile-total">Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
+
             {% if total_earned %}
-                <p>Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
+                <p class="profile-total">Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
             {% else %}
                 <p class="profile-total">Your money is going towards making some sweet music!</p>
             {% endif %}
+                <p>Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
             {% if updates %}
                 <div class="break">
                     <hr>

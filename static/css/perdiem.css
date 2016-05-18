@@ -229,14 +229,15 @@ a.nav-color {
 }
 
 .profile-padding {
-    padding: 10px;
+    padding: 5px;
 }
 
 .public-profile-crop {
-    height: 30px;
-    width: 30px;
-    border-radius: 50px;
+    height: 150px;
+    width: 150px;
+    border-radius: 150px;
     text-align: center;
+    margin: 10px;
 }
 
 .center {
@@ -251,4 +252,8 @@ a.nav-color {
 .profile-padding {
     padding-left: 10px;
     padding-right: 10px;
+}
 
+.artist-list-name {
+    color: #fff;
+}
