@@ -167,7 +167,7 @@ class ArtistDetailView(DetailView):
 
             if self.request.user.is_authenticated():
                 user_investor = investors.get(self.request.user.id)
-                if user_investor['percentage'] >= 0.5:
+                if user_investor and user_investor['percentage'] >= 0.5:
                     context['fans_percentage'] -= user_investor['percentage']
                     context['user_investor'] = user_investor
 
