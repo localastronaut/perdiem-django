@@ -33,7 +33,7 @@ class UserAvatar(models.Model):
 
     @staticmethod
     def default_avatar_url():
-        return "{static_url}img/avatar.jpg".format(static_url=settings.STATIC_URL)
+        return "{static_url}img/avatar.png".format(static_url=settings.STATIC_URL)
 
     def __unicode__(self):
         return u'{user}: {provider}'.format(
@@ -46,7 +46,7 @@ class UserAvatar(models.Model):
             return self.useravatarurl.url
         elif self.provider == self.PROVIDER_PERDIEM:
             original = self.useravatarimage.img
-            return get_thumbnail(original, '50x50', crop='center').url
+            return get_thumbnail(original, '150x150', crop='center').url
         else:
             return self.default_avatar_url()
 

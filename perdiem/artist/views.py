@@ -158,9 +158,19 @@ class ArtistDetailView(DetailView):
 
         artist = context['artist']
         campaign = artist.latest_campaign()
+
         if campaign:
             context['campaign'] = campaign
-            context['investors'] = campaign.investors()
+            context['fans_percentage'] = campaign.fans_percentage
+            investors = campaign.investors()
+            context['investors'] = investors.values()
+
+            if self.request.user.is_authenticated():
+                user_investor = investors.get(self.request.user.id)
+                if user_investor and user_investor['percentage'] >= 0.5:
+                    context['fans_percentage'] -= user_investor['percentage']
+                    context['user_investor'] = user_investor
+
         context['updates'] = artist.update_set.all().order_by('-created_datetime')
 
         return context

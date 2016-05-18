@@ -1,0 +1,12 @@
+{% load humanize %}
+{% load campaign %}
+
+<div class="tabs-panel" id="roi">
+    <h2>RETURN ON INVESTMENT</h2>
+    <div class="canvas-profile">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="profile-padding">
+        <p>For example: If this project earns ${{ campaign|percentage_roi:200|intcomma }} in revenue, every investor will 2x their investment.</p>
+    </div>
+</div>
