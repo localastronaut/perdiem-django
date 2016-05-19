@@ -7,6 +7,25 @@
     text-align: center;
 }
 
+.artist-list-name {
+    color: #fff;
+}
+
+.filter-sort-options h5 {
+    display: inline-block;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin: 2px;
+    padding: 4px;
+}
+
+.location {
+    height: auto;
+    width: auto;
+    padding: 2px;
+    margin: 2px, 2px;
+}
+
 .artistlist {
     margin: 20px;
     padding: 50px;
