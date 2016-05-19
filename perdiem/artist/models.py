@@ -40,7 +40,7 @@ class Artist(models.Model):
             return campaigns[0]
 
     def active_campaign(self):
-        active_campaigns = self.campaign_set.filter(start_datetime__gte=timezone.now(), end_datetime__lt=timezone.now()).order_by('-start_datetime')
+        active_campaigns = self.campaign_set.filter(start_datetime__lt=timezone.now(), end_datetime__gte=timezone.now()).order_by('-start_datetime')
         if active_campaigns:
             return active_campaigns[0]
 
