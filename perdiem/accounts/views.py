@@ -180,7 +180,7 @@ class PublicProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(PublicProfileView, self).get_context_data(**kwargs)
-        profile_user = User.objects.get(username=kwargs['username'])
+        profile_user = get_object_or_404(User, username=kwargs['username'])
         context.update(profile_user.userprofile.profile_context())
         context.update({
             'profile_user': profile_user,
