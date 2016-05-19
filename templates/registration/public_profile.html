@@ -14,7 +14,7 @@
             <h2>INVESTMENTS</h2>
             <p>Here are the artists that {{ profile_user.userprofile.get_display_name }} has invested in:</p>
             <ul>
-                {% for artist in artists %}
+                {% for artist in artists.values %}
                     <li><a href="{% url 'artist' slug=artist.slug %}">{{ artist.name }}</a></li>
                 {% endfor %}
             </ul>
@@ -23,7 +23,7 @@
             <hr>
         </div>
 
-        <p class="profile-total">Total invested: ${{ profile_user.total_investments|floatformat:2|intcomma }}</p>
+        <p class="profile-total">Total invested: ${{ total_investments|floatformat:2|intcomma }}</p>
         <p>Total earned: ${{ total_earned|floatformat:2|intcomma }}</p>
 
 
