@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
@@ -213,7 +214,7 @@ class PublicProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(PublicProfileView, self).get_context_data(**kwargs)
-        profile_user = User.objects.get(username=kwargs['username'])
+        profile_user = get_object_or_404(User, username=kwargs['username'])
         artists = Artist.objects.filter(campaign__investment__charge__customer__user=profile_user).distinct()
 
         context.update({
