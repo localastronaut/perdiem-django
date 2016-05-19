@@ -27,6 +27,9 @@
         {% if investors %}
             <li class="tabs-title"><a href="#investors">Investors</a></li>
         {% endif %}
+        {% if artist.past_campaigns %}
+            <li class="tabs-title"><a href="#past">Past Campaigns</a></li>
+        {% endif %}
         {% if updates %}
             <li class="tabs-title"><a href="#updates">Updates</a></li>
         {% endif %}
@@ -38,6 +41,9 @@
         {% endif %}
         {% if investors %}
             {% include "artist/includes/artist_detail_investors.html" %}
+        {% endif %}
+        {% if artist.past_campaigns %}
+            {% include "artist/includes/artist_detail_past.html" %}
         {% endif %}
         {% if updates %}
             {% include "artist/includes/artist_detail_updates.html" %}

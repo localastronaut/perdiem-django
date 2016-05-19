@@ -44,6 +44,9 @@ class Artist(models.Model):
         if active_campaigns:
             return active_campaigns[0]
 
+    def past_campaigns(self):
+        return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
+
 
 class Bio(models.Model):
 
