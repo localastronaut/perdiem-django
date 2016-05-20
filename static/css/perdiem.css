@@ -219,6 +219,31 @@ a.nav-color {
     border-radius: 15px;
 }
 
+.nav-profile {
+    padding: 0px;
+}
+
+.nav-profile > li {
+    display: inline;
+    float: center;
+}
+
+.profile-padding {
+    padding: 5px;
+}
+
+.public-profile-crop {
+    height: 150px;
+    width: 150px;
+    border-radius: 150px;
+    text-align: center;
+    margin: 10px;
+}
+
+.center {
+    text-align: center;
+}
+
 .canvas-profile {
     text-align: center;
     padding: 3em;
@@ -227,4 +252,8 @@ a.nav-color {
 .profile-padding {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.artist-list-name {
+    color: #fff;
 }

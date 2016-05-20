@@ -7,9 +7,9 @@
 
 {% block content %}
     <h1>Profile</h1>
-    <h2 class="profile-header">Good morning {% firstof user.get_full_name user.get_username %}!</h2>
+    <h2 class="profile-header">Welcome, {% firstof user.get_full_name user.get_username %}!</h2>
     {% if user.userprofile.invest_anonymously %}<p><small>(displays publicly as Anonymous)</small></p>{% endif %}
-    <ul class="tabs" data-tabs id="profile-tabs">
+    <ul class="tabs nav-profile" data-tabs id="profile-tabs">
         <li class="tabs-title {% if not forms_with_errors %}is-active{% endif %}"><a href="#overview" aria-selected="true">Overview</a></li>
         <li class="tabs-title {% if 'edit_name' in forms_with_errors %}is-active{% endif %}"><a href="#name">Name</a></li>
         <li class="tabs-title {% if 'edit_avatar' in forms_with_errors %}is-active{% endif %}"><a href="#avatar">Avatar</a></li>
