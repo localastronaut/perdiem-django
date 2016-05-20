@@ -7,6 +7,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 
 from artist.managers import ArtistQuerySet
 
@@ -37,6 +38,14 @@ class Artist(models.Model):
         campaigns = self.campaign_set.all().order_by('-start_datetime')
         if campaigns:
             return campaigns[0]
+
+    def active_campaign(self):
+        active_campaigns = self.campaign_set.filter(start_datetime__lt=timezone.now(), end_datetime__gte=timezone.now()).order_by('-start_datetime')
+        if active_campaigns:
+            return active_campaigns[0]
+
+    def past_campaigns(self):
+        return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
 
 
 class Bio(models.Model):
