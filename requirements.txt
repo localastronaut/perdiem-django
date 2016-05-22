@@ -1,5 +1,5 @@
 mock==2.0.0
-coverage==4.0.3
+coverage==4.1
 gunicorn==19.5.0
 Django==1.9.6
 python-memcached==1.57
