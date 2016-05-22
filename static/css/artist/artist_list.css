@@ -11,12 +11,21 @@
     color: #fff;
 }
 
+.filter-sort-options .menu > li {
+    padding: 0.2em 0.5em;
+}
+.filter-sort-options .menu > li > a {
+    padding: 0;
+}
 .filter-sort-options h5 {
     display: inline-block;
     font-size: 1.5em;
     text-transform: uppercase;
     margin: 2px;
     padding: 4px;
+}
+.filter-sort-options h6 {
+    text-transform: uppercase;
 }
 
 .location {

@@ -12,71 +12,71 @@
         <hr>
     </div>
     <div class="filter-sort-options center">
-        <h5>Show me</h5>
         <ul class="dropdown menu" id="genre" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
+            <li><h5>Show me</h5></li>
             <li class="is-dropdown-submenu-parent opens-right">
                 <a href="#"><h5>{{ active_genre }}</h5></a>
                 <ul class="menu is-dropdown-submenu">
                     {% if active_genre != 'All' %}
-                        <li><a href="?genre=All&sort={{ order_by.slug }}"><h5>ALL</h5></a></li>
+                        <li><a href="?genre=All&sort={{ order_by.slug }}"><h6>ALL</h6></a></li>
                     {% endif %}
                     {% for genre in genres %}
                         {% if genre != active_genre %}
-                            <li><a href="?genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h5>{{ genre }}</h5></a></li>
+                            <li><a href="?genre={{ genre|urlencode }}&sort={{ order_by.slug }}"><h6>{{ genre }}</h6></a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
             </li>
-        </ul>
-        <h5>music</h5>
-        <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
-            <h5>{% if distance %}within {{ distance }} miles{% endif %}
-            FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h5>
-        </button>
-        <div class="dropdown-pane" id="location-dropdown" data-dropdown>
-            <h5>within</h5>
-            <div class="row">
-                <div class="small-8 columns">
-                    <div class="slider" data-slider data-initial-start="{% firstof distance 50 %}">
-                        <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="slider-miles"></span>
-                        <span class="slider-fill" data-slider-fill></span>
+            <li><h5>music</h5></li>
+            <li>
+                <button class="button hollow location" id="location-dropdown-button" type="button" data-toggle="location-dropdown">
+                    <h5>{% if distance %}within {{ distance }} miles{% endif %}
+                    FROM {% if lat and lon %}my location{% elif location %}{{ location }}{% else %}ANYWHERE{% endif %}</h5>
+                </button>
+                <div class="dropdown-pane" id="location-dropdown" data-dropdown>
+                    <h6>within</h6>
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <div class="slider" data-slider data-initial-start="{% firstof distance 50 %}">
+                                <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="slider-miles"></span>
+                                <span class="slider-fill" data-slider-fill></span>
+                            </div>
+                        </div>
+                        <div class="small-4 columns">
+                            <input type="number" id="slider-miles">
+                        </div>
                     </div>
+                    <h6>miles of</h6>
+                    <div class="input-group" id="text-location" {% if lat and lon %}style="display: none;"{% endif %}>
+                        <input class="input-group-field" type="text" placeholder="Los Angeles, CA" value="{% firstof location '' %}" />
+                        <div class="input-group-button">
+                            <button class="button"><i class="fa fa-map-marker"></i></button>
+                        </div>
+                    </div>
+                    <div class="input-group" id="my-location" {% if not lat or not lon %}style="display: none;"{% endif %}>
+                        <input class="input-group-field disabled" type="text" value="My Location" disabled />
+                        <div class="input-group-button">
+                            <button class="button">&times;</button>
+                        </div>
+                    </div>
+                    <br />
+                    <button id="location-update-button" class="button">Update</button>
+                    <button id="location-reset-button" class="button">Reset</button>
                 </div>
-                <div class="small-4 columns">
-                    <input type="number" id="slider-miles">
-                </div>
-            </div>
-            <h5>miles of</h5>
-            <div class="input-group" id="text-location" {% if lat and lon %}style="display: none;"{% endif %}>
-                <input class="input-group-field" type="text" placeholder="Los Angeles, CA" value="{% firstof location '' %}" />
-                <div class="input-group-button">
-                    <button class="button"><i class="fa fa-map-marker"></i></button>
-                </div>
-            </div>
-            <div class="input-group" id="my-location" {% if not lat or not lon %}style="display: none;"{% endif %}>
-                <input class="input-group-field disabled" type="text" value="My Location" disabled />
-                <div class="input-group-button">
-                    <button class="button">&times;</button>
-                </div>
-            </div>
-            <br />
-            <button id="location-update-button" class="button">Update</button>
-            <button id="location-reset-button" class="button">Reset</button>
-        </div>
-        <h5>sorted by</h5>
-        <ul class="dropdown menu" id="order-by" data-dropdown-menu data-options="disableHover:true; clickOpen:true;">
+            </li>
+            <li><h5>sorted by</h5></li>
             <li class="is-dropdown-submenu-parent opens-right">
                 <a href="#"><h5>{{ order_by.name }}</h5></a>
                 <ul class="menu is-dropdown-submenu">
                     {% for option in sort_options %}
                         {% if option.slug != order_by.slug %}
-                            <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}"><h5>{{ option.name }}</h5></a></li>
+                            <li><a href="?genre={{ active_genre }}&sort={{ option.slug }}"><h6>{{ option.name }}</h6></a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
             </li>
+            <li><h5>.</h5></li>
         </ul>
-        <h5>.</h5>
     </div>
     <p class="getting-location">Getting your location...</p>
     <div class="row small-up-1 medium-up-2 large-up-4 artistlist">
