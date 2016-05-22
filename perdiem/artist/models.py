@@ -105,7 +105,7 @@ class Update(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     created_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
-    text = models.TextField(help_text='The content of the update. May contain HTML.')
+    text = models.TextField(help_text='The content of the update.')
 
     def __unicode__(self):
         return u'{artist}: {datetime}'.format(
