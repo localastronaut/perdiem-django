@@ -63,15 +63,16 @@ class UserAvatarURL(models.Model):
         return unicode(self.avatar)
 
 
-class UserAvatarImage(models.Model):
+def user_avatar_filename(instance, filename):
+    extension = filename.split('.')[-1]
+    new_filename = '{user_id}.{extension}'.format(
+        user_id=instance.avatar.user.id,
+        extension=extension
+    )
+    return '/'.join(['avatars', new_filename,])
 
-    def user_avatar_filename(instance, filename):
-        extension = filename.split('.')[-1]
-        new_filename = '{user_id}.{extension}'.format(
-            user_id=instance.avatar.user.id,
-            extension=extension
-        )
-        return '/'.join(['avatars', new_filename,])
+
+class UserAvatarImage(models.Model):
 
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=user_avatar_filename)
