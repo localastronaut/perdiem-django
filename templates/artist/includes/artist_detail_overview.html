@@ -1,5 +1,6 @@
 {% load humanize %}
 {% load thumbnail %}
+{% load markdown_deux_tags %}
 
 <div class="tabs-panel is-active" id="overview">
     {% thumbnail artist.photo.img "500" as thumb %}
@@ -79,7 +80,7 @@
         </div>
         <!-- Artist Bio -->
         <h2>OUR STORY</h2>
-        {{ artist.bio.bio|safe }}
+        {{ artist.bio.bio|markdown }}
     {% endif %}
 
     {% if artist.soundcloudplaylist_set.exists %}

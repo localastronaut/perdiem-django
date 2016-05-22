@@ -9,6 +9,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 
+from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
+
 from artist.managers import ArtistQuerySet
 
 
@@ -51,7 +53,7 @@ class Artist(models.Model):
 class Bio(models.Model):
 
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
-    bio = models.TextField(help_text='Short biography of artist. May contain HTML.')
+    bio = models.TextField(help_text='Short biography of artist. ' + markdown_allowed())
 
     def __unicode__(self):
         return unicode(self.artist)
