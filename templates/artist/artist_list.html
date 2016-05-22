@@ -98,6 +98,8 @@
                             Time since: {{ artist.campaign_end_datetime|timesince }}
                         {% elif artist.campaign_end_datetime|timeuntil >= "1 min" %}
                             Time to go: {{ artist.campaign_end_datetime|timeuntil }}
+                        {% elif artist.campaign_set.all %}
+                            No end date set
                         {% else %}
                             No campaigns yet
                         {% endif %}
