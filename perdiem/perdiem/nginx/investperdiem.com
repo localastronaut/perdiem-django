@@ -1,6 +1,6 @@
 server {
     server_name www.investperdiem.com;
-    return 301 http://investperdiem.com$request_url;
+    return 301 http://investperdiem.com$request_uri;
 }
 
 server {
