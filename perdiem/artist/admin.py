@@ -11,8 +11,7 @@ from django.template.loader import render_to_string
 
 from pagedown.widgets import AdminPagedownWidget
 
-from artist.models import Genre, Artist, Bio, Photo, SoundCloudPlaylist, \
-    Social, Update
+from artist.models import Genre, Artist, Bio, Photo, SoundCloudPlaylist, Social
 
 
 class LocationWidget(AdminTextInputWidget):
@@ -73,4 +72,3 @@ class ArtistAdmin(admin.ModelAdmin):
 
 admin.site.register(Genre)
 admin.site.register(Artist, ArtistAdmin)
-admin.site.register(Update)
