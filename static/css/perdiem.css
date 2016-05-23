@@ -242,3 +242,7 @@ a.nav-color {
     text-align: center;
     padding: 20px;
 }
+
+#login-modal label {
+    color: #fff;
+}
