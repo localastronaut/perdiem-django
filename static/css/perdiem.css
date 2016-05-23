@@ -253,3 +253,21 @@ a.nav-color {
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.oauth-icon {
+    text-align: center;
+    height: auto;
+    width: 200px;
+}
+
+.center {
+    text-align: center;
+}
+.login-module {
+    text-align: center;
+    padding: 20px;
+}
+
+#login-modal label {
+    color: #fff;
+}
