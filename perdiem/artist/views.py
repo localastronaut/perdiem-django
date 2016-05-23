@@ -157,7 +157,7 @@ class ArtistDetailView(DetailView):
         context['PERDIEM_FEE'] = settings.PERDIEM_FEE
 
         artist = context['artist']
-        campaign = artist.latest_campaign()
+        campaign = artist.active_campaign()
 
         if campaign:
             context['campaign'] = campaign

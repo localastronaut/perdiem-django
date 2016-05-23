@@ -7,6 +7,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
+
+from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
 from artist.managers import ArtistQuerySet
 
@@ -38,11 +41,19 @@ class Artist(models.Model):
         if campaigns:
             return campaigns[0]
 
+    def active_campaign(self):
+        active_campaigns = self.campaign_set.filter(start_datetime__lt=timezone.now(), end_datetime__gte=timezone.now()).order_by('-start_datetime')
+        if active_campaigns:
+            return active_campaigns[0]
+
+    def past_campaigns(self):
+        return self.campaign_set.filter(end_datetime__lt=timezone.now()).order_by('-end_datetime')
+
 
 class Bio(models.Model):
 
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
-    bio = models.TextField(help_text='Short biography of artist. May contain HTML.')
+    bio = models.TextField(help_text='Short biography of artist. ' + markdown_allowed())
 
     def __unicode__(self):
         return unicode(self.artist)
@@ -94,7 +105,7 @@ class Update(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     created_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
-    text = models.TextField(help_text='The content of the update. May contain HTML.')
+    text = models.TextField(help_text='The content of the update.')
 
     def __unicode__(self):
         return u'{artist}: {datetime}'.format(

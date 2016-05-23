@@ -13,6 +13,9 @@ from django.db import models
 
 from sorl.thumbnail import get_thumbnail
 
+from artist.models import Artist
+from campaign.models import Campaign, Investment
+
 
 class UserAvatar(models.Model):
 
@@ -60,15 +63,16 @@ class UserAvatarURL(models.Model):
         return unicode(self.avatar)
 
 
-class UserAvatarImage(models.Model):
+def user_avatar_filename(instance, filename):
+    extension = filename.split('.')[-1]
+    new_filename = '{user_id}.{extension}'.format(
+        user_id=instance.avatar.user.id,
+        extension=extension
+    )
+    return '/'.join(['avatars', new_filename,])
 
-    def user_avatar_filename(instance, filename):
-        extension = filename.split('.')[-1]
-        new_filename = '{user_id}.{extension}'.format(
-            user_id=instance.avatar.user.id,
-            extension=extension
-        )
-        return '/'.join(['avatars', new_filename,])
+
+class UserAvatarImage(models.Model):
 
     avatar = models.OneToOneField(UserAvatar, on_delete=models.CASCADE)
     img = models.ImageField(upload_to=user_avatar_filename)
@@ -83,6 +87,12 @@ class UserProfile(models.Model):
     avatar = models.ForeignKey(UserAvatar, null=True, blank=True)
     invest_anonymously = models.BooleanField(default=False)
 
+    @staticmethod
+    def prepare_artist_for_profile_context(artist):
+        artist.total_invested = 0
+        artist.total_earned = 0
+        return artist.id, artist
+
     def __unicode__(self):
         return unicode(self.user)
 
@@ -91,10 +101,6 @@ class UserProfile(models.Model):
             return 'Anonymous'
         else:
             return self.user.get_full_name() or self.user.username
-
-    def public_profile_url(self):
-        if not self.invest_anonymously:
-            return reverse('public_profile', args=(self.user.username,))
 
     def avatar_url(self):
         if not self.avatar:
@@ -105,3 +111,40 @@ class UserProfile(models.Model):
         if self.invest_anonymously:
             return UserAvatar.default_avatar_url()
         return self.avatar_url()
+
+    def public_profile_url(self):
+        if not self.invest_anonymously:
+            return reverse('public_profile', args=(self.user.username,))
+
+    def profile_context(self):
+        context = {}
+
+        # Get artists the user has invested in
+        investments = Investment.objects.filter(charge__customer__user=self.user, charge__paid=True)
+        campaign_ids = investments.values_list('campaign', flat=True).distinct()
+        campaigns = Campaign.objects.filter(id__in=campaign_ids)
+        artist_ids = campaigns.values_list('artist', flat=True).distinct()
+        artists = Artist.objects.filter(id__in=artist_ids)
+        context['artists'] = dict(map(self.prepare_artist_for_profile_context, artists))
+
+        # Update context with total investments
+        aggregate_context = investments.aggregate(
+            total_investments=models.Sum(
+                models.F('campaign__value_per_share') * models.F('num_shares'),
+                output_field=models.FloatField()
+            )
+        )
+        context.update(aggregate_context)
+
+        # Update context with total earned
+        total_earned = 0
+        for campaign in campaigns:
+            artist = campaign.artist
+            num_shares_this_campaign = investments.filter(campaign=campaign).aggregate(ns=models.Sum('num_shares'))['ns']
+            generated_revenue_user = campaign.generated_revenue_fans_per_share() * num_shares_this_campaign
+            context['artists'][artist.id].total_invested += num_shares_this_campaign * campaign.value_per_share
+            context['artists'][artist.id].total_earned += generated_revenue_user
+            total_earned += generated_revenue_user
+        context['total_earned'] = total_earned
+
+        return context

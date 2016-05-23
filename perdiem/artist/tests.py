@@ -18,9 +18,6 @@ class ArtistAdminWebTestCase(PerDiemTestCase):
             '/admin/artist/artist/',
             '/admin/artist/artist/add/',
             '/admin/artist/artist/{artist_id}/change/'.format(artist_id=self.artist.id),
-            '/admin/artist/update/',
-            '/admin/artist/update/add/',
-            '/admin/artist/update/{update_id}/change/'.format(update_id=self.update.id),
         ]
 
 

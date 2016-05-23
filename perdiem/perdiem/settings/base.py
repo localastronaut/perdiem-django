@@ -34,6 +34,8 @@ class BaseSettings(DjangoDefaults):
         'storages',
         'social.apps.django_app.default',
         'pinax.stripe',
+        'markdown_deux',
+        'pagedown',
         'accounts.apps.AccountsConfig',
         'artist.apps.ArtistConfig',
         'campaign.apps.CampaignConfig',

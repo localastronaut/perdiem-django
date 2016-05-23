@@ -9,8 +9,9 @@ from django.contrib import admin
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.template.loader import render_to_string
 
-from artist.models import Genre, Artist, Bio, Photo, SoundCloudPlaylist, \
-    Social, Update
+from pagedown.widgets import AdminPagedownWidget
+
+from artist.models import Genre, Artist, Bio, Photo, SoundCloudPlaylist, Social
 
 
 class LocationWidget(AdminTextInputWidget):
@@ -31,9 +32,19 @@ class ArtistAdminForm(forms.ModelForm):
         fields = ('name', 'genres', 'slug', 'location', 'lat', 'lon',)
 
 
+class BioAdminForm(forms.ModelForm):
+
+    bio = forms.CharField(help_text=Bio._meta.get_field('bio').help_text, widget=AdminPagedownWidget)
+
+    class Meta:
+        model = Bio
+        fields = ('bio',)
+
+
 class BioInline(admin.StackedInline):
 
     model = Bio
+    form = BioAdminForm
 
 
 class PhotoInline(admin.TabularInline):
@@ -61,4 +72,3 @@ class ArtistAdmin(admin.ModelAdmin):
 
 admin.site.register(Genre)
 admin.site.register(Artist, ArtistAdmin)
-admin.site.register(Update)
