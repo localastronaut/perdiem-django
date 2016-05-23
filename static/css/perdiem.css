@@ -272,7 +272,7 @@ a.nav-color {
     color: #fff;
 }
 
-form > input[type=submit] {
+form > input [type=submit] {
     display:block;
     margin:0 auto;
 }
