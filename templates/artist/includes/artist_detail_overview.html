@@ -1,5 +1,6 @@
 {% load humanize %}
 {% load thumbnail %}
+{% load markdown_deux_tags %}
 
 <div class="tabs-panel is-active" id="overview">
     {% thumbnail artist.photo.img "500" as thumb %}
@@ -13,10 +14,10 @@
         <h4>Genre{{ genres|length|pluralize }}: {{ genres|join:" / " }}</h4>
     {% endwith %}
     <h4>Location: {{ artist.location }}</h4>
-    <div class="break">
-        <hr>
-    </div>
     {% if campaign %}
+        <div class="break">
+            <hr>
+        </div>
         <!-- Goal -->
         <h2>GOAL</h2>
         <h4>${{ campaign.amount|intcomma }} {{ campaign.reason }}</h4>
@@ -55,33 +56,31 @@
         <!-- Countdown Widget -->
         </ul>
         <!-- Buy Shares -->
-        {% if campaign.open %}
-            <div class="break">
-                <hr>
+        <div class="break">
+            <hr>
+        </div>
+        <h2>Buy Shares</h2>
+        {% if request.user.is_authenticated %}
+            <div class="invest-num-shares">
+                <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
+                <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="1" />
+                <button id="add-shares" class="secondary hollow button" type="button">+</button>
             </div>
-            <h2>Buy Shares</h2>
-            {% if request.user.is_authenticated %}
-                <div class="invest-num-shares">
-                    <button id="remove-shares" class="secondary hollow button disabled" type="button" disabled>-</button>
-                    <input type="number" min="1" max="{{ campaign.num_shares_remaining }}" value="1" />
-                    <button id="add-shares" class="secondary hollow button" type="button">+</button>
-                </div>
-                <button id="invest-button" class="button" type="button">Buy 1 Share</button>
-                <br /><small>* = ${{ campaign.value_per_share }} per share + ${{ PERDIEM_FEE }} PerDiem fee + 2.9%+$0.30 credit card fee</small>
-            {% else %}
-                <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
-            {% endif %}
+            <button id="invest-button" class="button" type="button">Buy 1 Share</button>
+            <br /><small>* = ${{ campaign.value_per_share }} per share + ${{ PERDIEM_FEE }} PerDiem fee + 2.9%+$0.30 credit card fee</small>
+        {% else %}
+            <p><a data-open="login-modal">Login</a> to invest in {{ artist.name }}.</p>
         {% endif %}
+        <br />
+        <br />
     {% endif %}
-        <br />
-        <br />
     {% if artist.bio %}
         <div class="break">
             <hr>
         </div>
         <!-- Artist Bio -->
         <h2>OUR STORY</h2>
-        {{ artist.bio.bio|safe }}
+        {{ artist.bio.bio|markdown }}
     {% endif %}
 
     {% if artist.soundcloudplaylist_set.exists %}
