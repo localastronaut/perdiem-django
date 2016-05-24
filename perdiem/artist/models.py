@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+from django.utils.html import escape
 
 from markdown_deux.templatetags.markdown_deux_tags import markdown_allowed
 
@@ -105,10 +106,51 @@ class Update(models.Model):
 
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     created_datetime = models.DateTimeField(db_index=True, auto_now_add=True)
-    text = models.TextField(help_text='The content of the update.')
+    title = models.CharField(max_length=75)
+    text = models.TextField(help_text='The content of the update')
 
     def __unicode__(self):
-        return u'{artist}: {datetime}'.format(
-            artist=unicode(self.artist),
-            datetime=self.created_datetime.strftime('%m-%d-%Y')
-        )
+        return self.title
+
+
+class UpdateImage(models.Model):
+
+    update = models.ForeignKey(Update, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='/'.join(['artist', 'updates',]))
+
+    def __unicode__(self):
+        return unicode(self.update)
+
+
+class UpdateMediaURL(models.Model):
+
+    MEDIA_IMAGE = 'image'
+    MEDIA_YOUTUBE = 'youtube'
+    MEDIA_CHOICES = (
+        (MEDIA_IMAGE, 'Image',),
+        (MEDIA_YOUTUBE, 'YouTube',),
+    )
+
+    update = models.ForeignKey(Update, on_delete=models.CASCADE)
+    media_type = models.CharField(choices=MEDIA_CHOICES, max_length=8)
+    url = models.URLField()
+
+    def __unicode__(self):
+        return unicode(self.update)
+
+    def html(self):
+        if self.media_type == self.MEDIA_IMAGE:
+            return u"<img src=\"{url}\" alt=\"{update}\" />".format(
+                url=escape(self.url),
+                update=unicode(self.update)
+            )
+        elif self.media_type == self.MEDIA_YOUTUBE:
+            url = escape(self.url)
+
+            # A hack to correct youtu.be links and normal watch links into embed links
+            # TODO: Make more robust using regex and getting all query parameters
+            if 'youtu.be/' in url:
+                url = url.replace('youtu.be/', 'youtube.com/watch?v=')
+            url = url.replace('/watch?v=', '/embed/')
+
+            return u"<iframe width=\"560\" height=\"315\" src=\"{url}\" frameborder=\"0\" allowfullscreen></iframe>".format(url=url)
