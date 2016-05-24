@@ -83,6 +83,9 @@ In the production environment, you'll need to create a different dev settings co
         AWS_S3_CUSTOM_URL = 'https://{bucket}.s3.amazonaws.com'.format(bucket=AWS_STORAGE_BUCKET_NAME)
         AWS_ACCESS_KEY_ID = '1234'
         AWS_SECRET_ACCESS_KEY = 'abc123'
+        AWS_SES_ACCESS_KEY_ID = '1234'
+        AWS_SES_SECRET_ACCESS_KEY = 'abc123'
+        EMAIL_BACKEND = 'django_ses.SESBackend'
 
 For reference, the format of the Sentry DSN is as follows:
 
