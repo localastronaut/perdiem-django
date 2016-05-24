@@ -32,11 +32,7 @@
                 </div>
                 <!-- Updates -->
                 <h2>Updates</h2>
-                <ul>
-                    {% for update in updates %}
-                        <li>{{ update.created_datetime }}: {{ update.artist.name }} - {{ update.text }}</li>
-                    {% endfor %}
-                </ul>
+                {% include "artist/includes/artist_updates.html" with updates=updates %}
             {% endif %}
         </div>
     {% else %}

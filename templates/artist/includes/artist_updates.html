@@ -1,0 +1,17 @@
+<ul class="menu vertical nested is-active">
+    {% for update in updates %}
+        <li>
+            <h3>{{ update.title }}</h3>
+            {% for media_url in update.updatemediaurl_set.all %}
+                {% if not forloop.first %}<br />{% endif %}
+                {{ media_url.html|safe }}
+            {% endfor %}
+            {% for image in update.updateimage_set.all %}
+                {% if not forloop.first %}<br />{% endif %}
+                <img src="{{ image.img.url }}" alt="{{ update.title }}" />
+            {% endfor %}
+            <p><small>[{{ update.created_datetime }}]</small></p>
+            <p>{{ update.text }}</p>
+        </li>
+    {% endfor %}
+</ul>
