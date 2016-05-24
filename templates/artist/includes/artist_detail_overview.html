@@ -144,10 +144,8 @@
         </div>
         <!-- Socials -->
         <h2>FOLLOW US!</h2>
-        <ul>
-            {% for social in artist.social_set.all %}
-                <li><a href="{{ social.url }}">{{ social.get_medium_display }}</a></li>
-            {% endfor %}
-        </ul>
+        {% for social in artist.social_set.all %}
+            <a href="{{ social.url }}"><i class="fa fa-{{ social.get_medium_display|lower }} fa-2x" aria-hidden="true"></i></a>
+        {% endfor %}
     {% endif %}
 </div>
